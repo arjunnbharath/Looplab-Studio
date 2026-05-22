@@ -1,0 +1,212 @@
+/* Site footer — black bar, loaded from partials/footer.html */
+
+/* Full-height column layout so the footer sits below content */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > main {
+  flex: 1 1 auto;
+}
+
+.jc-site-footer {
+  background: #000;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.jc-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 1rem;
+}
+
+/* Link columns left, email signup top-right */
+.jc-footer-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(160px, 280px);
+  gap: 1rem 2rem;
+  align-items: start;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.jc-footer-links-block {
+  min-width: 0;
+}
+
+.jc-footer-grid--links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .jc-footer-top {
+    grid-template-columns: 1fr;
+  }
+
+  .jc-footer-top-aside {
+    justify-self: stretch;
+    max-width: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .jc-footer-grid--links {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .jc-footer-col--wide .jc-footer-links {
+    columns: 1;
+  }
+}
+
+.jc-footer-top-aside {
+  justify-self: end;
+  width: 100%;
+  max-width: 280px;
+}
+
+.jc-footer-heading {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 0 0.5rem;
+}
+
+.jc-footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.jc-footer-links li {
+  margin-bottom: 0.25rem;
+}
+
+.jc-footer-links a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.jc-footer-links a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.jc-footer-col--wide .jc-footer-links {
+  columns: 2;
+  column-gap: 1.25rem;
+}
+
+.jc-footer-sister {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  padding: 0.65rem 0;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.jc-footer-sister a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+}
+
+.jc-footer-sister a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.jc-footer-sister-sep {
+  color: rgba(255, 255, 255, 0.35);
+  user-select: none;
+}
+
+.jc-footer-bottom {
+  padding-top: 0.35rem;
+}
+
+.jc-footer-copy {
+  margin: 0;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.jc-footer-newsletter {
+  width: 100%;
+  margin: 0;
+}
+
+.jc-footer-newsletter-label {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+.jc-footer-newsletter-row {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.jc-footer-email-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  background: #141414;
+  color: #fff;
+  font-size: 11px;
+  padding: 0.45rem 0.55rem;
+  outline: none;
+}
+
+.jc-footer-email-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.jc-footer-email-input:focus {
+  background: #1a1a1a;
+}
+
+.jc-footer-signup-btn {
+  flex-shrink: 0;
+  border: none;
+  background: #fff;
+  color: #000;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.jc-footer-signup-btn:hover {
+  background: #e8e8e8;
+}
+
+.jc-footer-signup-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
