@@ -516,7 +516,7 @@ button:focus-visible {
 
 @media (max-width: 420px) {
   .rx-drops .rx-grid {
-    grid-template-columns: 1fr;
+    gap: 0.45rem;
   }
 }
 
@@ -533,16 +533,22 @@ button:focus-visible {
   }
 
   .rx-util-inner {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: center;
-    text-align: center;
-    gap: 0.45rem;
-    padding: 0.4rem 0.65rem;
+    justify-content: space-between;
+    gap: 0.5rem 0.65rem;
+    padding: 0.35rem 0.65rem;
+    text-align: left;
   }
 
   .rx-social {
-    justify-content: center;
-    gap: 0.55rem;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.45rem;
+    flex-shrink: 0;
   }
 
   .rx-social svg {
@@ -551,13 +557,22 @@ button:focus-visible {
   }
 
   .rx-util-links {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    justify-items: center;
-    column-gap: 1.25rem;
-    row-gap: 0.3rem;
-    width: 100%;
-    max-width: 17rem;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.35rem 0.55rem;
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+    max-width: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .rx-util-links::-webkit-scrollbar {
+    display: none;
   }
 
   .rx-util-links a {
@@ -565,7 +580,7 @@ button:focus-visible {
     text-align: center;
     line-height: 1.2;
     max-width: none;
-    flex: unset;
+    flex: 0 0 auto;
   }
 
   .rx-nav-inner {
