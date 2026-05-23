@@ -4,31 +4,74 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
-  <title>j.crew - Men</title>
+  <title>LoopLab Studio — Men</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="css/jcrew-home.css" />
-  <link rel="stylesheet" href="css/jcrew-nav.css" />
-  <link rel="stylesheet" href="css/jcrew-footer.css" />
+  <link rel="stylesheet" href="css/page-home.css" />
+  <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <div id="jc-site-nav-mount" data-nav-partial="partials/jcrew-nav.html"></div>
+  <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
   <main id="main" class="rx-main">
-    <section class="jc-page-hero" aria-labelledby="page-h1">
-      <h1 id="page-h1">Men</h1>
-      <p>Suits, casual staples, shoes, and accessories.</p>
-      <p><a href="home.html">Back to home</a></p>
+    <!-- ===== HERO ===== -->
+    <!-- Fixed viewport-height block; image uses cover + top anchor (crop from bottom). -->
+    <!-- sec1–sec4 cutout above background; cycles with glitch (js/page-hero-cutout-cycle.js). -->
+    <section class="rx-hero" aria-labelledby="rx-hero-title">
+      <div class="rx-hero-bg" aria-hidden="true">
+        <img
+          class="rx-hero-bg-photo"
+          src="image/background%20section1.png"
+          alt=""
+          width="1920"
+          height="1080"
+          decoding="async"
+          fetchpriority="high"
+        />
+        <figure class="rx-hero-cutout" data-hero-cutout data-cutout-index="0">
+          <img
+            class="rx-hero-cutout-img"
+            data-hero-cutout-img
+            src="image/sec1pic.png"
+            alt=""
+            width="1920"
+            height="1080"
+            decoding="async"
+          />
+        </figure>
+      </div>
+      <div class="rx-hero-stack">
+        <div class="rx-hero-inner">
+          <div class="rx-hero-copy">
+            <p class="rx-hero-kicker">Summer 2026 Collection</p>
+            <h1 id="rx-hero-title">The Art of<br />Dressing Well</h1>
+            <p class="rx-hero-lede">
+              Timeless silhouettes reimagined for the season ahead. Linen, cotton, and cashmere—every piece designed to move with you.
+            </p>
+            <div class="rx-hero-actions">
+              <a class="rx-hero-cta" href="new.html">
+                <span>Explore the collection</span>
+                <span class="rx-hero-cta-arrow" aria-hidden="true">→</span>
+              </a>
+              <a class="rx-hero-cta rx-hero-cta--ghost" href="men.html">Shop men</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
   <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
-  <script src="js/jcrew-nav-loader.js" defer></script>
-  <script src="js/jcrew-nav-mobile.js" defer></script>
-  <script src="js/jcrew-footer-loader.js" defer></script>
+  <script src="js/page-hero-cutout-cycle.js" defer></script>
+  <script src="js/page-nav-html-bundled.js" defer></script>
+  <script src="js/page-nav-loader.js" defer></script>
+  <script src="js/page-nav-mobile.js" defer></script>
+  <script src="js/page-footer-html-bundled.js" defer></script>
+  <script src="js/page-footer-loader.js" defer></script>
 </body>
 </html>

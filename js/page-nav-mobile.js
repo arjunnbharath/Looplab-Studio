@@ -1,6 +1,6 @@
 /**
  * Hamburger menu + slide-out drawer (≤1100px). Mega panels become accordions.
- * Runs when `.jc-site-header` is present, or after `jcrew-nav-loaded` (nav loader).
+ * Runs when `.jc-site-header` is present, or after `page-nav-loaded` (nav loader).
  */
 (function () {
   var mq = window.matchMedia("(max-width: 1100px)");
@@ -111,7 +111,7 @@
     setHeaderHeightVar();
   }
 
-  document.addEventListener("jcrew-nav-loaded", tryBind);
+  document.addEventListener("page-nav-loaded", tryBind);
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", tryBind);

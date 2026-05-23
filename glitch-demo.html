@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hero glitch rail — demo</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #e8e8e8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+    a { color: #7ec8e3; }
+    p { margin: 0; max-width: 36rem; text-align: center; line-height: 1.5; }
+
+    .demo-glitch {
+      width: clamp(175px, 29vw, 340px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .demo-glitch-card {
+      position: relative;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: transparent;
+      isolation: isolate;
+    }
+    .demo-glitch-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 0;
+    }
+    .demo-glitch-shift {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background-image: var(--demo-glitch-src);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      mix-blend-mode: screen;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .demo-glitch-shift--cyan { filter: saturate(1.4) hue-rotate(165deg); }
+    .demo-glitch-shift--red {
+      filter: saturate(1.5) hue-rotate(-35deg);
+      mix-blend-mode: lighten;
+    }
+    .demo-glitch-card.is-glitching img {
+      animation: demoGlitchImgBurst 0.52s steps(1, end) forwards;
+    }
+    .demo-glitch-card.is-glitching .demo-glitch-shift--cyan {
+      animation: demoGlitchCyanBurst 0.52s steps(1, end) forwards;
+    }
+    .demo-glitch-card.is-glitching .demo-glitch-shift--red {
+      animation: demoGlitchRedBurst 0.52s steps(1, end) forwards;
+    }
+    @keyframes demoGlitchCyanBurst {
+      0% { opacity: 0; transform: translate(0, 0); }
+      12% { opacity: 0.65; transform: translate(-6px, 2px); }
+      24% { opacity: 0.35; transform: translate(-3px, -3px); }
+      38% { opacity: 0.7; transform: translate(-8px, 0); }
+      50% { opacity: 0.25; transform: translate(-4px, 3px); }
+      62% { opacity: 0.55; transform: translate(-7px, -2px); }
+      100% { opacity: 0; transform: translate(0, 0); }
+    }
+    @keyframes demoGlitchRedBurst {
+      0% { opacity: 0; transform: translate(0, 0); }
+      10% { opacity: 0.55; transform: translate(6px, -1px); }
+      22% { opacity: 0.4; transform: translate(4px, 3px); }
+      35% { opacity: 0.68; transform: translate(9px, 1px); }
+      48% { opacity: 0.3; transform: translate(5px, -4px); }
+      60% { opacity: 0.5; transform: translate(8px, 2px); }
+      100% { opacity: 0; transform: translate(0, 0); }
+    }
+    @keyframes demoGlitchImgBurst {
+      0% { clip-path: inset(0); transform: translate(0, 0); filter: contrast(1.05); }
+      14% { clip-path: inset(18% 0 58% 0); transform: translate(-3px, 2px); filter: contrast(1.35) brightness(1.08); }
+      28% { clip-path: inset(52% 4% 12% 0); transform: translate(4px, -3px); }
+      42% { clip-path: inset(0 28% 0 24%); transform: translate(-5px, 0); filter: contrast(1.45); }
+      56% { clip-path: inset(8% 0 72% 0); transform: translate(3px, 2px); }
+      72% { clip-path: inset(0); transform: translate(-2px, -1px); filter: contrast(1.2); }
+      100% { clip-path: inset(0); transform: translate(0, 0); filter: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .demo-glitch-card.is-glitching img,
+      .demo-glitch-card.is-glitching .demo-glitch-shift {
+        animation: none !important;
+      }
+      .demo-glitch-shift { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <p>
+    Standalone demo of the former hero glitch rail (cycles <code>image/1.png</code>–<code>image/11.png</code>).
+    <a href="index.html">Back to home</a>
+  </p>
+  <div class="demo-glitch" aria-hidden="true">
+    <figure
+      class="demo-glitch-card"
+      data-demo-glitch
+      style="--demo-glitch-src: url('image/1.png')"
+    >
+      <span class="demo-glitch-shift demo-glitch-shift--cyan"></span>
+      <span class="demo-glitch-shift demo-glitch-shift--red"></span>
+      <img
+        data-demo-glitch-img
+        src="image/1.png"
+        alt=""
+        width="320"
+        height="427"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  </div>
+  <script>
+    (function () {
+      var root = document.querySelector("[data-demo-glitch]");
+      var img = document.querySelector("[data-demo-glitch-img]");
+      if (!root || !img) return;
+
+      var total = 11;
+      var intervalMs = 4200;
+      var glitchClass = "is-glitching";
+      var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      function setSrc(index) {
+        var n = ((index - 1) % total + total) % total + 1;
+        var path = "image/" + n + ".png";
+        img.src = path;
+        root.style.setProperty("--demo-glitch-src", "url('" + path + "')");
+      }
+
+      var i = 1;
+      var timer;
+
+      function runGlitch() {
+        if (mq.matches) {
+          i = (i % total) + 1;
+          setSrc(i);
+          return;
+        }
+        root.classList.add(glitchClass);
+        window.setTimeout(function () {
+          i = (i % total) + 1;
+          setSrc(i);
+        }, 260);
+        window.setTimeout(function () {
+          root.classList.remove(glitchClass);
+        }, 520);
+      }
+
+      function start() {
+        if (timer) clearInterval(timer);
+        timer = window.setInterval(runGlitch, intervalMs);
+      }
+
+      function onMotionChange() {
+        start();
+      }
+
+      if (typeof mq.addEventListener === "function") {
+        mq.addEventListener("change", onMotionChange);
+      } else if (typeof mq.addListener === "function") {
+        mq.addListener(onMotionChange);
+      }
+
+      start();
+    })();
+  </script>
+</body>
+</html>

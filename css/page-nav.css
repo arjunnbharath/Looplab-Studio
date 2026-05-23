@@ -1,4 +1,4 @@
-/* J.Crew-style site navigation + mega menus — include on every page */
+/* Site navigation + mega menus (LoopLab Studio) */
 
 :root {
   --jc-black: #0a0a0a;
@@ -61,6 +61,7 @@
   color: var(--jc-black);
   text-decoration: none;
   transition: opacity 0.2s ease;
+  white-space: nowrap;
 }
 
 .jc-logo:hover {
@@ -247,7 +248,8 @@ a.jc-bag-btn {
   background: #fff;
   border-top: 1px solid #eaeaea;
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  /* visible so right-hand promo tiles (e.g. Women mega) are not clipped */
+  overflow: visible;
   visibility: hidden;
   opacity: 0;
   transform: translateY(-8px);
@@ -294,6 +296,11 @@ a.jc-bag-btn {
   display: grid;
   gap: 1.25rem 0.85rem;
   padding-bottom: 1.35rem;
+  min-width: 0;
+}
+
+.jc-mega-grid > .jc-mega-col {
+  min-width: 0;
 }
 
 .jc-mega-grid--6 {
@@ -365,6 +372,7 @@ a.jc-bag-btn {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.65rem;
+  min-width: 0;
 }
 
 .jc-mega-card {
