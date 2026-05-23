@@ -118,4 +118,34 @@
   } else {
     tryBind();
   }
+
+  /**
+   * Mega menu: disable only placeholder # links. Real .html links (catalog, journal, etc.) work.
+   */
+  function disableMegaSubNavLinks() {
+    document.querySelectorAll(".jc-site-header .jc-mega a[href]").forEach(function (a) {
+      var h = (a.getAttribute("href") || "").trim();
+      if (h === "#" || h === "") {
+        a.setAttribute("tabindex", "-1");
+      } else {
+        a.removeAttribute("tabindex");
+      }
+    });
+  }
+
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("a");
+    if (!a || !a.closest(".jc-mega")) return;
+    var h = (a.getAttribute("href") || "").trim();
+    if (h === "#" || h === "") {
+      e.preventDefault();
+    }
+  });
+
+  document.addEventListener("page-nav-loaded", disableMegaSubNavLinks);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", disableMegaSubNavLinks);
+  } else {
+    disableMegaSubNavLinks();
+  }
 })();

@@ -1,3 +1,6 @@
+/**
+ * Hero cutout (index / men): cycles sec1–sec4 with RGB-shift + clip burst (glitch-demo.html).
+ */
 (function () {
   var root = document.querySelector("[data-hero-cutout]");
   var img = document.querySelector("[data-hero-cutout-img]");
@@ -10,25 +13,28 @@
     "image/sec4pic.png",
   ];
 
-  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return;
-  }
-
-  var i = 0;
-  var busy = false;
+  var glitchClass = "rx-hero-cutout--glitch";
   var intervalMs = 5200;
-  var swapDelayMs = 360;
-  var glitchMinMs = 520;
+  var swapDelayMs = 260;
+  var glitchDurationMs = 520;
+  var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   sources.forEach(function (src) {
     var pre = new Image();
     pre.src = src;
   });
 
-  function finishCycle(next) {
-    i = next;
-    root.setAttribute("data-cutout-index", String(i));
-    root.classList.remove("rx-hero-cutout--glitch");
+  function setSrc(index) {
+    var path = sources[index];
+    img.src = path;
+    root.style.setProperty("--rx-hero-cutout-glitch-src", "url('" + path + "')");
+  }
+
+  var i = 0;
+  var busy = false;
+
+  function finishGlitch() {
+    root.classList.remove(glitchClass);
     busy = false;
   }
 
@@ -36,32 +42,44 @@
     if (busy) return;
     busy = true;
     var next = (i + 1) % sources.length;
-    var glitchStart = Date.now();
-    root.classList.add("rx-hero-cutout--glitch");
 
+    if (mq.matches) {
+      i = next;
+      root.setAttribute("data-cutout-index", String(i));
+      setSrc(i);
+      busy = false;
+      return;
+    }
+
+    root.classList.add(glitchClass);
     window.setTimeout(function () {
-      img.src = sources[next];
-
-      function whenReady() {
-        var elapsed = Date.now() - glitchStart;
-        var wait = Math.max(80, glitchMinMs - elapsed);
-        window.setTimeout(function () {
-          finishCycle(next);
-        }, wait);
-      }
-
-      if (img.decode) {
-        img.decode().then(whenReady).catch(whenReady);
-      } else if (img.complete) {
-        whenReady();
-      } else {
-        img.onload = function () {
-          img.onload = null;
-          whenReady();
-        };
-      }
+      i = next;
+      root.setAttribute("data-cutout-index", String(i));
+      setSrc(i);
     }, swapDelayMs);
+    window.setTimeout(function () {
+      finishGlitch();
+    }, glitchDurationMs);
   }
 
-  window.setInterval(advance, intervalMs);
+  function start() {
+    if (timer) window.clearInterval(timer);
+    timer = window.setInterval(advance, intervalMs);
+  }
+
+  var timer;
+
+  function onMotionChange() {
+    root.classList.remove(glitchClass);
+    busy = false;
+    start();
+  }
+
+  if (typeof mq.addEventListener === "function") {
+    mq.addEventListener("change", onMotionChange);
+  } else if (typeof mq.addListener === "function") {
+    mq.addListener(onMotionChange);
+  }
+
+  start();
 })();

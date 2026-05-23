@@ -62,7 +62,7 @@ Then open `http://localhost:3000/men.html` (or any page).
 
 These match the nine primary nav labels and load the same header/footer partials:
 
-`new.html`, `women.html`, `men.html`, `kids.html`, `cashmere.html`, `linen.html`, `swim.html`, `petites.html`, `sale.html`, **`index.html`** (home), **`cart.html`** (shopping bag layout; bag icon in the header links here).
+`new.html`, `women.html`, `men.html`, `kids.html`, `cashmere.html`, `linen.html`, `swim.html`, `petites.html`, `sale.html`, **`index.html`** (home), **`lookbook.html`** (editorial), **`journal.html`** (studio notes), **`products.html`** (catalog), **`cart.html`** (shopping bag layout; bag icon in the header links here).
 
 Top-level nav links in `partials/page-nav.html` point to those files. **`page-nav-loader.js`** dispatches a **`page-nav-loaded`** event after the header is injected so **`page-nav-mobile.js`** can attach the hamburger behavior on those pages.
 
