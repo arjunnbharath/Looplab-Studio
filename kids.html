@@ -8,24 +8,214 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-products.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
-  <main id="main" class="rx-main">
-    <section class="jc-page-hero" aria-labelledby="page-h1">
-      <h1 id="page-h1">Kids</h1>
-      <p>Girls, boys, and baby—sizes for every stage.</p>
-      <p><a href="index.html">Back to home</a></p>
-    </section>
+
+  <main id="main" class="rx-main pd-page">
+    <header class="pd-hero pd-hero--feature" aria-labelledby="pd-title">
+      <div class="pd-hero-bg" aria-hidden="true"></div>
+      <div class="pd-hero-inner">
+        <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="pd-breadcrumb-sep" aria-hidden="true">/</span>
+          <span class="pd-breadcrumb-current">Kids</span>
+        </nav>
+        <div class="pd-hero-main">
+          <div>
+            <p class="pd-hero-kicker">Kids</p>
+            <h1 id="pd-title">The kids’ shop</h1>
+            <p class="pd-hero-lede">
+              Play-ready sneakers, party dresses, caps, tees, and backpacks—demo grid for girls, boys, and little ones.
+            </p>
+            <p class="pd-hero-links">
+              <a href="products.html">Full catalog</a>
+              <span aria-hidden="true">·</span>
+              <a href="women.html">Women</a>
+              <span aria-hidden="true">·</span>
+              <a href="men.html">Men</a>
+            </p>
+          </div>
+          <div class="pd-hero-aside">
+            <span class="pd-hero-count">10 styles · Kids</span>
+            <p class="pd-hero-aside-note">Illustrative pricing for the demo store.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pd-toolbar" role="region" aria-label="Filter and sort">
+      <div class="pd-toolbar-inner">
+        <span class="pd-toolbar-label">Shop</span>
+        <ul class="pd-chips">
+          <li><a href="products.html">All</a></li>
+          <li><a href="new.html">New</a></li>
+          <li><a href="women.html">Women</a></li>
+          <li><a href="men.html">Men</a></li>
+          <li><a href="kids.html" aria-current="true">Kids</a></li>
+          <li><a href="sale.html">Sale</a></li>
+        </ul>
+        <div class="pd-sort">
+          <label for="pd-sort-select">Sort</label>
+          <select id="pd-sort-select" name="sort">
+            <option>Featured</option>
+            <option>Newest</option>
+            <option>Price: low to high</option>
+            <option>Price: high to low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-grid-wrap">
+      <div class="pd-grid">
+        <article class="pd-card">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="https://images.unsplash.com/photo-1515347619252-60bff648ffff?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Kids’ canvas sneakers</h2>
+              <p class="pd-card-meta">Kids · Shoes</p>
+              <p class="pd-card-price">$48.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="https://images.unsplash.com/photo-1503919545229-f3451ddebacc?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Party tulle dress</h2>
+              <p class="pd-card-meta">Kids · Dresses</p>
+              <p class="pd-card-price">$62.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cotton twill baseball cap</h2>
+              <p class="pd-card-meta">Kids · Hats</p>
+              <p class="pd-card-price">$24.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/8.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Kids’ striped rugby</h2>
+              <p class="pd-card-meta">Kids · Tops</p>
+              <p class="pd-card-price"><del>$42.00</del> $29.40</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Fleece zip hoodie</h2>
+              <p class="pd-card-meta">Kids · Sweats</p>
+              <p class="pd-card-price">$44.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Pull-on chino short</h2>
+              <p class="pd-card-meta">Kids · Bottoms</p>
+              <p class="pd-card-price">$32.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Mini backpack</h2>
+              <p class="pd-card-meta">Kids · Bags</p>
+              <p class="pd-card-price">$36.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="https://images.unsplash.com/photo-1503944585463-843d6722f74e?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Graphic pocket tee</h2>
+              <p class="pd-card-meta">Kids · Tees</p>
+              <p class="pd-card-price">$22.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Puffer jacket</h2>
+              <p class="pd-card-meta">Kids · Outerwear</p>
+              <p class="pd-card-price">$78.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Velcro strap sandal</h2>
+              <p class="pd-card-meta">Kids · Shoes</p>
+              <p class="pd-card-price">$34.00</p>
+            </div>
+          </a>
+        </article>
+      </div>
+    </div>
+
+    <nav class="pd-pagination" aria-label="Pagination">
+      <span>Pages</span>
+      <button type="button" disabled aria-label="Previous page">‹</button>
+      <a href="#" aria-current="page">1</a>
+      <button type="button" aria-label="Next page">›</button>
+    </nav>
+
+    <p class="pd-bottom-links">
+      <a href="products.html">All products</a>
+      &nbsp;·&nbsp;
+      <a href="index.html">Home</a>
+    </p>
   </main>
+
   <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
   <script src="js/page-nav-html-bundled.js" defer></script>
   <script src="js/page-nav-loader.js" defer></script>

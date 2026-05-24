@@ -473,6 +473,49 @@
   }
 }
 
+@media (max-width: 639px) {
+  .pd-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.45rem, 2.5vw, 0.75rem);
+  }
+
+  .pd-grid-wrap {
+    padding-left: clamp(0.65rem, 3vw, 1rem);
+    padding-right: clamp(0.65rem, 3vw, 1rem);
+  }
+
+  .pd-card-body {
+    padding: 0.55rem 0.45rem 0.75rem;
+  }
+
+  .pd-card-title {
+    font-size: 0.7rem;
+    line-height: 1.3;
+  }
+
+  .pd-card-meta {
+    font-size: 9px;
+    margin-bottom: 0.35rem;
+  }
+
+  .pd-card-price {
+    font-size: 0.7rem;
+  }
+
+  .pd-card-badge {
+    top: 0.4rem;
+    left: 0.4rem;
+    font-size: 8px;
+    padding: 0.2rem 0.32rem;
+  }
+
+  .pd-card-add {
+    font-size: 0.52rem;
+    padding: 0.42rem 0.35rem;
+    letter-spacing: 0.08em;
+  }
+}
+
 @media (max-width: 520px) {
   .pd-sort {
     width: 100%;

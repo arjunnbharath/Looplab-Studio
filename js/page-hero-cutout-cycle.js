@@ -7,10 +7,10 @@
   if (!root || !img) return;
 
   var sources = [
-    "image/sec1pic.png",
-    "image/sec2pic.png",
-    "image/sec3pic.png",
-    "image/sec4pic.png",
+    "image/home/sec1pic.png",
+    "image/home/sec2pic.png",
+    "image/home/sec3pic.png",
+    "image/home/sec4pic.png",
   ];
 
   var glitchClass = "rx-hero-cutout--glitch";

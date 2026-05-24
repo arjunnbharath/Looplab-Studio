@@ -1,5 +1,5 @@
 /**
- * New page hero — RGB split / clip glitch (from glitch-demo.html), cycles image/1–11.png.
+ * New page hero — RGB split / clip glitch (from glitch-demo.html), cycles image/products/1–11.png.
  */
 (function () {
   var root = document.querySelector(".nw-page [data-nw-hero-glitch]");
@@ -13,7 +13,7 @@
 
   function setSrc(index) {
     var n = ((index - 1) % total + total) % total + 1;
-    var path = "image/" + n + ".png";
+    var path = "image/products/" + n + ".png";
     img.src = path;
     root.style.setProperty("--nw-hero-glitch-src", "url('" + path + "')");
   }

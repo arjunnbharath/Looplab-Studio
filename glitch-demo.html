@@ -112,20 +112,20 @@
 </head>
 <body>
   <p>
-    Standalone demo of the former hero glitch rail (cycles <code>image/1.png</code>–<code>image/11.png</code>).
+    Standalone demo of the former hero glitch rail (cycles <code>image/products/1.png</code>–<code>image/products/11.png</code>).
     <a href="index.html">Back to home</a>
   </p>
   <div class="demo-glitch" aria-hidden="true">
     <figure
       class="demo-glitch-card"
       data-demo-glitch
-      style="--demo-glitch-src: url('image/1.png')"
+      style="--demo-glitch-src: url('image/products/1.png')"
     >
       <span class="demo-glitch-shift demo-glitch-shift--cyan"></span>
       <span class="demo-glitch-shift demo-glitch-shift--red"></span>
       <img
         data-demo-glitch-img
-        src="image/1.png"
+        src="image/products/1.png"
         alt=""
         width="320"
         height="427"
@@ -147,7 +147,7 @@
 
       function setSrc(index) {
         var n = ((index - 1) % total + total) % total + 1;
-        var path = "image/" + n + ".png";
+        var path = "image/products/" + n + ".png";
         img.src = path;
         root.style.setProperty("--demo-glitch-src", "url('" + path + "')");
       }

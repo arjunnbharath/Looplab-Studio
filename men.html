@@ -13,61 +13,213 @@
   />
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-products.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
-  <main id="main" class="rx-main">
-    <!-- ===== HERO ===== -->
-    <!-- Fixed viewport-height block; image uses cover + top anchor (crop from bottom). -->
-    <!-- sec1–sec4 cutout above background; cycles with glitch (js/page-hero-cutout-cycle.js). -->
-    <section class="rx-hero" aria-labelledby="rx-hero-title">
-      <div class="rx-hero-bg" aria-hidden="true">
-        <img
-          class="rx-hero-bg-photo"
-          src="image/background%20section1.png"
-          alt=""
-          width="1920"
-          height="1080"
-          decoding="async"
-          fetchpriority="high"
-        />
-        <figure class="rx-hero-cutout" data-hero-cutout data-cutout-index="0">
-          <img
-            class="rx-hero-cutout-img"
-            data-hero-cutout-img
-            src="image/sec1pic.png"
-            alt=""
-            width="1920"
-            height="1080"
-            decoding="async"
-          />
-        </figure>
-      </div>
-      <div class="rx-hero-stack">
-        <div class="rx-hero-inner">
-          <div class="rx-hero-copy">
-            <p class="rx-hero-kicker">Summer 2026 Collection</p>
-            <h1 id="rx-hero-title">The Art of<br />Dressing Well</h1>
-            <p class="rx-hero-lede">
-              Timeless silhouettes reimagined for the season ahead. Linen, cotton, and cashmere—every piece designed to move with you.
+
+  <main id="main" class="rx-main pd-page">
+    <header class="pd-hero pd-hero--feature" aria-labelledby="pd-title">
+      <div class="pd-hero-bg" aria-hidden="true"></div>
+      <div class="pd-hero-inner">
+        <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="pd-breadcrumb-sep" aria-hidden="true">/</span>
+          <span class="pd-breadcrumb-current">Men</span>
+        </nav>
+        <div class="pd-hero-main">
+          <div>
+            <p class="pd-hero-kicker">Men</p>
+            <h1 id="pd-title">The men’s shop</h1>
+            <p class="pd-hero-lede">
+              Outerwear, tees, denim, shorts, and shoes—demo styles with placeholder prices. Add to bag to try the cart.
             </p>
-            <div class="rx-hero-actions">
-              <a class="rx-hero-cta" href="new.html">
-                <span>Explore the collection</span>
-                <span class="rx-hero-cta-arrow" aria-hidden="true">→</span>
-              </a>
-              <a class="rx-hero-cta rx-hero-cta--ghost" href="men.html">Shop men</a>
-            </div>
+            <p class="pd-hero-links">
+              <a href="products.html">Full catalog</a>
+              <span aria-hidden="true">·</span>
+              <a href="new.html">New arrivals</a>
+              <span aria-hidden="true">·</span>
+              <a href="women.html">Women</a>
+            </p>
+          </div>
+          <div class="pd-hero-aside">
+            <span class="pd-hero-count">12 styles · Men</span>
+            <p class="pd-hero-aside-note">Illustrative pricing for the demo store.</p>
           </div>
         </div>
       </div>
-    </section>
+    </header>
+
+    <div class="pd-toolbar" role="region" aria-label="Filter and sort">
+      <div class="pd-toolbar-inner">
+        <span class="pd-toolbar-label">Shop</span>
+        <ul class="pd-chips">
+          <li><a href="products.html">All</a></li>
+          <li><a href="new.html">New</a></li>
+          <li><a href="women.html">Women</a></li>
+          <li><a href="men.html" aria-current="true">Men</a></li>
+          <li><a href="kids.html">Kids</a></li>
+          <li><a href="sale.html">Sale</a></li>
+        </ul>
+        <div class="pd-sort">
+          <label for="pd-sort-select">Sort</label>
+          <select id="pd-sort-select" name="sort">
+            <option>Featured</option>
+            <option>Newest</option>
+            <option>Price: low to high</option>
+            <option>Price: high to low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-grid-wrap">
+      <div class="pd-grid">
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/4.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cotton chore jacket</h2>
+              <p class="pd-card-meta">Men · Outerwear</p>
+              <p class="pd-card-price">$178.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/6.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Garment-dyed pocket tee</h2>
+              <p class="pd-card-meta">Men · Tees</p>
+              <p class="pd-card-price">$45.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/10.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen drawstring short</h2>
+              <p class="pd-card-meta">Men · Shorts</p>
+              <p class="pd-card-price">$79.50</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/home/sec1pic.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Wool overshirt</h2>
+              <p class="pd-card-meta">Men · Shirts</p>
+              <p class="pd-card-price">$165.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/home/sec2pic.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Slim-fit selvedge jean</h2>
+              <p class="pd-card-meta">Men · Denim</p>
+              <p class="pd-card-price"><del>$198.00</del> $138.60</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/home/sec3pic.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Merino crew sweater</h2>
+              <p class="pd-card-meta">Men · Knits</p>
+              <p class="pd-card-price">$128.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/home/sec4pic.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Technical parka</h2>
+              <p class="pd-card-meta">Men · Outerwear</p>
+              <p class="pd-card-price">$298.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/9.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Leather belt with brass buckle</h2>
+              <p class="pd-card-meta">Men · Accessories</p>
+              <p class="pd-card-price">$68.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/home/background%20section1.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Oxford cloth button-down</h2>
+              <p class="pd-card-meta">Men · Shirts</p>
+              <p class="pd-card-price">$88.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/1.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Relaxed camp collar shirt</h2>
+              <p class="pd-card-meta">Men · Tops</p>
+              <p class="pd-card-price">$92.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/j.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Canvas weekender bag</h2>
+              <p class="pd-card-meta">Men · Bags</p>
+              <p class="pd-card-price">$158.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/11.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Suede desert boot</h2>
+              <p class="pd-card-meta">Men · Shoes</p>
+              <p class="pd-card-price">$185.00</p>
+            </div>
+          </a>
+        </article>
+      </div>
+    </div>
+
+    <nav class="pd-pagination" aria-label="Pagination">
+      <span>Pages</span>
+      <button type="button" disabled aria-label="Previous page">‹</button>
+      <a href="#" aria-current="page">1</a>
+      <a href="#">2</a>
+      <button type="button" aria-label="Next page">›</button>
+    </nav>
+
+    <p class="pd-bottom-links">
+      <a href="products.html">All products</a>
+      &nbsp;·&nbsp;
+      <a href="index.html">Home</a>
+    </p>
   </main>
+
   <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
-  <script src="js/page-hero-cutout-cycle.js" defer></script>
   <script src="js/page-nav-html-bundled.js" defer></script>
   <script src="js/page-nav-loader.js" defer></script>
   <script src="js/page-nav-mobile.js" defer></script>

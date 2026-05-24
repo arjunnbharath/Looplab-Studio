@@ -8,24 +8,218 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-products.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
-  <main id="main" class="rx-main">
-    <section class="jc-page-hero" aria-labelledby="page-h1">
-      <h1 id="page-h1">Women</h1>
-      <p>Dresses, denim, shoes, bags, and everyday layers.</p>
-      <p><a href="index.html">Back to home</a></p>
-    </section>
+
+  <main id="main" class="rx-main pd-page">
+    <header class="pd-hero pd-hero--feature" aria-labelledby="pd-title">
+      <div class="pd-hero-bg" aria-hidden="true"></div>
+      <div class="pd-hero-inner">
+        <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="pd-breadcrumb-sep" aria-hidden="true">/</span>
+          <span class="pd-breadcrumb-current">Women</span>
+        </nav>
+        <div class="pd-hero-main">
+          <div>
+            <p class="pd-hero-kicker">Women</p>
+            <h1 id="pd-title">The women’s shop</h1>
+            <p class="pd-hero-lede">
+              Dresses, denim, knits, shoes, and bags—demo styles with placeholder prices. Add to bag to try the cart.
+            </p>
+            <p class="pd-hero-links">
+              <a href="products.html">Full catalog</a>
+              <span aria-hidden="true">·</span>
+              <a href="new.html">New arrivals</a>
+              <span aria-hidden="true">·</span>
+              <a href="men.html">Men</a>
+            </p>
+          </div>
+          <div class="pd-hero-aside">
+            <span class="pd-hero-count">12 styles · Women</span>
+            <p class="pd-hero-aside-note">Illustrative pricing for the demo store.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pd-toolbar" role="region" aria-label="Filter and sort">
+      <div class="pd-toolbar-inner">
+        <span class="pd-toolbar-label">Shop</span>
+        <ul class="pd-chips">
+          <li><a href="products.html">All</a></li>
+          <li><a href="new.html">New</a></li>
+          <li><a href="women.html" aria-current="true">Women</a></li>
+          <li><a href="men.html">Men</a></li>
+          <li><a href="kids.html">Kids</a></li>
+          <li><a href="sale.html">Sale</a></li>
+        </ul>
+        <div class="pd-sort">
+          <label for="pd-sort-select">Sort</label>
+          <select id="pd-sort-select" name="sort">
+            <option>Featured</option>
+            <option>Newest</option>
+            <option>Price: low to high</option>
+            <option>Price: high to low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-grid-wrap">
+      <div class="pd-grid">
+        <article class="pd-card">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/1.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Relaxed linen camp shirt</h2>
+              <p class="pd-card-meta">Women · Tops</p>
+              <p class="pd-card-price">$98.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/2.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">High-rise sailor jean</h2>
+              <p class="pd-card-meta">Women · Denim</p>
+              <p class="pd-card-price">$128.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/3.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere crewneck sweater</h2>
+              <p class="pd-card-meta">Women · Sweaters</p>
+              <p class="pd-card-price"><del>$198.00</del> $148.50</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/5.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Ribbed swim one-piece</h2>
+              <p class="pd-card-meta">Women · Swim</p>
+              <p class="pd-card-price">$118.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/7.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Pleated midi skirt</h2>
+              <p class="pd-card-meta">Women · Skirts</p>
+              <p class="pd-card-price">$110.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/11.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Silk bandana scarf</h2>
+              <p class="pd-card-meta">Women · Accessories</p>
+              <p class="pd-card-price">$38.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/j.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Leather crossbody bag</h2>
+              <p class="pd-card-meta">Women · Bags</p>
+              <p class="pd-card-price">$168.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/home/sec1pic.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Satin slip dress</h2>
+              <p class="pd-card-meta">Women · Dresses</p>
+              <p class="pd-card-price">$145.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/home/sec2pic.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Tailored wool blazer</h2>
+              <p class="pd-card-meta">Women · Jackets</p>
+              <p class="pd-card-price">$248.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/home/sec3pic.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Leather ankle boots</h2>
+              <p class="pd-card-meta">Women · Shoes</p>
+              <p class="pd-card-price">$198.00</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/home/sec4pic.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Wide-leg linen trouser</h2>
+              <p class="pd-card-meta">Women · Pants</p>
+              <p class="pd-card-price"><del>$135.00</del> $94.50</p>
+            </div>
+          </a>
+        </article>
+        <article class="pd-card">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/products/9.png" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Leather belt with brass buckle</h2>
+              <p class="pd-card-meta">Women · Accessories</p>
+              <p class="pd-card-price">$68.00</p>
+            </div>
+          </a>
+        </article>
+      </div>
+    </div>
+
+    <nav class="pd-pagination" aria-label="Pagination">
+      <span>Pages</span>
+      <button type="button" disabled aria-label="Previous page">‹</button>
+      <a href="#" aria-current="page">1</a>
+      <a href="#">2</a>
+      <button type="button" aria-label="Next page">›</button>
+    </nav>
+
+    <p class="pd-bottom-links">
+      <a href="products.html">All products</a>
+      &nbsp;·&nbsp;
+      <a href="index.html">Home</a>
+    </p>
   </main>
+
   <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
   <script src="js/page-nav-html-bundled.js" defer></script>
   <script src="js/page-nav-loader.js" defer></script>
