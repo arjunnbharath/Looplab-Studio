@@ -13,6 +13,10 @@
   />
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
   <link rel="stylesheet" href="css/page-new.css" />
   <link rel="stylesheet" href="css/page-products.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
@@ -25,52 +29,46 @@
   <main id="main" class="rx-main nw-page">
     <header class="nw-hero" aria-labelledby="nw-hero-title">
       <div class="nw-hero-bg" aria-hidden="true"></div>
+      <h1 id="nw-hero-title" class="visually-hidden">New arrivals — new drops</h1>
       <div class="nw-hero-grid">
-        <div class="nw-hero-copy">
-          <p class="nw-hero-kicker">New arrivals</p>
-          <h1 id="nw-hero-title" class="nw-hero-title">
-            <span class="nw-hero-title-lockup">
-              <span class="nw-hero-title-pre">Just</span>
-              <span class="nw-hero-title-accent">dropped</span>
-            </span>
-          </h1>
-          <p class="nw-hero-lede">
-            Fresh pieces for the week—shop the grid below or jump to the full catalog anytime.
-          </p>
-          <nav class="nw-hero-rail" aria-label="Quick shop">
-            <a href="women.html">Women</a>
-            <a href="men.html">Men</a>
-            <a href="kids.html">Kids</a>
-            <a href="products.html">Full catalog</a>
-          </nav>
-          <div class="nw-hero-meta" role="presentation">
-            <span class="nw-hero-stat"><strong>12</strong> styles · this drop</span>
-            <span class="nw-hero-stat nw-hero-stat--dim">Demo · illustrative prices</span>
-          </div>
-          <div class="nw-hero-actions">
-            <a href="products.html">View all products</a>
-            <a class="nw-hero-actions--ghost" href="index.html">Home</a>
-          </div>
-          <a class="nw-hero-jump" href="#nw-shop-title">Shop the drop <span class="nw-hero-jump-icon" aria-hidden="true">↓</span></a>
-        </div>
-        <div class="nw-hero-glitch" aria-hidden="true">
-          <div class="nw-hero-glitch-wrap">
-            <figure
-              class="nw-hero-glitch-card"
-              data-nw-hero-glitch
-              style="--nw-hero-glitch-src: url('image/products/1.png')"
-            >
-              <span class="nw-hero-glitch-shift nw-hero-glitch-shift--cyan"></span>
-              <span class="nw-hero-glitch-shift nw-hero-glitch-shift--red"></span>
-              <img
-                data-nw-hero-glitch-img
-                src="image/products/1.png"
-                alt=""
-                width="400"
-                height="533"
-                decoding="async"
-              />
-            </figure>
+        <p class="nw-hero-watermark" aria-hidden="true">New drops</p>
+        <div class="nw-hero-swiper" aria-hidden="true">
+          <div class="swiper nw-hero-swiper-el">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img src="image/products/1.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/2.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/3.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/4.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/5.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/6.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/7.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/8.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/9.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/10.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+              <div class="swiper-slide">
+                <img src="image/products/11.png" alt="" width="400" height="533" decoding="async" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -289,7 +287,8 @@
   <script src="js/page-nav-mobile.js" defer></script>
   <script src="js/page-cart-store.js" defer></script>
   <script src="js/page-cart-page.js" defer></script>
-  <script src="js/page-new-hero-glitch.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+  <script src="js/page-new-hero-swiper.js" defer></script>
   <script src="js/page-footer-html-bundled.js" defer></script>
   <script src="js/page-footer-loader.js" defer></script>
 </body>
