@@ -88,6 +88,29 @@
     return d.innerHTML;
   }
 
+  function wireBackButton() {
+    var btn = document.getElementById("pdp-back");
+    if (!btn || btn.getAttribute("data-pdp-back-wired") === "1") return;
+    btn.setAttribute("data-pdp-back-wired", "1");
+    btn.addEventListener("click", function () {
+      var ref = "";
+      try {
+        ref = document.referrer || "";
+      } catch (e) {}
+      var sameOrigin = false;
+      if (ref) {
+        try {
+          sameOrigin = new URL(ref).origin === window.location.origin;
+        } catch (e2) {}
+      }
+      if (sameOrigin) {
+        window.history.back();
+      } else {
+        window.location.href = "products.html";
+      }
+    });
+  }
+
   function syncBag() {
     if (!window.LLCart) return;
     var n = window.LLCart.totalQty();
@@ -302,9 +325,14 @@
       });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", run);
-  } else {
+  function boot() {
+    wireBackButton();
     run();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
   }
 })();

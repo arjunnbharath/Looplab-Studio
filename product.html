@@ -24,6 +24,11 @@
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
 
   <main id="main" class="rx-main pdp-page">
+    <div class="pdp-topbar">
+      <button type="button" class="pdp-back" id="pdp-back">Back</button>
+      <nav class="pdp-bc" id="pdp-bc" aria-label="Breadcrumb"></nav>
+    </div>
+
     <p id="pdp-loading" class="pdp-loading">Loading product…</p>
 
     <div id="pdp-state" class="pdp-state" hidden>
@@ -32,8 +37,6 @@
     </div>
 
     <article id="pdp-root" class="pdp" hidden>
-      <nav class="pdp-bc" id="pdp-bc" aria-label="Breadcrumb"></nav>
-
       <div class="pdp-grid">
         <div class="pdp-gallery">
           <img id="pdp-img" src="" alt="" width="720" height="960" decoding="async" />
