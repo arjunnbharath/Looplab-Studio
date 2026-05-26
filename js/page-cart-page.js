@@ -8,7 +8,7 @@
   var LLCart = window.LLCart;
   var PROMO_STORAGE_KEY = "looplab_cart_promo_v1";
   var PROMO_INVALID_FLAG_KEY = "looplab_cart_promo_invalid_v1";
-  var PROMO_CODE = "PROMO50LESS";
+  var PROMO_CODE = "50LESS";
   var COUPON_APPLY_LABEL_DEFAULT = "Apply";
   var COUPON_HINT_DEFAULT =
     "Have a coupon? Enter it below and we will apply it to this bag.";
