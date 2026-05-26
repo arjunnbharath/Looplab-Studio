@@ -15,6 +15,8 @@
   --jc-cart-line: #e0e0e0;
   --jc-cart-muted: #8a8a8a;
   --jc-cart-black: #0a0a0a;
+  --jc-cart-promo: #15803d;
+  --jc-cart-promo-soft: #ecfdf3;
   font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: var(--jc-cart-bg);
   flex: 1 1 auto;
@@ -334,6 +336,11 @@
   max-width: 28em;
 }
 
+.jc-coupon-hint.jc-coupon-hint--error {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
 .jc-coupon-field {
   display: flex;
   align-items: stretch;
@@ -346,6 +353,28 @@
 
 .jc-coupon-field:focus-within {
   border-color: var(--jc-cart-black);
+}
+
+.jc-coupon-field.jc-coupon-field--applied {
+  border-color: var(--jc-cart-promo);
+  background: var(--jc-cart-promo-soft);
+}
+
+.jc-coupon-field.jc-coupon-field--applied:focus-within {
+  border-color: var(--jc-cart-promo);
+}
+
+.jc-coupon-field.jc-coupon-field--error {
+  border-color: #b91c1c;
+  background: #fef2f2;
+}
+
+.jc-coupon-field.jc-coupon-field--error:focus-within {
+  border-color: #b91c1c;
+}
+
+.jc-coupon-field.jc-coupon-field--error .jc-coupon-apply {
+  border-left-color: #fecaca;
 }
 
 .jc-coupon-field .jc-coupon-input {
@@ -362,6 +391,15 @@
 
 .jc-coupon-field .jc-coupon-input::placeholder {
   color: #a3a3a3;
+}
+
+.jc-coupon-field.jc-coupon-field--applied .jc-coupon-input,
+.jc-coupon-field.jc-coupon-field--applied .jc-coupon-input::placeholder {
+  color: var(--jc-cart-promo);
+}
+
+.jc-coupon-field.jc-coupon-field--applied .jc-coupon-input::placeholder {
+  opacity: 0.55;
 }
 
 .jc-coupon-field .jc-coupon-apply {
@@ -452,6 +490,11 @@
   flex-shrink: 0;
 }
 
+.jc-cart-discount-row.jc-cart-discount-row--promo [data-cart-discount] {
+  color: var(--jc-cart-promo);
+  font-weight: 700;
+}
+
 .jc-cart-summary-total {
   display: flex;
   justify-content: space-between;
@@ -462,6 +505,10 @@
   font-size: 14px;
   font-weight: 700;
   color: var(--jc-cart-black);
+}
+
+.jc-cart-summary-total.jc-cart-summary-total--promo [data-cart-total] {
+  color: var(--jc-cart-promo);
 }
 
 .jc-cart-checkout {

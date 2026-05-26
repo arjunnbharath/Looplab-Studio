@@ -1,0 +1,281 @@
+/* LoopLab Studio — product detail page (PDP) */
+
+.pdp-page {
+  --pdp-max: 1200px;
+  background: #fff;
+  color: #0a0a0a;
+  min-height: 70vh;
+  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 4vw, 2.5rem) clamp(3rem, 6vw, 4rem);
+}
+
+.pdp {
+  max-width: var(--pdp-max);
+  margin: 0 auto;
+}
+
+.pdp-bc {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
+}
+
+.pdp-bc a {
+  color: #8a8a8a;
+  text-decoration: none;
+}
+
+.pdp-bc a:hover {
+  color: #0a0a0a;
+}
+
+.pdp-bc-sep {
+  color: #c8c8c8;
+  user-select: none;
+}
+
+.pdp-bc-current {
+  color: #0a0a0a;
+}
+
+.pdp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .pdp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pdp-gallery {
+  position: relative;
+  background: #f7f7f7;
+}
+
+.pdp-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.pdp-buy {
+  padding-top: 0.25rem;
+}
+
+.pdp-brand {
+  margin: 0 0 0.35rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pdp-title {
+  margin: 0 0 0.75rem;
+  font-family: var(--rx-hero-serif, "Playfair Display", Georgia, serif);
+  font-size: clamp(1.65rem, 3.5vw, 2.15rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.pdp-price {
+  margin: 0 0 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.pdp-size-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5c5c5c;
+}
+
+.pdp-size-guide {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  text-decoration: none;
+}
+
+.pdp-size-guide:hover {
+  color: #0a0a0a;
+}
+
+.pdp-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.pdp-size-btn {
+  min-width: 3rem;
+  height: 2.75rem;
+  padding: 0 0.75rem;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  color: #0a0a0a;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pdp-size-btn:hover {
+  border-color: #0a0a0a;
+}
+
+.pdp-size-btn[aria-pressed="true"] {
+  border-color: #0a0a0a;
+  border-width: 2px;
+  box-shadow: inset 0 0 0 0 #000;
+}
+
+.pdp-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 2rem;
+}
+
+.pdp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-height: 3.1rem;
+  padding: 0 1.25rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.pdp-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pdp-btn--primary {
+  background: #0a0a0a;
+  color: #fff;
+}
+
+.pdp-btn--primary:hover:not(:disabled) {
+  background: #222;
+}
+
+.pdp-btn--outline {
+  background: #fff;
+  color: #0a0a0a;
+  border: 1px solid #0a0a0a;
+}
+
+.pdp-btn--outline:hover:not(:disabled) {
+  background: #fafafa;
+}
+
+.pdp-btn svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.pdp-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 1.75rem;
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 1rem;
+}
+
+.pdp-tab {
+  margin: 0;
+  padding: 0 0 0.65rem;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+}
+
+.pdp-tab:hover {
+  color: #0a0a0a;
+}
+
+.pdp-tab[aria-selected="true"] {
+  color: #0a0a0a;
+  border-bottom-color: #0a0a0a;
+}
+
+.pdp-panel {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #3a3a3a;
+}
+
+.pdp-panel[hidden] {
+  display: none;
+}
+
+.pdp-code {
+  margin-top: 1.25rem;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.pdp-state {
+  max-width: 32rem;
+  margin: 3rem auto;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.pdp-state a {
+  display: inline-block;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #0a0a0a;
+}
+
+.pdp-loading {
+  max-width: var(--pdp-max);
+  margin: 4rem auto;
+  text-align: center;
+  font-size: 14px;
+  color: #8a8a8a;
+}

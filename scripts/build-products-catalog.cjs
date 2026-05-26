@@ -1,0 +1,170 @@
+/**
+ * Build catalog for product.html:
+ *   - data/products.json       (human-readable, can fetch)
+ *   - js/products-catalog-bundled.js  (window.__PRODUCTS_CATALOG__ — works without fetch)
+ *
+ * Sources = same shops as the site: swim, sale, women, men, kids, linen, cashmere,
+ * petites, new, plus products.html (aggregate).
+ *
+ * Run from repo root: node scripts/build-products-catalog.cjs
+ */
+const fs = require("fs");
+const path = require("path");
+
+const root = path.join(__dirname, "..");
+const jsonPath = path.join(root, "data", "products.json");
+const bundledPath = path.join(root, "js", "products-catalog-bundled.js");
+
+/** Prefix before first "-" in data-product-id, e.g. women-abc → women */
+function departmentFromId(id) {
+  if (!id || typeof id !== "string") return "other";
+  const i = id.indexOf("-");
+  if (i <= 0) return "other";
+  return id.slice(0, i).toLowerCase();
+}
+
+function extractArticles(html) {
+  const re = /<article class="pd-card"[\s\S]*?<\/article>/g;
+  return html.match(re) || [];
+}
+
+function parseCents(text) {
+  if (!text) return 0;
+  const matches = String(text).match(/\$[\d,]+\.\d{2}/g);
+  if (!matches || !matches.length) return 0;
+  const last = matches[matches.length - 1].replace(/[$,]/g, "");
+  const parts = last.split(".");
+  const dollars = parseInt(parts[0], 10);
+  const cents = parseInt(parts[1], 10);
+  return (isNaN(dollars) ? 0 : dollars) * 100 + (isNaN(cents) ? 0 : cents);
+}
+
+function stripTags(s) {
+  return String(s || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function parseArticle(html, forcedId) {
+  const idM = html.match(/data-product-id="([^"]*)"/);
+  const id = forcedId || (idM && idM[1]);
+  if (!id) return null;
+
+  const imgM = html.match(/<img[^>\n]+src="([^"]*)"/);
+  const titleM = html.match(/<h[23] class="pd-card-title"[^>]*>([^<]*)</i);
+  const metaM = html.match(/<p class="pd-card-meta"[^>]*>([^<]*)</i);
+  const priceM = html.match(/<p class="pd-card-price"[^>]*>([\s\S]*?)<\/p>/i);
+
+  const title = titleM ? titleM[1].trim() : "Product";
+  const meta = metaM ? metaM[1].trim() : "";
+  const priceText = priceM ? stripTags(priceM[1]) : "";
+  const priceCents = parseCents(priceText);
+  const image = imgM ? imgM[1].trim() : "";
+  const department = departmentFromId(id);
+
+  const metaParts = meta.split(/\s*·\s*/).map((x) => x.trim());
+  const dept = metaParts[0] || "Shop";
+  const cat = metaParts[1] || "All";
+
+  const sku =
+    id.replace(/[^a-zA-Z0-9]/g, "").slice(-10).toUpperCase() ||
+    String(Math.random()).slice(2, 10);
+
+  return {
+    id,
+    department,
+    brand: "LoopLab Studio",
+    title,
+    meta,
+    priceCents,
+    priceDisplay:
+      priceText || (priceCents ? `$${(priceCents / 100).toFixed(2)}` : ""),
+    image,
+    breadcrumb: ["Home", dept, cat, title],
+    description: `${title}. ${
+      meta
+        ? "Part of our " + meta.replace(/\s*·\s*/, " ") + " collection."
+        : "Crafted with attention to detail."
+    }`,
+    shipping:
+      "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
+    returns:
+      "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
+    designer:
+      "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
+    sizes: ["XS", "S", "M", "L"],
+    sku,
+  };
+}
+
+const sourceFiles = [
+  "swim.html",
+  "sale.html",
+  "women.html",
+  "men.html",
+  "kids.html",
+  "linen.html",
+  "cashmere.html",
+  "petites.html",
+  "new.html",
+  "products.html",
+];
+
+const SHOPS = [
+  "women",
+  "men",
+  "kids",
+  "swim",
+  "linen",
+  "sale",
+  "cashmere",
+  "petites",
+  "new",
+  "other",
+];
+
+const map = new Map();
+let newCounter = 0;
+
+for (const file of sourceFiles) {
+  const fp = path.join(root, file);
+  if (!fs.existsSync(fp)) continue;
+  const html = fs.readFileSync(fp, "utf8");
+  const arts = extractArticles(html);
+  for (const art of arts) {
+    let forcedId = null;
+    if (file === "new.html" && !/data-product-id=/.test(art)) {
+      newCounter += 1;
+      forcedId = "new-" + newCounter;
+    }
+    const p = parseArticle(art, forcedId);
+    if (p) map.set(p.id, p);
+  }
+}
+
+const products = Array.from(map.values());
+products.sort((a, b) => a.id.localeCompare(b.id));
+
+const byDepartment = {};
+for (const d of SHOPS) byDepartment[d] = [];
+for (const p of products) {
+  const d = SHOPS.includes(p.department) ? p.department : "other";
+  if (!byDepartment[d]) byDepartment[d] = [];
+  byDepartment[d].push(p.id);
+}
+
+const catalog = { products, byDepartment };
+
+fs.mkdirSync(path.dirname(jsonPath), { recursive: true });
+fs.writeFileSync(jsonPath, JSON.stringify(catalog, null, 2), "utf8");
+
+const bundled =
+  "/* Auto-generated by scripts/build-products-catalog.cjs — do not edit by hand */\n" +
+  "(function(){window.__PRODUCTS_CATALOG__=" +
+  JSON.stringify(catalog) +
+  ";})();\n";
+fs.writeFileSync(bundledPath, bundled, "utf8");
+
+console.log("Wrote", jsonPath, "(" + products.length + " products)");
+console.log("Wrote", bundledPath, "(window.__PRODUCTS_CATALOG__)");

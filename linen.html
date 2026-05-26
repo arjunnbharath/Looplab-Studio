@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="js/page-plp-pdp-link.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
@@ -8,24 +9,250 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-products.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
-  <main id="main" class="rx-main">
-    <section class="jc-page-hero" aria-labelledby="page-h1">
-      <h1 id="page-h1">Linen</h1>
-      <p>Lightweight shirts, pants, and dresses for warm days.</p>
-      <p><a href="index.html">Back to home</a></p>
-    </section>
+
+  <main id="main" class="rx-main pd-page">
+    <header class="pd-hero pd-hero--feature" aria-labelledby="pd-title">
+      <div class="pd-hero-bg" aria-hidden="true"></div>
+      <div class="pd-hero-inner">
+        <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="pd-breadcrumb-sep" aria-hidden="true">/</span>
+          <span class="pd-breadcrumb-current">Linen</span>
+        </nav>
+        <div class="pd-hero-main">
+          <div>
+            <p class="pd-hero-kicker">Linen</p>
+            <h1 id="pd-title">The linen shop</h1>
+            <p class="pd-hero-lede">
+              Lightweight shirts, pants, dresses, and layers for warm days—demo prices. Add to cart to try the bag.
+            </p>
+            <p class="pd-hero-links">
+              <a href="products.html">Full catalog</a>
+              <span aria-hidden="true">·</span>
+              <a href="women.html">Women</a>
+              <span aria-hidden="true">·</span>
+              <a href="new.html">New arrivals</a>
+            </p>
+          </div>
+          <div class="pd-hero-aside">
+            <span class="pd-hero-count">14 styles · Linen</span>
+            <p class="pd-hero-aside-note">Photos from <code>image/Linen/</code>.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pd-toolbar" role="region" aria-label="Filter and sort">
+      <div class="pd-toolbar-inner">
+        <span class="pd-toolbar-label">Shop</span>
+        <ul class="pd-chips">
+          <li><a href="products.html">All</a></li>
+          <li><a href="new.html">New</a></li>
+          <li><a href="women.html">Women</a></li>
+          <li><a href="men.html">Men</a></li>
+          <li><a href="kids.html">Kids</a></li>
+          <li><a href="sale.html">Sale</a></li>
+        </ul>
+        <div class="pd-sort">
+          <label for="pd-sort-select">Sort</label>
+          <select id="pd-sort-select" name="sort">
+            <option>Featured</option>
+            <option>Newest</option>
+            <option>Price: low to high</option>
+            <option>Price: high to low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-grid-wrap">
+      <div class="pd-grid">
+        <article class="pd-card" data-product-id="linen-0194b6ae0deb96456d276fcd129a9d51">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/0194b6ae0deb96456d276fcd129a9d51.jpg" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Relaxed linen camp shirt</h2>
+              <p class="pd-card-meta">Linen · Shirts</p>
+              <p class="pd-card-price">$88.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-01ff7b5cfabaa54ebf35e883db97a211">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/01ff7b5cfabaa54ebf35e883db97a211.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen drawstring pant</h2>
+              <p class="pd-card-meta">Linen · Pants</p>
+              <p class="pd-card-price">$98.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-313660fe8c0562e47181610824176de2">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/313660fe8c0562e47181610824176de2.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen midi shirt dress</h2>
+              <p class="pd-card-meta">Linen · Dresses</p>
+              <p class="pd-card-price">$128.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-47cce3f59b46eed289c62ea32ecb11a9">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/47cce3f59b46eed289c62ea32ecb11a9.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen unstructured blazer</h2>
+              <p class="pd-card-meta">Linen · Jackets</p>
+              <p class="pd-card-price">$168.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-69068971e6aa35eeffab8693dfe73072">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/69068971e6aa35eeffab8693dfe73072.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen short-sleeve popover</h2>
+              <p class="pd-card-meta">Linen · Tops</p>
+              <p class="pd-card-price">$68.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-7ed5d721a2ee37d9438c7879afcd116d">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/7ed5d721a2ee37d9438c7879afcd116d.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen wide-leg trouser</h2>
+              <p class="pd-card-meta">Linen · Pants</p>
+              <p class="pd-card-price"><del>$118.00</del> $94.40</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-88345599d5131a9165d08e4d6b1c9600">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/88345599d5131a9165d08e4d6b1c9600.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen stripe pocket tee</h2>
+              <p class="pd-card-meta">Linen · Tops</p>
+              <p class="pd-card-price">$58.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-afd27e9df618d667a5ca04f8e06632ca">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/afd27e9df618d667a5ca04f8e06632ca.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen chore jacket</h2>
+              <p class="pd-card-meta">Linen · Outerwear</p>
+              <p class="pd-card-price">$148.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-c25625642ca0f350237d499d472d97f3">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/c25625642ca0f350237d499d472d97f3.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen bias slip skirt</h2>
+              <p class="pd-card-meta">Linen · Skirts</p>
+              <p class="pd-card-price">$78.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-c487d69384eb26aba79ae99cbd9e97c9">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/c487d69384eb26aba79ae99cbd9e97c9.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen beach shirt</h2>
+              <p class="pd-card-meta">Linen · Shirts</p>
+              <p class="pd-card-price">$72.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-e45b92ac20fef77679698e819b45f6cf">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/e45b92ac20fef77679698e819b45f6cf.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen pull-on short</h2>
+              <p class="pd-card-meta">Linen · Shorts</p>
+              <p class="pd-card-price">$64.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-e4568c87126ace65dc5b890d91eff122">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/e4568c87126ace65dc5b890d91eff122.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen wrap midi dress</h2>
+              <p class="pd-card-meta">Linen · Dresses</p>
+              <p class="pd-card-price">$138.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-e7d8c14579c439c133e342d897997a41">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/e7d8c14579c439c133e342d897997a41.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen vest</h2>
+              <p class="pd-card-meta">Linen · Jackets</p>
+              <p class="pd-card-price">$108.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="linen-fc840d7bb563c8a3f256678bd641ba48">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Linen/fc840d7bb563c8a3f256678bd641ba48.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen trench coat</h2>
+              <p class="pd-card-meta">Linen · Outerwear</p>
+              <p class="pd-card-price">$178.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+      </div>
+    </div>
+
+    <nav class="pd-pagination" aria-label="Pagination">
+      <span>Pages</span>
+      <button type="button" disabled aria-label="Previous page">‹</button>
+      <a href="#" aria-current="page">1</a>
+      <button type="button" aria-label="Next page">›</button>
+    </nav>
+
+    <p class="pd-bottom-links">
+      <a href="products.html">All products</a>
+      &nbsp;·&nbsp;
+      <a href="index.html">Home</a>
+    </p>
   </main>
+
   <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
   <script src="js/page-nav-html-bundled.js" defer></script>
   <script src="js/page-nav-loader.js" defer></script>

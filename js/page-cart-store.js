@@ -56,6 +56,36 @@
     return "$" + (n / 100).toFixed(2);
   }
 
+  function addFromPdp(opts) {
+    opts = opts || {};
+    var size = String(opts.size || "").trim();
+    var id = opts.id;
+    if (!id) return load();
+    var lineId = size ? id + "::" + size : id;
+    var items = load();
+    var found = null;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id === lineId) {
+        found = items[i];
+        break;
+      }
+    }
+    if (found) {
+      found.qty = (found.qty || 1) + 1;
+    } else {
+      items.push({
+        id: lineId,
+        title: opts.title || "Item",
+        meta: (opts.meta || "") + (size ? " · Size " + size : ""),
+        image: opts.image || "",
+        priceCents: Number(opts.priceCents) || 0,
+        qty: 1,
+      });
+    }
+    save(items);
+    return items;
+  }
+
   function addFromCard(card) {
     if (!card) return load();
     var titleEl = card.querySelector(".pd-card-title");
@@ -134,6 +164,7 @@
     STORAGE_KEY: STORAGE_KEY,
     load: load,
     save: save,
+    addFromPdp: addFromPdp,
     addFromCard: addFromCard,
     remove: remove,
     setQty: setQty,

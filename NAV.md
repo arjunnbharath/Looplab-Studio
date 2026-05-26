@@ -42,7 +42,7 @@ node -e "const fs=require('fs');const h=fs.readFileSync('partials/page-nav.html'
 
 Adjust `data-nav-partial` if your folder layout differs.
 
-If the header is **inlined** (no loader, like `index.html`), skip the bundled + loader scripts; still add **`page-nav-mobile.js`** so the menu button works on small screens.
+If the header is **inlined** (no loader) on a one-off page, skip the bundled + loader scripts; still add **`page-nav-mobile.js`** so the menu button works on small screens. **`index.html`** uses the same mount + loader + bundle pattern as the category pages so nav edits stay in **`partials/page-nav.html`** only.
 
 ## Local preview
 
@@ -56,13 +56,13 @@ npx --yes serve . -p 3000
 
 Then open `http://localhost:3000/men.html` (or any page).
 
-2. **Open HTML from disk** — include **`js/page-nav-html-bundled.js`** before **`js/page-nav-loader.js`** (category pages and cart in this repo already do). Regenerate the bundle after editing **`partials/page-nav.html`** (command in **Use on any page** above).
+2. **Open HTML from disk** — include **`js/page-nav-html-bundled.js`** before **`js/page-nav-loader.js`** (category pages, **`index.html`**, and cart in this repo already do). Regenerate the bundle after editing **`partials/page-nav.html`** (command in **Use on any page** above).
 
 ## Category pages (top nav)
 
 These match the nine primary nav labels and load the same header/footer partials:
 
-`new.html`, `women.html`, `men.html`, `kids.html`, `cashmere.html`, `linen.html`, `swim.html`, `petites.html`, `sale.html`, **`index.html`** (home), **`lookbook.html`** (editorial), **`journal.html`** (studio notes), **`products.html`** (catalog), **`cart.html`** (shopping bag layout; bag icon in the header links here).
+`new.html`, `women.html`, `men.html`, `kids.html`, `cashmere.html`, `linen.html`, `swim.html`, `petites.html`, `sale.html`, **`index.html`** (home; loads the same partial via `#jc-site-nav-mount`), **`lookbook.html`** (editorial), **`journal.html`** (studio notes), **`products.html`** (catalog), **`product.html`** (product detail; uses `data/products.json`), **`cart.html`** (shopping bag layout; bag icon in the header links here).
 
 Top-level nav links in `partials/page-nav.html` point to those files. **`page-nav-loader.js`** dispatches a **`page-nav-loaded`** event after the header is injected so **`page-nav-mobile.js`** can attach the hamburger behavior on those pages.
 

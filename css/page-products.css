@@ -343,6 +343,8 @@
 }
 
 .pd-card-add {
+  position: relative;
+  z-index: 2;
   display: block;
   width: 100%;
   margin: 0;

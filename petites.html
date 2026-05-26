@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="js/page-plp-pdp-link.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
@@ -8,24 +9,206 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-products.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
-  <main id="main" class="rx-main">
-    <section class="jc-page-hero" aria-labelledby="page-h1">
-      <h1 id="page-h1">Petites</h1>
-      <p>Styles proportioned for 5'4" and under.</p>
-      <p><a href="index.html">Back to home</a></p>
-    </section>
+
+  <main id="main" class="rx-main pd-page">
+    <header class="pd-hero pd-hero--feature" aria-labelledby="pd-title">
+      <div class="pd-hero-bg" aria-hidden="true"></div>
+      <div class="pd-hero-inner">
+        <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="pd-breadcrumb-sep" aria-hidden="true">/</span>
+          <span class="pd-breadcrumb-current">Petites</span>
+        </nav>
+        <div class="pd-hero-main">
+          <div>
+            <p class="pd-hero-kicker">Petites</p>
+            <h1 id="pd-title">The petites shop</h1>
+            <p class="pd-hero-lede">
+              Proportions for 5'4&quot; and under—denim, dresses, knits, and tailoring with demo prices. Add to cart to try the bag.
+            </p>
+            <p class="pd-hero-links">
+              <a href="products.html">Full catalog</a>
+              <span aria-hidden="true">·</span>
+              <a href="women.html">Women</a>
+              <span aria-hidden="true">·</span>
+              <a href="new.html">New arrivals</a>
+            </p>
+          </div>
+          <div class="pd-hero-aside">
+            <span class="pd-hero-count">10 styles · Petites</span>
+            <p class="pd-hero-aside-note">Photos from <code>image/Petites/</code>.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pd-toolbar" role="region" aria-label="Filter and sort">
+      <div class="pd-toolbar-inner">
+        <span class="pd-toolbar-label">Shop</span>
+        <ul class="pd-chips">
+          <li><a href="products.html">All</a></li>
+          <li><a href="new.html">New</a></li>
+          <li><a href="women.html">Women</a></li>
+          <li><a href="men.html">Men</a></li>
+          <li><a href="kids.html">Kids</a></li>
+          <li><a href="sale.html">Sale</a></li>
+        </ul>
+        <div class="pd-sort">
+          <label for="pd-sort-select">Sort</label>
+          <select id="pd-sort-select" name="sort">
+            <option>Featured</option>
+            <option>Newest</option>
+            <option>Price: low to high</option>
+            <option>Price: high to low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-grid-wrap">
+      <div class="pd-grid">
+        <article class="pd-card" data-product-id="petites-04617a05d25e612d20c7cad7f72d1d7c">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/04617a05d25e612d20c7cad7f72d1d7c.jpg" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite ankle pant</h2>
+              <p class="pd-card-meta">Petites · Pants</p>
+              <p class="pd-card-price">$98.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="petites-084595dcacc4845e9fbd2351daa0301b">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/084595dcacc4845e9fbd2351daa0301b.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite rib knit tank</h2>
+              <p class="pd-card-meta">Petites · Tops</p>
+              <p class="pd-card-price">$42.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="petites-42dfd9c11e3d57819695a2d2d1619999">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/42dfd9c11e3d57819695a2d2d1619999.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite shift dress</h2>
+              <p class="pd-card-meta">Petites · Dresses</p>
+              <p class="pd-card-price">$118.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="petites-6909fbf5d33873e5fa23beff28f3e384">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/6909fbf5d33873e5fa23beff28f3e384.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite tailored blazer</h2>
+              <p class="pd-card-meta">Petites · Jackets</p>
+              <p class="pd-card-price">$168.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="petites-6ff5828239545aad48760f8d3100b51c">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/6ff5828239545aad48760f8d3100b51c.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite pleated midi skirt</h2>
+              <p class="pd-card-meta">Petites · Skirts</p>
+              <p class="pd-card-price">$78.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="petites-7c5eaadae0a5c09a33454d10637b68b6">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/7c5eaadae0a5c09a33454d10637b68b6.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite high-rise skinny jean</h2>
+              <p class="pd-card-meta">Petites · Denim</p>
+              <p class="pd-card-price"><del>$128.00</del> $96.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="petites-9e5e2d742a3d2997365c4be7c2dd5428">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/9e5e2d742a3d2997365c4be7c2dd5428.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite wrap blouse</h2>
+              <p class="pd-card-meta">Petites · Tops</p>
+              <p class="pd-card-price">$68.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="petites-b5c577e79355945e0a56245b405a7f57">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/b5c577e79355945e0a56245b405a7f57.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite trench coat</h2>
+              <p class="pd-card-meta">Petites · Outerwear</p>
+              <p class="pd-card-price">$198.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="petites-bbc9d45a7aaa683750bc9953212cce3c">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/bbc9d45a7aaa683750bc9953212cce3c.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite silk shell</h2>
+              <p class="pd-card-meta">Petites · Tops</p>
+              <p class="pd-card-price">$88.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="petites-d9553d79a4b03ee8c96da0b5207015af">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/Petites/d9553d79a4b03ee8c96da0b5207015af.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Petite pencil skirt</h2>
+              <p class="pd-card-meta">Petites · Skirts</p>
+              <p class="pd-card-price">$72.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+      </div>
+    </div>
+
+    <nav class="pd-pagination" aria-label="Pagination">
+      <span>Pages</span>
+      <button type="button" disabled aria-label="Previous page">‹</button>
+      <a href="#" aria-current="page">1</a>
+      <button type="button" aria-label="Next page">›</button>
+    </nav>
+
+    <p class="pd-bottom-links">
+      <a href="products.html">All products</a>
+      &nbsp;·&nbsp;
+      <a href="index.html">Home</a>
+    </p>
   </main>
+
   <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
   <script src="js/page-nav-html-bundled.js" defer></script>
   <script src="js/page-nav-loader.js" defer></script>

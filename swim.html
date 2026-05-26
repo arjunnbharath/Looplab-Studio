@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="js/page-plp-pdp-link.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
@@ -8,24 +9,193 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-products.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
-  <main id="main" class="rx-main">
-    <section class="jc-page-hero" aria-labelledby="page-h1">
-      <h1 id="page-h1">Swim</h1>
-      <p>Swim and cover-ups for women, men, and kids.</p>
-      <p><a href="index.html">Back to home</a></p>
-    </section>
+
+  <main id="main" class="rx-main pd-page">
+    <header class="pd-hero pd-hero--feature" aria-labelledby="pd-title">
+      <div class="pd-hero-bg" aria-hidden="true"></div>
+      <div class="pd-hero-inner">
+        <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="pd-breadcrumb-sep" aria-hidden="true">/</span>
+          <span class="pd-breadcrumb-current">Swim</span>
+        </nav>
+        <div class="pd-hero-main">
+          <div>
+            <p class="pd-hero-kicker">Swim</p>
+            <h1 id="pd-title">Swim shop</h1>
+            <p class="pd-hero-lede">
+              Suits, cover-ups, and beach layers from our swim image set—demo prices; use <strong>Add to cart</strong> to try the bag.
+            </p>
+            <p class="pd-hero-links">
+              <a href="products.html">Full catalog</a>
+              <span aria-hidden="true">·</span>
+              <a href="women.html">Women</a>
+              <span aria-hidden="true">·</span>
+              <a href="new.html">New arrivals</a>
+            </p>
+          </div>
+          <div class="pd-hero-aside">
+            <span class="pd-hero-count">8 styles · Swim</span>
+            <p class="pd-hero-aside-note">Photos from <code>image/swim/</code>.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pd-toolbar" role="region" aria-label="Filter and sort">
+      <div class="pd-toolbar-inner">
+        <span class="pd-toolbar-label">Shop</span>
+        <ul class="pd-chips">
+          <li><a href="products.html">All</a></li>
+          <li><a href="new.html">New</a></li>
+          <li><a href="women.html">Women</a></li>
+          <li><a href="men.html">Men</a></li>
+          <li><a href="kids.html">Kids</a></li>
+          <li><a href="sale.html">Sale</a></li>
+        </ul>
+        <div class="pd-sort">
+          <label for="pd-sort-select">Sort</label>
+          <select id="pd-sort-select" name="sort">
+            <option>Featured</option>
+            <option>Newest</option>
+            <option>Price: low to high</option>
+            <option>Price: high to low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-grid-wrap">
+      <div class="pd-grid">
+        <article class="pd-card" data-product-id="swim-170f34ecf5264381deb6de8a08f53a7b">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="image/swim/170f34ecf5264381deb6de8a08f53a7b.jpg" alt="" width="600" height="800" decoding="async" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Siren ribbed bikini top</h2>
+              <p class="pd-card-meta">Women · Swim</p>
+              <p class="pd-card-price">$68.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+
+        <article class="pd-card" data-product-id="swim-2020717ae4aa58658292cd78ac1a1853">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="image/swim/2020717ae4aa58658292cd78ac1a1853.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Ocean high-rise swim brief</h2>
+              <p class="pd-card-meta">Women · Swim</p>
+              <p class="pd-card-price">$54.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+
+        <article class="pd-card" data-product-id="swim-62e36238d716c051941f572cdd1fd252">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="image/swim/62e36238d716c051941f572cdd1fd252.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Terry zip rash guard</h2>
+              <p class="pd-card-meta">Women · Swim</p>
+              <p class="pd-card-price">$88.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+
+        <article class="pd-card" data-product-id="swim-868f862a3c6713b60b0efa9acdd6706b">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="image/swim/868f862a3c6713b60b0efa9acdd6706b.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Striped bandeau one-piece</h2>
+              <p class="pd-card-meta">Women · Swim</p>
+              <p class="pd-card-price"><del>$128.00</del> $96.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+
+        <article class="pd-card" data-product-id="swim-98db303113296364a54bc911cae3ac94">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="image/swim/98db303113296364a54bc911cae3ac94.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen-blend cover-up dress</h2>
+              <p class="pd-card-meta">Women · Cover-ups</p>
+              <p class="pd-card-price">$118.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+
+        <article class="pd-card" data-product-id="swim-9d57dd29596ad463af9606886032daeb">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="image/swim/9d57dd29596ad463af9606886032daeb.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Kids’ colorblock swim trunk</h2>
+              <p class="pd-card-meta">Kids · Swim</p>
+              <p class="pd-card-price">$38.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+
+        <article class="pd-card" data-product-id="swim-d333c2511b739ec3681f84bcca1adc90">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="image/swim/d333c2511b739ec3681f84bcca1adc90.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Sculpt one-shoulder maillot</h2>
+              <p class="pd-card-meta">Women · Swim</p>
+              <p class="pd-card-price">$108.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+
+        <article class="pd-card" data-product-id="swim-dc4b42d09d12170f32de95fd7136e18f">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media">
+              <img src="image/swim/dc4b42d09d12170f32de95fd7136e18f.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" />
+            </figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Classic 7&quot; swim short</h2>
+              <p class="pd-card-meta">Men · Swim</p>
+              <p class="pd-card-price">$59.50</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+      </div>
+    </div>
   </main>
+
   <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
   <script src="js/page-nav-html-bundled.js" defer></script>
   <script src="js/page-nav-loader.js" defer></script>

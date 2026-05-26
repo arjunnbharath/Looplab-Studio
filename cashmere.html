@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="js/page-plp-pdp-link.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
@@ -8,24 +9,217 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-products.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
-  <main id="main" class="rx-main">
-    <section class="jc-page-hero" aria-labelledby="page-h1">
-      <h1 id="page-h1">Cashmere</h1>
-      <p>Sweaters, accessories, and cold-weather softness.</p>
-      <p><a href="index.html">Back to home</a></p>
-    </section>
+
+  <main id="main" class="rx-main pd-page">
+    <header class="pd-hero pd-hero--feature" aria-labelledby="pd-title">
+      <div class="pd-hero-bg" aria-hidden="true"></div>
+      <div class="pd-hero-inner">
+        <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="pd-breadcrumb-sep" aria-hidden="true">/</span>
+          <span class="pd-breadcrumb-current">Cashmere</span>
+        </nav>
+        <div class="pd-hero-main">
+          <div>
+            <p class="pd-hero-kicker">Cashmere</p>
+            <h1 id="pd-title">The cashmere shop</h1>
+            <p class="pd-hero-lede">
+              Sweaters, wraps, and cold-weather layers in soft cashmere blends—demo prices. Add to cart to try the bag.
+            </p>
+            <p class="pd-hero-links">
+              <a href="products.html">Full catalog</a>
+              <span aria-hidden="true">·</span>
+              <a href="women.html">Women</a>
+              <span aria-hidden="true">·</span>
+              <a href="new.html">New arrivals</a>
+            </p>
+          </div>
+          <div class="pd-hero-aside">
+            <span class="pd-hero-count">11 styles · Cashmere</span>
+            <p class="pd-hero-aside-note">Photos from <code>image/cashmere/</code>.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pd-toolbar" role="region" aria-label="Filter and sort">
+      <div class="pd-toolbar-inner">
+        <span class="pd-toolbar-label">Shop</span>
+        <ul class="pd-chips">
+          <li><a href="products.html">All</a></li>
+          <li><a href="new.html">New</a></li>
+          <li><a href="women.html">Women</a></li>
+          <li><a href="men.html">Men</a></li>
+          <li><a href="kids.html">Kids</a></li>
+          <li><a href="sale.html">Sale</a></li>
+        </ul>
+        <div class="pd-sort">
+          <label for="pd-sort-select">Sort</label>
+          <select id="pd-sort-select" name="sort">
+            <option>Featured</option>
+            <option>Newest</option>
+            <option>Price: low to high</option>
+            <option>Price: high to low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-grid-wrap">
+      <div class="pd-grid">
+        <article class="pd-card" data-product-id="cashmere-18acd1ec194169bd8f1131fc36b9e9c2">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/18acd1ec194169bd8f1131fc36b9e9c2.jpg" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere crewneck sweater</h2>
+              <p class="pd-card-meta">Cashmere · Sweaters</p>
+              <p class="pd-card-price">$198.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-1fc044147b8ca13c85afd0d6ae3b9f0d">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/1fc044147b8ca13c85afd0d6ae3b9f0d.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere V-neck sweater</h2>
+              <p class="pd-card-meta">Cashmere · Sweaters</p>
+              <p class="pd-card-price">$188.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-21f218fad797e77c10974d486b49664f">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/21f218fad797e77c10974d486b49664f.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere button cardigan</h2>
+              <p class="pd-card-meta">Cashmere · Sweaters</p>
+              <p class="pd-card-price">$228.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-6c04fe56b561bccf3fa736aa8af359f9">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/6c04fe56b561bccf3fa736aa8af359f9.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere rib scarf</h2>
+              <p class="pd-card-meta">Cashmere · Accessories</p>
+              <p class="pd-card-price">$98.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-9900b1bdd7bd0abbbba0b544a449cbc2">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/9900b1bdd7bd0abbbba0b544a449cbc2.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere rib beanie</h2>
+              <p class="pd-card-meta">Cashmere · Accessories</p>
+              <p class="pd-card-price">$58.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-a3840534c30b6e01fbecc2dcd90dc14e">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/a3840534c30b6e01fbecc2dcd90dc14e.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere turtleneck sweater</h2>
+              <p class="pd-card-meta">Cashmere · Sweaters</p>
+              <p class="pd-card-price"><del>$218.00</del> $174.40</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-a7dbd47279b6f1837b27962319340f5f">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/a7dbd47279b6f1837b27962319340f5f.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere zip hoodie</h2>
+              <p class="pd-card-meta">Cashmere · Sweaters</p>
+              <p class="pd-card-price">$248.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-b7d8af6bdfc42a388c54ecd47de594d2">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/b7d8af6bdfc42a388c54ecd47de594d2.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere travel wrap</h2>
+              <p class="pd-card-meta">Cashmere · Accessories</p>
+              <p class="pd-card-price">$178.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-cb1d3c08011b6a4050d572d01229c233">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/cb1d3c08011b6a4050d572d01229c233.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere cable crew</h2>
+              <p class="pd-card-meta">Cashmere · Sweaters</p>
+              <p class="pd-card-price">$238.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-d8b91a776d639ce03b74b3b6adbba13c">
+          <span class="pd-card-badge">New</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/d8b91a776d639ce03b74b3b6adbba13c.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere full-zip jacket</h2>
+              <p class="pd-card-meta">Cashmere · Sweaters</p>
+              <p class="pd-card-price">$268.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="cashmere-da10175f18dd557ede5859a38afbbcf6">
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/cashmere/da10175f18dd557ede5859a38afbbcf6.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere tech gloves</h2>
+              <p class="pd-card-meta">Cashmere · Accessories</p>
+              <p class="pd-card-price">$68.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+      </div>
+    </div>
+
+    <nav class="pd-pagination" aria-label="Pagination">
+      <span>Pages</span>
+      <button type="button" disabled aria-label="Previous page">‹</button>
+      <a href="#" aria-current="page">1</a>
+      <button type="button" aria-label="Next page">›</button>
+    </nav>
+
+    <p class="pd-bottom-links">
+      <a href="products.html">All products</a>
+      &nbsp;·&nbsp;
+      <a href="index.html">Home</a>
+    </p>
   </main>
+
   <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
   <script src="js/page-nav-html-bundled.js" defer></script>
   <script src="js/page-nav-loader.js" defer></script>

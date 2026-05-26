@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="js/page-plp-pdp-link.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
@@ -8,24 +9,276 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-products.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
-  <main id="main" class="rx-main">
-    <section class="jc-page-hero" aria-labelledby="page-h1">
-      <h1 id="page-h1">Sale</h1>
-      <p>Limited-time markdowns across categories.</p>
-      <p><a href="index.html">Back to home</a></p>
-    </section>
+
+  <main id="main" class="rx-main pd-page">
+    <header class="pd-hero pd-hero--feature" aria-labelledby="pd-title">
+      <div class="pd-hero-bg" aria-hidden="true"></div>
+      <div class="pd-hero-inner">
+        <nav class="pd-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="pd-breadcrumb-sep" aria-hidden="true">/</span>
+          <span class="pd-breadcrumb-current">Sale</span>
+        </nav>
+        <div class="pd-hero-main">
+          <div>
+            <p class="pd-hero-kicker">Sale</p>
+            <h1 id="pd-title">The sale shop</h1>
+            <p class="pd-hero-lede">
+              Fifteen marked-down styles—demo pricing with original prices struck through. Photos load from <code>image/sale/</code>. Add to cart to try the bag.
+            </p>
+            <p class="pd-hero-links">
+              <a href="products.html">Full catalog</a>
+              <span aria-hidden="true">·</span>
+              <a href="new.html">New arrivals</a>
+              <span aria-hidden="true">·</span>
+              <a href="women.html">Women</a>
+            </p>
+          </div>
+          <div class="pd-hero-aside">
+            <span class="pd-hero-count">15 styles · Sale</span>
+            <p class="pd-hero-aside-note">Add or replace images in <code>image/sale/</code> and update filenames in this page if needed.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pd-toolbar" role="region" aria-label="Filter and sort">
+      <div class="pd-toolbar-inner">
+        <span class="pd-toolbar-label">Shop</span>
+        <ul class="pd-chips">
+          <li><a href="products.html">All</a></li>
+          <li><a href="new.html">New</a></li>
+          <li><a href="women.html">Women</a></li>
+          <li><a href="men.html">Men</a></li>
+          <li><a href="kids.html">Kids</a></li>
+          <li><a href="linen.html">Linen</a></li>
+          <li><a href="cashmere.html">Cashmere</a></li>
+          <li><a href="petites.html">Petites</a></li>
+          <li><a href="sale.html" aria-current="true">Sale</a></li>
+        </ul>
+        <div class="pd-sort">
+          <label for="pd-sort-select">Sort</label>
+          <select id="pd-sort-select" name="sort">
+            <option>Featured</option>
+            <option>Biggest discount</option>
+            <option>Price: low to high</option>
+            <option>Price: high to low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-grid-wrap">
+      <div class="pd-grid">
+        <article class="pd-card" data-product-id="sale-0194b6ae0deb96456d276fcd129a9d51">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/0194b6ae0deb96456d276fcd129a9d51.jpg" alt="" width="600" height="800" decoding="async" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Relaxed linen camp shirt</h2>
+              <p class="pd-card-meta">Women · Tops</p>
+              <p class="pd-card-price"><del>$98.00</del> $68.60</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-01ff7b5cfabaa54ebf35e883db97a211">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/01ff7b5cfabaa54ebf35e883db97a211.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">High-rise sailor jean</h2>
+              <p class="pd-card-meta">Women · Denim</p>
+              <p class="pd-card-price"><del>$128.00</del> $89.60</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-4png">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/4.png" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cashmere crewneck sweater</h2>
+              <p class="pd-card-meta">Women · Sweaters</p>
+              <p class="pd-card-price"><del>$198.00</del> $128.70</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-47cce3f59b46eed289c62ea32ecb11a9">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/47cce3f59b46eed289c62ea32ecb11a9.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Cotton chore jacket</h2>
+              <p class="pd-card-meta">Men · Outerwear</p>
+              <p class="pd-card-price"><del>$178.00</del> $124.60</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-4d7a9019f1de9f4adcb1695237f36724">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/4d7a9019f1de9f4adcb1695237f36724.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Ribbed swim one-piece</h2>
+              <p class="pd-card-meta">Women · Swim</p>
+              <p class="pd-card-price"><del>$118.00</del> $82.60</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-5png">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/5.png" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Garment-dyed pocket tee</h2>
+              <p class="pd-card-meta">Men · Tees</p>
+              <p class="pd-card-price"><del>$45.00</del> $31.50</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-6png">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/6.png" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Pleated midi skirt</h2>
+              <p class="pd-card-meta">Women · Skirts</p>
+              <p class="pd-card-price"><del>$110.00</del> $77.00</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-7png">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/7.png" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Kids’ striped rugby</h2>
+              <p class="pd-card-meta">Kids · Tops</p>
+              <p class="pd-card-price"><del>$42.00</del> $27.30</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-780d39077510081f8c950ce03bac57da">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/780d39077510081f8c950ce03bac57da.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Leather belt with brass buckle</h2>
+              <p class="pd-card-meta">Accessories</p>
+              <p class="pd-card-price"><del>$68.00</del> $47.60</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-7aa043206c89b569517d6173e713901c">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/7aa043206c89b569517d6173e713901c.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Linen drawstring short</h2>
+              <p class="pd-card-meta">Men · Shorts</p>
+              <p class="pd-card-price"><del>$79.50</del> $55.65</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-7d03780f0ee69368661f19b6f1fb8805">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/7d03780f0ee69368661f19b6f1fb8805.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Silk bandana scarf</h2>
+              <p class="pd-card-meta">Women · Accessories</p>
+              <p class="pd-card-price"><del>$38.00</del> $26.60</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-7d04b9d6bb5a78082b38a6fa7ee18766">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/7d04b9d6bb5a78082b38a6fa7ee18766.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Everyday tote (medium)</h2>
+              <p class="pd-card-meta">Bags</p>
+              <p class="pd-card-price"><del>$158.00</del> $110.60</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-7ed5d721a2ee37d9438c7879afcd116d">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/7ed5d721a2ee37d9438c7879afcd116d.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Silk wrap midi dress</h2>
+              <p class="pd-card-meta">Women · Dresses</p>
+              <p class="pd-card-price"><del>$198.00</del> $138.60</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-924eebfe29b140d172c9c8a8201c9f92">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/924eebfe29b140d172c9c8a8201c9f92.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Oversized stripe oxford</h2>
+              <p class="pd-card-meta">Women · Tops</p>
+              <p class="pd-card-price"><del>$79.50</del> $55.65</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+        <article class="pd-card" data-product-id="sale-97ed5fa099f4dcb9aa4b59abba2b7afe">
+          <span class="pd-card-badge pd-card-badge--sale">Sale</span>
+          <a class="pd-card-link" href="#">
+            <figure class="pd-card-media"><img src="image/sale/97ed5fa099f4dcb9aa4b59abba2b7afe.jpg" alt="" width="600" height="800" decoding="async" loading="lazy" /></figure>
+            <div class="pd-card-body">
+              <h2 class="pd-card-title">Fleece zip hoodie</h2>
+              <p class="pd-card-meta">Men · Sweats</p>
+              <p class="pd-card-price"><del>$89.50</del> $58.18</p>
+            </div>
+          </a>
+          <button type="button" class="pd-card-add" data-add-to-bag="">Add to cart</button>
+        </article>
+      </div>
+    </div>
+
+    <nav class="pd-pagination" aria-label="Pagination">
+      <span>Pages</span>
+      <button type="button" disabled aria-label="Previous page">‹</button>
+      <a href="#" aria-current="page">1</a>
+      <button type="button" aria-label="Next page">›</button>
+    </nav>
+
+    <p class="pd-bottom-links">
+      <a href="products.html">All products</a>
+      &nbsp;·&nbsp;
+      <a href="index.html">Home</a>
+    </p>
   </main>
+
   <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
   <script src="js/page-nav-html-bundled.js" defer></script>
   <script src="js/page-nav-loader.js" defer></script>
