@@ -1,9 +1,15 @@
 /* New page — dark hero + intro + shop section (grid from page-products.css) */
-
 .nw-page {
   background: var(--rx-cream);
-  /* Align with site tokens; page-home :root may not define these */
-  --rx-max: var(--rx-content-max, 1680px);
+
+  /* Full page size */
+  width: 100%;
+  min-height: 100vh;
+
+  /* Remove content width restriction */
+  max-width: none;
+
+  /* Tokens */
   --rx-pad-x: clamp(1.25rem, 4vw, 2.5rem);
   --rx-muted: #5c5c5c;
   --rx-border: rgba(0, 0, 0, 0.08);

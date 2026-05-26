@@ -3,6 +3,10 @@
 .pd-page {
   background: var(--rx-cream, #faf8f5);
   color: var(--rx-black);
+
+  width: 100%;
+  min-height: 100vh;
+  max-width: none
 }
 
 /* Hero — editorial dark band */

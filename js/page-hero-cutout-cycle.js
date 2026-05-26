@@ -14,7 +14,7 @@
   ];
 
   var glitchClass = "rx-hero-cutout--glitch";
-  var intervalMs = 5200;
+  var intervalMs = 2100;
   var swapDelayMs = 260;
   var glitchDurationMs = 520;
   var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
