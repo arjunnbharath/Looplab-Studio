@@ -6,12 +6,182 @@
   if (typeof window === "undefined" || !window.LLCart) return;
 
   var LLCart = window.LLCart;
-  var PROMO_STORAGE_KEY = "looplab_cart_promo_v1";
-  var PROMO_INVALID_FLAG_KEY = "looplab_cart_promo_invalid_v1";
-  var PROMO_CODE = "50LESS";
+  var PROMOS_STORAGE_KEY = "looplab_cart_promos_v1";
+  /** Legacy single-code key — migrated once into PROMOS_STORAGE_KEY */
+  var LEGACY_PROMO_STORAGE_KEY = "looplab_cart_promo_v1";
+  /** 50% off entire cart subtotal */
+  var PROMO_50 = "50LESS";
+  /** 25% off bag items only (see isBagLineItem) */
+  var PROMO_SUNNY = "SUNNY";
   var COUPON_APPLY_LABEL_DEFAULT = "Apply";
   var COUPON_HINT_DEFAULT =
     "Have a coupon? Enter it below and we will apply it to this bag.";
+
+  function isValidPromo(norm) {
+    return norm === PROMO_50 || norm === PROMO_SUNNY;
+  }
+
+  /** Line counts toward SUNNY bag discount */
+  function isBagLineItem(item) {
+    if (!item) return false;
+    var id = String(item.id || "");
+    if (id.lastIndexOf("bags-", 0) === 0) return true;
+    if (id.lastIndexOf("bags-men-", 0) === 0) return true;
+    var img = String(item.image || "").toLowerCase();
+    if (img.indexOf("/bags/") !== -1 || img.indexOf("\\bags\\") !== -1)
+      return true;
+    if (img.indexOf("/bags_men/") !== -1 || img.indexOf("\\bags_men\\") !== -1)
+      return true;
+    if (img.indexOf("/bages-men/") !== -1 || img.indexOf("\\bages-men\\") !== -1)
+      return true;
+    var meta = String(item.meta || "");
+    return /\bBags\b/i.test(meta);
+  }
+
+  function bagsSubtotalCents(items) {
+    return items.reduce(function (acc, x) {
+      if (!isBagLineItem(x)) return acc;
+      return acc + (x.priceCents || 0) * (x.qty || 1);
+    }, 0);
+  }
+
+  function migrateLegacyPromoIfNeeded() {
+    try {
+      var legacy = sessionStorage.getItem(LEGACY_PROMO_STORAGE_KEY);
+      if (!legacy) return;
+      var n = normalizePromoCode(legacy);
+      sessionStorage.removeItem(LEGACY_PROMO_STORAGE_KEY);
+      if (isValidPromo(n)) setAppliedPromos([n]);
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function getAppliedPromos() {
+    migrateLegacyPromoIfNeeded();
+    try {
+      var raw = sessionStorage.getItem(PROMOS_STORAGE_KEY);
+      if (!raw) return [];
+      var p = JSON.parse(raw);
+      if (!Array.isArray(p)) return [];
+      var out = [];
+      var seen = {};
+      for (var i = 0; i < p.length; i++) {
+        var n = normalizePromoCode(p[i]);
+        if (!isValidPromo(n) || seen[n]) continue;
+        seen[n] = true;
+        out.push(n);
+      }
+      return out;
+    } catch (e2) {
+      return [];
+    }
+  }
+
+  function setAppliedPromos(codes) {
+    try {
+      var clean = [];
+      var seen = {};
+      for (var i = 0; i < (codes || []).length; i++) {
+        var n = normalizePromoCode(codes[i]);
+        if (!isValidPromo(n) || seen[n]) continue;
+        seen[n] = true;
+        clean.push(n);
+      }
+      if (clean.length) sessionStorage.setItem(PROMOS_STORAGE_KEY, JSON.stringify(clean));
+      else sessionStorage.removeItem(PROMOS_STORAGE_KEY);
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function removePromo(code) {
+    var n = normalizePromoCode(code);
+    var cur = getAppliedPromos();
+    setAppliedPromos(cur.filter(function (c) {
+      return c !== n;
+    }));
+  }
+
+  function computeDiscountLines(subtotalCents, items, promos) {
+    var lines = [];
+    if (!items.length || !promos.length) return lines;
+    var bagSub = bagsSubtotalCents(items);
+    if (promos.indexOf(PROMO_50) !== -1) {
+      lines.push({
+        code: PROMO_50,
+        label: "50LESS — 50% off order",
+        cents: Math.round(subtotalCents * 0.5),
+      });
+    }
+    if (promos.indexOf(PROMO_SUNNY) !== -1) {
+      lines.push({
+        code: PROMO_SUNNY,
+        label: "SUNNY — 25% off bag items",
+        cents: Math.round(bagSub * 0.25),
+      });
+    }
+    var raw = 0;
+    for (var j = 0; j < lines.length; j++) raw += lines[j].cents;
+    if (raw > subtotalCents && raw > 0) {
+      var scale = subtotalCents / raw;
+      for (var k = 0; k < lines.length; k++) {
+        lines[k].cents = Math.round(lines[k].cents * scale);
+      }
+      var drift = subtotalCents - lines.reduce(function (a, L) {
+        return a + L.cents;
+      }, 0);
+      if (drift !== 0 && lines.length) lines[lines.length - 1].cents += drift;
+    }
+    return lines;
+  }
+
+  function renderAppliedPromoList(promos) {
+    var ul = document.getElementById("jc-coupon-applied-list");
+    if (!ul) return;
+    ul.innerHTML = "";
+    if (!promos.length) {
+      ul.hidden = true;
+      return;
+    }
+    ul.hidden = false;
+    promos.forEach(function (code) {
+      var li = document.createElement("li");
+      li.className = "jc-coupon-applied-item";
+      var text = document.createElement("span");
+      text.className = "jc-coupon-applied-text";
+      text.textContent = code + " promo code applied";
+      var rm = document.createElement("button");
+      rm.type = "button";
+      rm.className = "jc-coupon-remove-promo";
+      rm.setAttribute("data-remove-promo", code);
+      rm.setAttribute("aria-label", "Remove " + code + " promo code");
+      rm.textContent = "Remove";
+      li.appendChild(text);
+      li.appendChild(rm);
+      ul.appendChild(li);
+    });
+  }
+
+  function renderDiscountRows(discountLines) {
+    var wrap = document.getElementById("jc-cart-discount-rows");
+    if (!wrap) return;
+    wrap.innerHTML = "";
+    discountLines.forEach(function (L) {
+      var row = document.createElement("div");
+      row.className =
+        "jc-cart-summary-row jc-cart-discount-row jc-cart-discount-row--promo";
+      row.setAttribute("data-cart-discount-line", L.code);
+      var lab = document.createElement("span");
+      lab.textContent = "Promo (" + L.label + ")";
+      var amt = document.createElement("span");
+      amt.textContent = "−" + LLCart.fmt(L.cents);
+      row.appendChild(lab);
+      row.appendChild(amt);
+      wrap.appendChild(row);
+    });
+    wrap.style.display = discountLines.length ? "" : "none";
+  }
 
   function setCouponErrorState(isError) {
     var hint = document.getElementById("jc-coupon-hint");
@@ -38,41 +208,7 @@
       .toUpperCase();
   }
 
-  function getAppliedPromo() {
-    try {
-      return sessionStorage.getItem(PROMO_STORAGE_KEY) || "";
-    } catch (e) {
-      return "";
-    }
-  }
-
-  function setAppliedPromo(code) {
-    try {
-      if (code) sessionStorage.setItem(PROMO_STORAGE_KEY, code);
-      else sessionStorage.removeItem(PROMO_STORAGE_KEY);
-    } catch (e) {
-      /* ignore */
-    }
-  }
-
-  function getInvalidPromoReapplyFlag() {
-    try {
-      return sessionStorage.getItem(PROMO_INVALID_FLAG_KEY) === "1";
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function setInvalidPromoReapplyFlag(on) {
-    try {
-      if (on) sessionStorage.setItem(PROMO_INVALID_FLAG_KEY, "1");
-      else sessionStorage.removeItem(PROMO_INVALID_FLAG_KEY);
-    } catch (e) {
-      /* ignore */
-    }
-  }
-
-  function syncCouponFieldUi(promoUiActive, itemsLength) {
+  function syncCouponFieldUi(hasPromos, itemsLength) {
     var input = document.querySelector(".jc-coupon-input");
     var applyBtn = document.querySelector(".jc-coupon-apply");
     if (applyBtn && !applyBtn.getAttribute("data-cart-apply-default")) {
@@ -85,18 +221,14 @@
       (applyBtn && applyBtn.getAttribute("data-cart-apply-default")) ||
       COUPON_APPLY_LABEL_DEFAULT;
 
-    if (input) {
-      if (promoUiActive) {
-        input.value = PROMO_CODE;
-      } else if (!itemsLength) {
-        input.value = "";
-      }
+    if (input && !itemsLength) {
+      input.value = "";
     }
     if (applyBtn) {
-      applyBtn.textContent = promoUiActive ? "Applied" : defaultLabel;
+      applyBtn.textContent = defaultLabel;
       applyBtn.setAttribute(
         "aria-label",
-        promoUiActive ? "Promo code applied" : "Apply coupon code"
+        hasPromos ? "Apply another promo code" : "Apply coupon code"
       );
     }
   }
@@ -273,88 +405,54 @@
 
     var sub = document.querySelector("[data-cart-subtotal]");
     var total = document.querySelector("[data-cart-total]");
-    var discountRow = document.querySelector("[data-cart-discount-row]");
-    var discountEl = document.querySelector("[data-cart-discount]");
-    var discountLabel = document.querySelector("[data-cart-discount-label]");
 
     var subtotalCents = LLCart.totalCents();
-    var applied = normalizePromoCode(getAppliedPromo());
+    var promos = getAppliedPromos();
 
     if (!items.length) {
-      setAppliedPromo("");
-      setInvalidPromoReapplyFlag(false);
-      applied = "";
+      setAppliedPromos([]);
+      promos = [];
       var hintEmpty = document.getElementById("jc-coupon-hint");
       if (hintEmpty) hintEmpty.textContent = COUPON_HINT_DEFAULT;
       setCouponErrorState(false);
     }
 
-    var discountCents = 0;
-    var finalCents = subtotalCents;
-    if (items.length && applied === PROMO_CODE) {
-      finalCents = Math.round(subtotalCents * 0.5);
-      discountCents = subtotalCents - finalCents;
-    } else if (applied && applied !== PROMO_CODE) {
-      setAppliedPromo("");
-    }
+    var cleaned = promos.filter(isValidPromo);
+    if (cleaned.length !== promos.length) setAppliedPromos(cleaned);
+    promos = getAppliedPromos();
 
-    if (applied === PROMO_CODE) {
-      setInvalidPromoReapplyFlag(false);
-    }
+    var discountLines = computeDiscountLines(subtotalCents, items, promos);
+    var discountCents = discountLines.reduce(function (a, L) {
+      return a + L.cents;
+    }, 0);
+    var finalCents = Math.max(0, subtotalCents - discountCents);
 
     if (sub) sub.textContent = LLCart.fmt(subtotalCents);
     if (total) total.textContent = LLCart.fmt(finalCents);
 
-    var showInvalidZero =
-      items.length > 0 &&
-      applied !== PROMO_CODE &&
-      getInvalidPromoReapplyFlag();
+    renderDiscountRows(discountLines);
+    renderAppliedPromoList(promos);
 
-    if (discountRow && discountEl) {
-      var showDiscount = items.length && discountCents > 0;
-      if (showDiscount) {
-        discountRow.hidden = false;
-        discountEl.textContent = "−" + LLCart.fmt(discountCents);
-        if (discountLabel)
-          discountLabel.textContent = "Promo (50% off — " + PROMO_CODE + ")";
-      } else if (showInvalidZero) {
-        discountRow.hidden = false;
-        discountEl.textContent = "−" + LLCart.fmt(0);
-        if (discountLabel)
-          discountLabel.textContent =
-            "Promo discount (invalid code — no savings)";
-      } else {
-        discountRow.hidden = true;
-      }
-    }
+    var hasPromos = items.length > 0 && promos.length > 0;
+    var anyDiscount = discountCents > 0;
 
-    var promoUiActive =
-      items.length > 0 && applied === PROMO_CODE;
-    if (promoUiActive) {
+    if (hasPromos) {
       setCouponErrorState(false);
-    } else if (showInvalidZero) {
-      setCouponErrorState(true);
     }
 
     var couponField = document.querySelector(".jc-coupon-field");
     var summaryTotalEl = document.querySelector(".jc-cart-summary-total");
     if (couponField) {
-      couponField.classList.toggle("jc-coupon-field--applied", promoUiActive);
-    }
-    if (discountRow) {
-      discountRow.classList.toggle(
-        "jc-cart-discount-row--promo",
-        promoUiActive && !showInvalidZero
-      );
+      couponField.classList.toggle("jc-coupon-field--applied", hasPromos);
     }
     if (summaryTotalEl) {
       summaryTotalEl.classList.toggle(
         "jc-cart-summary-total--promo",
-        promoUiActive
+        hasPromos && anyDiscount
       );
     }
 
-    syncCouponFieldUi(promoUiActive, items.length);
+    syncCouponFieldUi(hasPromos, items.length);
   }
 
   function readQtyVal(valEl) {
@@ -416,6 +514,33 @@
     });
   }
 
+  function wireAppliedPromoRemove() {
+    var ul = document.getElementById("jc-coupon-applied-list");
+    if (!ul || ul.getAttribute("data-promo-remove-bound") === "1") return;
+    ul.setAttribute("data-promo-remove-bound", "1");
+    ul.addEventListener("click", function (ev) {
+      var btn = ev.target.closest("[data-remove-promo]");
+      if (!btn) return;
+      var code = btn.getAttribute("data-remove-promo");
+      if (!code) return;
+      removePromo(code);
+      var hint = document.getElementById("jc-coupon-hint");
+      var remaining = getAppliedPromos();
+      if (hint) {
+        if (remaining.length) {
+          hint.textContent =
+            "Removed " +
+            normalizePromoCode(code) +
+            ". Other promos stay on your order.";
+        } else {
+          hint.textContent = COUPON_HINT_DEFAULT;
+        }
+      }
+      setCouponErrorState(false);
+      renderCartPage();
+    });
+  }
+
   function wireCouponApply() {
     var apply = document.querySelector(".jc-coupon-apply");
     if (!apply || apply.getAttribute("data-cart-coupon-bound") === "1") return;
@@ -436,32 +561,47 @@
       }
 
       var norm = normalizePromoCode(code);
-      if (norm === PROMO_CODE) {
-        setInvalidPromoReapplyFlag(false);
-        setAppliedPromo(PROMO_CODE);
+      if (!isValidPromo(norm)) {
+        setCouponErrorState(true);
+        if (hint)
+          hint.textContent =
+            "Invalid code — not recognized. Try " +
+            PROMO_50 +
+            " or " +
+            PROMO_SUNNY +
+            ".";
+        return;
+      }
+
+      var promos = getAppliedPromos();
+      if (promos.indexOf(norm) !== -1) {
         setCouponErrorState(false);
         if (hint)
           hint.textContent =
-            "Promo " +
-            PROMO_CODE +
-            " applied — 50% off your bag subtotal.";
-        renderCartPage();
-      } else {
-        var hadValidPromo = normalizePromoCode(getAppliedPromo()) === PROMO_CODE;
-        setAppliedPromo("");
-        if (hadValidPromo) setInvalidPromoReapplyFlag(true);
-        else setInvalidPromoReapplyFlag(false);
-        setCouponErrorState(true);
-        if (hint)
-          hint.textContent = hadValidPromo
-            ? "Invalid code — that code is not valid. Your promo discount is now $0.00. Re-apply " +
-              PROMO_CODE +
-              " for 50% off."
-            : "Invalid code — not recognized. Try " +
-              PROMO_CODE +
-              " for 50% off.";
-        renderCartPage();
+            norm +
+            " is already applied. Enter the other code if you have not added it yet.";
+        return;
       }
+
+      promos.push(norm);
+      setAppliedPromos(promos);
+      if (input) input.value = "";
+      setCouponErrorState(false);
+      if (hint) {
+        var bagC = bagsSubtotalCents(items);
+        if (norm === PROMO_50) {
+          hint.textContent =
+            PROMO_50 +
+            " added — 50% off your order subtotal. See Cart totals for each promo line.";
+        } else {
+          hint.textContent =
+            PROMO_SUNNY +
+            (bagC > 0
+              ? " added — 25% off bag items. See Cart totals for each promo line."
+              : " added — 25% off bag-tagged lines when you add them. See Cart totals.");
+        }
+      }
+      renderCartPage();
     });
   }
 
@@ -479,6 +619,7 @@
     bindCartListDelegation();
     wireUpdateCartButton();
     wireCouponApply();
+    wireAppliedPromoRemove();
   }
 
   if (document.readyState === "loading") {

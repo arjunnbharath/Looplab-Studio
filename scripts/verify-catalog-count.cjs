@@ -18,6 +18,7 @@ const sourceFiles = [
   "cashmere.html",
   "petites.html",
   "new.html",
+  "bags.html",
   "products.html",
 ];
 

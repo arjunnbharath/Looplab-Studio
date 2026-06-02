@@ -56,10 +56,16 @@
                   placeholder="Enter code"
                   autocomplete="off"
                   aria-label="Coupon code"
-                  aria-describedby="jc-coupon-hint"
+                  aria-describedby="jc-coupon-hint jc-coupon-applied-list"
                 />
                 <button type="button" class="jc-coupon-apply">Apply</button>
               </div>
+              <ul
+                class="jc-coupon-applied-list"
+                id="jc-coupon-applied-list"
+                hidden
+                aria-label="Applied promo codes"
+              ></ul>
             </div>
             <h2 id="cart-totals-heading" class="jc-cart-sidebar-title">Cart totals</h2>
             <div class="jc-cart-summary-row">
@@ -74,10 +80,7 @@
               <span>Subtotal</span>
               <span data-cart-subtotal>$0.00</span>
             </div>
-            <div class="jc-cart-summary-row jc-cart-discount-row" data-cart-discount-row hidden>
-              <span data-cart-discount-label>Promo discount</span>
-              <span data-cart-discount>−$0.00</span>
-            </div>
+            <div id="jc-cart-discount-rows" class="jc-cart-discount-rows"></div>
             <div class="jc-cart-summary-total">
               <span>Total</span>
               <span data-cart-total>$0.00</span>
