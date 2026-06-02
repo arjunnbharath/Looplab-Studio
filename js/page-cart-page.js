@@ -22,7 +22,9 @@
     "bags-396ce01cb633625a3fa9487949f323d6\n" +
     "bags-5c30d1c3078e8b58e06832ea7c4e175d\n" +
     "bags-6020e4ef3dcea315d97f12a49473604f\n" +
-    "bags-b0496609759bbf5678b718366c92d99e\n";
+    "bags-b0496609759bbf5678b718366c92d99e\n" +
+    "bags-b37dd35fe525ebc8734f586f3afef775\n" +
+    "bags-f2384df6a796b23c739f4886ef29e5b5\n";
   /** null until first list load attempt finishes; then object map base id (lowercase) -> true */
   var sunnyMotherdayIdMap = null;
   /** true when the active id map has at least one Mother's Day pick (from network txt or in-script fallback) */
@@ -665,7 +667,7 @@
                 ? " added — loading the Mother's Day list; totals update in a moment. See Cart totals."
                 : !sunnyMotherdayFetchOk
                   ? " added — we could not load data/motherday-selected-products.txt; refresh the page. SUNNY applies only to ids in that list."
-                  : " added — add a bag listed in Mother's Day picks (tag on Bags page) for 25% off that line. See Cart totals.";
+                  : " added — add a bag with the Mother's Day Sale tag on the Bags page for 25% off that line. See Cart totals.";
           hint.textContent = PROMO_SUNNY + sunnyHintTail;
         }
       }

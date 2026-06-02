@@ -6,6 +6,7 @@
 (function () {
   var CATALOG_URL = "data/products.json";
   var STORAGE_ID = "ll_pdp_nav_id";
+  var RETURN_URL_KEY = "ll_pdp_return";
 
   function loadCatalog() {
     var c = typeof window !== "undefined" && window.__PRODUCTS_CATALOG__;
@@ -93,6 +94,22 @@
     if (!btn || btn.getAttribute("data-pdp-back-wired") === "1") return;
     btn.setAttribute("data-pdp-back-wired", "1");
     btn.addEventListener("click", function () {
+      var stored = "";
+      try {
+        stored = (sessionStorage.getItem(RETURN_URL_KEY) || "").trim();
+      } catch (e0) {}
+      if (stored) {
+        try {
+          sessionStorage.removeItem(RETURN_URL_KEY);
+        } catch (eRm) {}
+        try {
+          window.location.assign(stored);
+        } catch (eNav) {
+          window.location.href = "products.html";
+        }
+        return;
+      }
+
       var ref = "";
       try {
         ref = document.referrer || "";

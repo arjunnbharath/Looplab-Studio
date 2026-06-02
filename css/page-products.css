@@ -307,13 +307,18 @@
   left: 0.65rem;
   z-index: 1;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.3rem;
+  max-width: calc(100% - 1.25rem);
 }
 
 .pd-card-badge-group .pd-card-badge {
   position: static;
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .pd-card-badge {
@@ -336,7 +341,9 @@
 
 .pd-card-badge--motherday {
   background: #5a3d5c;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
+  font-size: 8px;
+  padding: 0.22rem 0.38rem;
 }
 
 .pd-card-media {
@@ -531,7 +538,14 @@
   .pd-card-badge-group {
     top: 0.4rem;
     left: 0.4rem;
-    gap: 0.28rem;
+    gap: 0.22rem;
+    max-width: calc(100% - 0.85rem);
+  }
+
+  .pd-card-badge--motherday {
+    font-size: 7px;
+    padding: 0.18rem 0.28rem;
+    letter-spacing: 0.03em;
   }
 
   .pd-card-badge {
