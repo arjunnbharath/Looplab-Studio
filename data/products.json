@@ -28,6 +28,60 @@
       "sku": "B51709D42F"
     },
     {
+      "id": "bags-0f17bc57314a3517f20a7b1bd9a9b790",
+      "department": "bags",
+      "brand": "LoopLab Studio",
+      "title": "Leather travel kit",
+      "meta": "Bags · Leather",
+      "priceCents": 6600,
+      "priceDisplay": "$88.00 $66.00",
+      "image": "image/bags/0f17bc57314a3517f20a7b1bd9a9b790.jpg",
+      "breadcrumb": [
+        "Home",
+        "Bags",
+        "Leather",
+        "Leather travel kit"
+      ],
+      "description": "Leather travel kit. Part of our Bags Leather collection.",
+      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
+      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
+      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "sku": "1BD9A9B790"
+    },
+    {
+      "id": "bags-1de06537884283fe754b0136504c781e",
+      "department": "bags",
+      "brand": "LoopLab Studio",
+      "title": "Slim leather briefcase",
+      "meta": "Bags · Leather",
+      "priceCents": 22800,
+      "priceDisplay": "$228.00",
+      "image": "image/bags/1de06537884283fe754b0136504c781e.jpg",
+      "breadcrumb": [
+        "Home",
+        "Bags",
+        "Leather",
+        "Slim leather briefcase"
+      ],
+      "description": "Slim leather briefcase. Part of our Bags Leather collection.",
+      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
+      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
+      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "sku": "36504C781E"
+    },
+    {
       "id": "bags-3902c592edce1989014fb27cab73c716",
       "department": "bags",
       "brand": "LoopLab Studio",
@@ -136,6 +190,87 @@
       "sku": "A49473604F"
     },
     {
+      "id": "bags-69abd4220580659fedb92af58fcd8b07",
+      "department": "bags",
+      "brand": "LoopLab Studio",
+      "title": "Canvas field tote",
+      "meta": "Bags · Canvas",
+      "priceCents": 12800,
+      "priceDisplay": "$128.00",
+      "image": "image/bags/69abd4220580659fedb92af58fcd8b07.jpg",
+      "breadcrumb": [
+        "Home",
+        "Bags",
+        "Canvas",
+        "Canvas field tote"
+      ],
+      "description": "Canvas field tote. Part of our Bags Canvas collection.",
+      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
+      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
+      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "sku": "F58FCD8B07"
+    },
+    {
+      "id": "bags-83d149648d382de5f2622362df733f99",
+      "department": "bags",
+      "brand": "LoopLab Studio",
+      "title": "Waxed canvas duffel",
+      "meta": "Bags · Canvas",
+      "priceCents": 18800,
+      "priceDisplay": "$188.00",
+      "image": "image/bags/83d149648d382de5f2622362df733f99.jpg",
+      "breadcrumb": [
+        "Home",
+        "Bags",
+        "Canvas",
+        "Waxed canvas duffel"
+      ],
+      "description": "Waxed canvas duffel. Part of our Bags Canvas collection.",
+      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
+      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
+      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "sku": "62DF733F99"
+    },
+    {
+      "id": "bags-a0e775c23a4434dae7d2da190fa0976c",
+      "department": "bags",
+      "brand": "LoopLab Studio",
+      "title": "Nylon roll-top backpack",
+      "meta": "Bags · Nylon",
+      "priceCents": 15800,
+      "priceDisplay": "$158.00",
+      "image": "image/bags/a0e775c23a4434dae7d2da190fa0976c.jpg",
+      "breadcrumb": [
+        "Home",
+        "Bags",
+        "Nylon",
+        "Nylon roll-top backpack"
+      ],
+      "description": "Nylon roll-top backpack. Part of our Bags Nylon collection.",
+      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
+      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
+      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "sku": "190FA0976C"
+    },
+    {
       "id": "bags-b0496609759bbf5678b718366c92d99e",
       "department": "bags",
       "brand": "LoopLab Studio",
@@ -190,6 +325,33 @@
       "sku": "6F3AFEF775"
     },
     {
+      "id": "bags-ca40c7eca112b2590931ab9cb0902330",
+      "department": "bags",
+      "brand": "LoopLab Studio",
+      "title": "Crossbody sling pack",
+      "meta": "Bags · Canvas",
+      "priceCents": 11800,
+      "priceDisplay": "$118.00",
+      "image": "image/bags/ca40c7eca112b2590931ab9cb0902330.jpg",
+      "breadcrumb": [
+        "Home",
+        "Bags",
+        "Canvas",
+        "Crossbody sling pack"
+      ],
+      "description": "Crossbody sling pack. Part of our Bags Canvas collection.",
+      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
+      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
+      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "sku": "9CB0902330"
+    },
+    {
       "id": "bags-f2384df6a796b23c739f4886ef29e5b5",
       "department": "bags",
       "brand": "LoopLab Studio",
@@ -217,183 +379,21 @@
       "sku": "86EF29E5B5"
     },
     {
-      "id": "bags-men-0f17bc57314a3517f20a7b1bd9a9b790",
-      "department": "bags",
-      "brand": "LoopLab Studio",
-      "title": "Leather travel kit",
-      "meta": "Men · Bags",
-      "priceCents": 6600,
-      "priceDisplay": "$88.00 $66.00",
-      "image": "image/bags_men/0f17bc57314a3517f20a7b1bd9a9b790.jpg",
-      "breadcrumb": [
-        "Home",
-        "Men",
-        "Bags",
-        "Leather travel kit"
-      ],
-      "description": "Leather travel kit. Part of our Men Bags collection.",
-      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
-      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
-      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L"
-      ],
-      "sku": "1BD9A9B790"
-    },
-    {
-      "id": "bags-men-1de06537884283fe754b0136504c781e",
-      "department": "bags",
-      "brand": "LoopLab Studio",
-      "title": "Slim leather briefcase",
-      "meta": "Men · Bags",
-      "priceCents": 22800,
-      "priceDisplay": "$228.00",
-      "image": "image/bags_men/1de06537884283fe754b0136504c781e.jpg",
-      "breadcrumb": [
-        "Home",
-        "Men",
-        "Bags",
-        "Slim leather briefcase"
-      ],
-      "description": "Slim leather briefcase. Part of our Men Bags collection.",
-      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
-      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
-      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L"
-      ],
-      "sku": "36504C781E"
-    },
-    {
-      "id": "bags-men-69abd4220580659fedb92af58fcd8b07",
-      "department": "bags",
-      "brand": "LoopLab Studio",
-      "title": "Canvas field tote",
-      "meta": "Men · Bags",
-      "priceCents": 12800,
-      "priceDisplay": "$128.00",
-      "image": "image/bags_men/69abd4220580659fedb92af58fcd8b07.jpg",
-      "breadcrumb": [
-        "Home",
-        "Men",
-        "Bags",
-        "Canvas field tote"
-      ],
-      "description": "Canvas field tote. Part of our Men Bags collection.",
-      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
-      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
-      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L"
-      ],
-      "sku": "F58FCD8B07"
-    },
-    {
-      "id": "bags-men-83d149648d382de5f2622362df733f99",
-      "department": "bags",
-      "brand": "LoopLab Studio",
-      "title": "Waxed canvas duffel",
-      "meta": "Men · Bags",
-      "priceCents": 18800,
-      "priceDisplay": "$188.00",
-      "image": "image/bags_men/83d149648d382de5f2622362df733f99.jpg",
-      "breadcrumb": [
-        "Home",
-        "Men",
-        "Bags",
-        "Waxed canvas duffel"
-      ],
-      "description": "Waxed canvas duffel. Part of our Men Bags collection.",
-      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
-      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
-      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L"
-      ],
-      "sku": "62DF733F99"
-    },
-    {
-      "id": "bags-men-a0e775c23a4434dae7d2da190fa0976c",
-      "department": "bags",
-      "brand": "LoopLab Studio",
-      "title": "Nylon roll-top backpack",
-      "meta": "Men · Bags",
-      "priceCents": 15800,
-      "priceDisplay": "$158.00",
-      "image": "image/bags_men/a0e775c23a4434dae7d2da190fa0976c.jpg",
-      "breadcrumb": [
-        "Home",
-        "Men",
-        "Bags",
-        "Nylon roll-top backpack"
-      ],
-      "description": "Nylon roll-top backpack. Part of our Men Bags collection.",
-      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
-      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
-      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L"
-      ],
-      "sku": "190FA0976C"
-    },
-    {
-      "id": "bags-men-ca40c7eca112b2590931ab9cb0902330",
-      "department": "bags",
-      "brand": "LoopLab Studio",
-      "title": "Crossbody sling pack",
-      "meta": "Men · Bags",
-      "priceCents": 11800,
-      "priceDisplay": "$118.00",
-      "image": "image/bags_men/ca40c7eca112b2590931ab9cb0902330.jpg",
-      "breadcrumb": [
-        "Home",
-        "Men",
-        "Bags",
-        "Crossbody sling pack"
-      ],
-      "description": "Crossbody sling pack. Part of our Men Bags collection.",
-      "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
-      "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
-      "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L"
-      ],
-      "sku": "9CB0902330"
-    },
-    {
-      "id": "bags-men-fca1a1ed406fa9c0b0fbbc99abe0d7a1",
+      "id": "bags-fca1a1ed406fa9c0b0fbbc99abe0d7a1",
       "department": "bags",
       "brand": "LoopLab Studio",
       "title": "Leather messenger bag",
-      "meta": "Men · Bags",
+      "meta": "Bags · Leather",
       "priceCents": 19800,
       "priceDisplay": "$198.00",
-      "image": "image/bags_men/fca1a1ed406fa9c0b0fbbc99abe0d7a1.jpg",
+      "image": "image/bags/fca1a1ed406fa9c0b0fbbc99abe0d7a1.jpg",
       "breadcrumb": [
         "Home",
-        "Men",
         "Bags",
+        "Leather",
         "Leather messenger bag"
       ],
-      "description": "Leather messenger bag. Part of our Men Bags collection.",
+      "description": "Leather messenger bag. Part of our Bags Leather collection.",
       "shipping": "Standard shipping (3–5 business days) is complimentary on qualifying orders. Express options available at checkout.",
       "returns": "Returns accepted within 30 days of delivery on unworn merchandise with tags attached. Final sale items are noted at checkout.",
       "designer": "LoopLab Studio partners with makers who prioritize responsible materials and timeless construction. Each piece is designed to last beyond a single season.",
@@ -3703,20 +3703,20 @@
     ],
     "bags": [
       "bags-03403961772aa7ea137f6bb51709d42f",
+      "bags-0f17bc57314a3517f20a7b1bd9a9b790",
+      "bags-1de06537884283fe754b0136504c781e",
       "bags-3902c592edce1989014fb27cab73c716",
       "bags-396ce01cb633625a3fa9487949f323d6",
       "bags-5c30d1c3078e8b58e06832ea7c4e175d",
       "bags-6020e4ef3dcea315d97f12a49473604f",
+      "bags-69abd4220580659fedb92af58fcd8b07",
+      "bags-83d149648d382de5f2622362df733f99",
+      "bags-a0e775c23a4434dae7d2da190fa0976c",
       "bags-b0496609759bbf5678b718366c92d99e",
       "bags-b37dd35fe525ebc8734f586f3afef775",
+      "bags-ca40c7eca112b2590931ab9cb0902330",
       "bags-f2384df6a796b23c739f4886ef29e5b5",
-      "bags-men-0f17bc57314a3517f20a7b1bd9a9b790",
-      "bags-men-1de06537884283fe754b0136504c781e",
-      "bags-men-69abd4220580659fedb92af58fcd8b07",
-      "bags-men-83d149648d382de5f2622362df733f99",
-      "bags-men-a0e775c23a4434dae7d2da190fa0976c",
-      "bags-men-ca40c7eca112b2590931ab9cb0902330",
-      "bags-men-fca1a1ed406fa9c0b0fbbc99abe0d7a1"
+      "bags-fca1a1ed406fa9c0b0fbbc99abe0d7a1"
     ],
     "other": []
   }

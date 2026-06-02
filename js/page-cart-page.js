@@ -11,8 +11,22 @@
   var LEGACY_PROMO_STORAGE_KEY = "looplab_cart_promo_v1";
   /** 50% off entire cart subtotal */
   var PROMO_50 = "50LESS";
-  /** 25% off bag items only (see isBagLineItem) */
+  /** 25% off selected Bags lines (see data/motherday-selected-products.txt + isSunnyEligibleBag) */
   var PROMO_SUNNY = "SUNNY";
+  /**
+   * Mirror non-# lines in data/motherday-selected-products.txt — used if fetch fails (e.g. file://) or the txt has no product ids.
+   */
+  var MOTHERDAY_SUNNY_IDS_FALLBACK =
+    "bags-03403961772aa7ea137f6bb51709d42f\n" +
+    "bags-3902c592edce1989014fb27cab73c716\n" +
+    "bags-396ce01cb633625a3fa9487949f323d6\n" +
+    "bags-5c30d1c3078e8b58e06832ea7c4e175d\n" +
+    "bags-6020e4ef3dcea315d97f12a49473604f\n" +
+    "bags-b0496609759bbf5678b718366c92d99e\n";
+  /** null until first list load attempt finishes; then object map base id (lowercase) -> true */
+  var sunnyMotherdayIdMap = null;
+  /** true when the active id map has at least one Mother's Day pick (from network txt or in-script fallback) */
+  var sunnyMotherdayFetchOk = false;
   var COUPON_APPLY_LABEL_DEFAULT = "Apply";
   var COUPON_HINT_DEFAULT =
     "Have a coupon? Enter it below and we will apply it to this bag.";
@@ -21,26 +35,76 @@
     return norm === PROMO_50 || norm === PROMO_SUNNY;
   }
 
-  /** Line counts toward SUNNY bag discount */
-  function isBagLineItem(item) {
-    if (!item) return false;
-    var id = String(item.id || "");
-    if (id.lastIndexOf("bags-", 0) === 0) return true;
-    if (id.lastIndexOf("bags-men-", 0) === 0) return true;
-    var img = String(item.image || "").toLowerCase();
-    if (img.indexOf("/bags/") !== -1 || img.indexOf("\\bags\\") !== -1)
-      return true;
-    if (img.indexOf("/bags_men/") !== -1 || img.indexOf("\\bags_men\\") !== -1)
-      return true;
-    if (img.indexOf("/bages-men/") !== -1 || img.indexOf("\\bages-men\\") !== -1)
-      return true;
-    var meta = String(item.meta || "");
-    return /\bBags\b/i.test(meta);
+  function baseCartLineId(id) {
+    var s = String(id || "");
+    var i = s.indexOf("::");
+    if (i !== -1) return s.slice(0, i);
+    return s;
   }
 
-  function bagsSubtotalCents(items) {
+  function parseMotherdayIdList(text) {
+    var map = {};
+    var body = String(text || "").replace(/^\uFEFF/, "");
+    body.split(/\r?\n/).forEach(function (line) {
+      var t = line.trim();
+      if (!t || t.charAt(0) === "#") return;
+      map[t.toLowerCase()] = true;
+    });
+    return map;
+  }
+
+  function motherdayListUrl() {
+    try {
+      return new URL(
+        "data/motherday-selected-products.txt",
+        window.location.href
+      ).href;
+    } catch (e) {
+      return "data/motherday-selected-products.txt";
+    }
+  }
+
+  function applyMotherdayMapFromText(txt) {
+    sunnyMotherdayIdMap = parseMotherdayIdList(txt);
+    sunnyMotherdayFetchOk = Object.keys(sunnyMotherdayIdMap).length > 0;
+  }
+
+  function loadMotherdaySunnyList() {
+    return fetch(motherdayListUrl(), { credentials: "same-origin" })
+      .then(function (res) {
+        if (!res.ok) throw new Error(String(res.status));
+        return res.text();
+      })
+      .then(function (txt) {
+        applyMotherdayMapFromText(txt);
+        if (!sunnyMotherdayFetchOk) {
+          applyMotherdayMapFromText(MOTHERDAY_SUNNY_IDS_FALLBACK);
+        }
+      })
+      .catch(function () {
+        applyMotherdayMapFromText(MOTHERDAY_SUNNY_IDS_FALLBACK);
+      });
+  }
+
+  function sunnyPromoLabel() {
+    if (sunnyMotherdayIdMap === null) return "SUNNY — 25% off Mother's Day picks";
+    if (!sunnyMotherdayFetchOk) return "SUNNY — Mother's Day list unavailable";
+    return "SUNNY — 25% off Mother's Day picks";
+  }
+
+  /**
+   * SUNNY (25%) applies only to product base ids in data/motherday-selected-products.txt
+   * (or the mirrored MOTHERDAY_SUNNY_IDS_FALLBACK if the file cannot be loaded).
+   */
+  function isSunnyEligibleBag(item) {
+    if (!item) return false;
+    if (sunnyMotherdayIdMap === null || !sunnyMotherdayFetchOk) return false;
+    return !!sunnyMotherdayIdMap[baseCartLineId(item.id).toLowerCase()];
+  }
+
+  function sunnyEligibleSubtotalCents(items) {
     return items.reduce(function (acc, x) {
-      if (!isBagLineItem(x)) return acc;
+      if (!isSunnyEligibleBag(x)) return acc;
       return acc + (x.priceCents || 0) * (x.qty || 1);
     }, 0);
   }
@@ -106,7 +170,7 @@
   function computeDiscountLines(subtotalCents, items, promos) {
     var lines = [];
     if (!items.length || !promos.length) return lines;
-    var bagSub = bagsSubtotalCents(items);
+    var bagSub = sunnyEligibleSubtotalCents(items);
     if (promos.indexOf(PROMO_50) !== -1) {
       lines.push({
         code: PROMO_50,
@@ -117,7 +181,7 @@
     if (promos.indexOf(PROMO_SUNNY) !== -1) {
       lines.push({
         code: PROMO_SUNNY,
-        label: "SUNNY — 25% off bag items",
+        label: sunnyPromoLabel(),
         cents: Math.round(bagSub * 0.25),
       });
     }
@@ -567,9 +631,9 @@
           hint.textContent =
             "Invalid code — not recognized. Try " +
             PROMO_50 +
-            " or " +
+            " (order) or " +
             PROMO_SUNNY +
-            ".";
+            " (Mother's Day bag picks).";
         return;
       }
 
@@ -588,17 +652,21 @@
       if (input) input.value = "";
       setCouponErrorState(false);
       if (hint) {
-        var bagC = bagsSubtotalCents(items);
+        var sunnySub = sunnyEligibleSubtotalCents(items);
         if (norm === PROMO_50) {
           hint.textContent =
             PROMO_50 +
             " added — 50% off your order subtotal. See Cart totals for each promo line.";
         } else {
-          hint.textContent =
-            PROMO_SUNNY +
-            (bagC > 0
-              ? " added — 25% off bag items. See Cart totals for each promo line."
-              : " added — 25% off bag-tagged lines when you add them. See Cart totals.");
+          var sunnyHintTail =
+            sunnySub > 0
+              ? " added — 25% off Mother's Day pick lines in your order. See Cart totals."
+              : sunnyMotherdayIdMap === null
+                ? " added — loading the Mother's Day list; totals update in a moment. See Cart totals."
+                : !sunnyMotherdayFetchOk
+                  ? " added — we could not load data/motherday-selected-products.txt; refresh the page. SUNNY applies only to ids in that list."
+                  : " added — add a bag listed in Mother's Day picks (tag on Bags page) for 25% off that line. See Cart totals.";
+          hint.textContent = PROMO_SUNNY + sunnyHintTail;
         }
       }
       renderCartPage();
@@ -615,11 +683,15 @@
       initProductGrids();
     });
 
-    renderCartPage();
     bindCartListDelegation();
     wireUpdateCartButton();
     wireCouponApply();
     wireAppliedPromoRemove();
+
+    renderCartPage();
+    loadMotherdaySunnyList().finally(function () {
+      renderCartPage();
+    });
   }
 
   if (document.readyState === "loading") {

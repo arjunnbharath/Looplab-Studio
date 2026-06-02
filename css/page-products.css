@@ -301,6 +301,21 @@
   display: block;
 }
 
+.pd-card-badge-group {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.pd-card-badge-group .pd-card-badge {
+  position: static;
+}
+
 .pd-card-badge {
   position: absolute;
   top: 0.65rem;
@@ -317,6 +332,11 @@
 
 .pd-card-badge--sale {
   background: #8b2942;
+}
+
+.pd-card-badge--motherday {
+  background: #5a3d5c;
+  letter-spacing: 0.06em;
 }
 
 .pd-card-media {
@@ -506,6 +526,12 @@
 
   .pd-card-price {
     font-size: 0.7rem;
+  }
+
+  .pd-card-badge-group {
+    top: 0.4rem;
+    left: 0.4rem;
+    gap: 0.28rem;
   }
 
   .pd-card-badge {

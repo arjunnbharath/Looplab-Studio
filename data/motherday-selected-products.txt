@@ -1,0 +1,11 @@
+# Mother's Day — bags eligible for promo code SUNNY (25% off those lines only).
+# Keep in sync with the Mother's Day tag on bags.html and MOTHERDAY_SUNNY_IDS_FALLBACK in js/page-cart-page.js.
+# One catalog product id per line (base id, before ::size if any). Lines starting with # are ignored.
+# Edit this file to change which bags qualify; then refresh the cart page.
+
+bags-03403961772aa7ea137f6bb51709d42f
+bags-3902c592edce1989014fb27cab73c716
+bags-396ce01cb633625a3fa9487949f323d6
+bags-5c30d1c3078e8b58e06832ea7c4e175d
+bags-6020e4ef3dcea315d97f12a49473604f
+bags-b0496609759bbf5678b718366c92d99e
