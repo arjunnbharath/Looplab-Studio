@@ -148,19 +148,30 @@
     return items;
   }
 
+  function isFreeGiftLine(x) {
+    return !!(
+      x &&
+      (x.freeGift === true || String(x.id) === "ll-motherday-gift")
+    );
+  }
+
   function totalQty() {
     return load().reduce(function (acc, x) {
+      if (isFreeGiftLine(x)) return acc;
       return acc + (x.qty || 1);
     }, 0);
   }
 
   function totalCents() {
     return load().reduce(function (acc, x) {
+      if (isFreeGiftLine(x)) return acc;
       return acc + (x.priceCents || 0) * (x.qty || 1);
     }, 0);
   }
 
   global.LLCart = {
+    FREE_GIFT_LINE_ID: "ll-motherday-gift",
+    isFreeGiftLine: isFreeGiftLine,
     STORAGE_KEY: STORAGE_KEY,
     load: load,
     save: save,

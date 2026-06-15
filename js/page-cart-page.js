@@ -6,6 +6,10 @@
   if (typeof window === "undefined" || !window.LLCart) return;
 
   var LLCart = window.LLCart;
+  var GIFT_LINE_ID = LLCart.FREE_GIFT_LINE_ID || "ll-motherday-gift";
+  /** Put your photo at image/gift/gift.jpg or change this path. */
+  var GIFT_IMAGE_URL = "image/gift/gift.jpg";
+  var FREEGIFT_DECLINED_KEY = "ll_freegift_declined_v1";
   var PROMOS_STORAGE_KEY = "looplab_cart_promos_v1";
   /** Legacy single-code key — migrated once into PROMOS_STORAGE_KEY */
   var LEGACY_PROMO_STORAGE_KEY = "looplab_cart_promo_v1";
@@ -29,12 +33,18 @@
   var sunnyMotherdayIdMap = null;
   /** true when the active id map has at least one Mother's Day pick (from network txt or in-script fallback) */
   var sunnyMotherdayFetchOk = false;
+  /** Auto-applied with Mother's Day pick bags — blocks other promo codes while active */
+  var PROMO_FREEGIFT = "FREEGIFT";
   var COUPON_APPLY_LABEL_DEFAULT = "Apply";
   var COUPON_HINT_DEFAULT =
     "Have a coupon? Enter it below and we will apply it to this bag.";
 
   function isValidPromo(norm) {
-    return norm === PROMO_50 || norm === PROMO_SUNNY;
+    return (
+      norm === PROMO_50 ||
+      norm === PROMO_SUNNY ||
+      norm === PROMO_FREEGIFT
+    );
   }
 
   function baseCartLineId(id) {
@@ -111,13 +121,107 @@
     }, 0);
   }
 
+  function isFreeGiftDeclined() {
+    try {
+      return sessionStorage.getItem(FREEGIFT_DECLINED_KEY) === "1";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function setFreeGiftDeclined(on) {
+    try {
+      if (on) sessionStorage.setItem(FREEGIFT_DECLINED_KEY, "1");
+      else sessionStorage.removeItem(FREEGIFT_DECLINED_KEY);
+    } catch (e2) {
+      /* ignore */
+    }
+  }
+
+  function cartWithoutGift(items) {
+    return (items || []).filter(function (x) {
+      return String(x.id) !== GIFT_LINE_ID && !x.freeGift;
+    });
+  }
+
+  function hasEligibleMotherdayPick(items) {
+    return cartWithoutGift(items).some(isSunnyEligibleBag);
+  }
+
+  function motherDayGiftLineItem() {
+    return {
+      id: GIFT_LINE_ID,
+      title: "Complimentary gift",
+      meta: "Mother's Day · With eligible bag",
+      image: GIFT_IMAGE_URL,
+      priceCents: 0,
+      qty: 1,
+      freeGift: true,
+    };
+  }
+
+  var _giftReconcileBusy = false;
+  function reconcileMotherdayGiftAndFreeGift() {
+    if (_giftReconcileBusy) return;
+    _giftReconcileBusy = true;
+    try {
+      var items = LLCart.load();
+      var rest = cartWithoutGift(items);
+      var hasGift = items.some(function (x) {
+        return String(x.id) === GIFT_LINE_ID;
+      });
+      var eligible = hasEligibleMotherdayPick(items);
+      var promos = getAppliedPromos();
+
+      if (eligible) {
+        if (isFreeGiftDeclined()) {
+          if (hasGift) {
+            LLCart.save(rest);
+          }
+          if (promos.indexOf(PROMO_FREEGIFT) !== -1) {
+            setAppliedPromos(
+              promos.filter(function (c) {
+                return c !== PROMO_FREEGIFT;
+              })
+            );
+          }
+          return;
+        }
+        var onlyFree =
+          promos.length === 1 && promos[0] === PROMO_FREEGIFT;
+        if (!onlyFree) {
+          setAppliedPromos([PROMO_FREEGIFT]);
+        }
+        if (!hasGift) {
+          LLCart.save(rest.concat([motherDayGiftLineItem()]));
+        }
+        return;
+      }
+
+      setFreeGiftDeclined(false);
+
+      if (hasGift) {
+        LLCart.save(rest);
+      }
+      if (promos.indexOf(PROMO_FREEGIFT) !== -1) {
+        setAppliedPromos(
+          promos.filter(function (c) {
+            return c !== PROMO_FREEGIFT;
+          })
+        );
+      }
+    } finally {
+      _giftReconcileBusy = false;
+    }
+  }
+
   function migrateLegacyPromoIfNeeded() {
     try {
       var legacy = sessionStorage.getItem(LEGACY_PROMO_STORAGE_KEY);
       if (!legacy) return;
       var n = normalizePromoCode(legacy);
       sessionStorage.removeItem(LEGACY_PROMO_STORAGE_KEY);
-      if (isValidPromo(n)) setAppliedPromos([n]);
+      if (n === PROMO_50 || n === PROMO_SUNNY) setAppliedPromos([n]);
     } catch (e) {
       /* ignore */
     }
@@ -216,14 +320,22 @@
       li.className = "jc-coupon-applied-item";
       var text = document.createElement("span");
       text.className = "jc-coupon-applied-text";
-      text.textContent = code + " promo code applied";
+      text.textContent =
+        code === PROMO_FREEGIFT
+          ? "FREEGIFT promocode applied"
+          : code + " promo code applied";
+      li.appendChild(text);
       var rm = document.createElement("button");
       rm.type = "button";
       rm.className = "jc-coupon-remove-promo";
       rm.setAttribute("data-remove-promo", code);
-      rm.setAttribute("aria-label", "Remove " + code + " promo code");
+      rm.setAttribute(
+        "aria-label",
+        code === PROMO_FREEGIFT
+          ? "Remove FREEGIFT and complimentary gift"
+          : "Remove " + code + " promo code"
+      );
       rm.textContent = "Remove";
-      li.appendChild(text);
       li.appendChild(rm);
       ul.appendChild(li);
     });
@@ -363,20 +475,34 @@
   }
 
   function buildCartRow(item) {
+    var isGift =
+      LLCart.isFreeGiftLine && LLCart.isFreeGiftLine(item)
+        ? true
+        : String(item.id) === GIFT_LINE_ID || item.freeGift === true;
+
     var li = document.createElement("li");
-    li.className = "jc-cart-row";
+    li.className = "jc-cart-row" + (isGift ? " jc-cart-row--free-gift" : "");
     li.setAttribute("data-cart-line-id", item.id);
 
-    var rm = document.createElement("button");
-    rm.type = "button";
-    rm.className = "jc-cart-row-remove";
-    rm.setAttribute("aria-label", "Remove " + item.title);
-    rm.appendChild(document.createTextNode("\u00d7"));
+    var rm = null;
+    var leadSlot = null;
+    if (!isGift) {
+      rm = document.createElement("button");
+      rm.type = "button";
+      rm.className = "jc-cart-row-remove";
+      rm.setAttribute("aria-label", "Remove " + item.title);
+      rm.appendChild(document.createTextNode("\u00d7"));
+      leadSlot = rm;
+    } else {
+      leadSlot = document.createElement("span");
+      leadSlot.className = "jc-cart-row-remove-placeholder";
+      leadSlot.setAttribute("aria-hidden", "true");
+    }
 
     var img = document.createElement("img");
     img.className = "jc-cart-row-img";
     img.src = item.image || "";
-    img.alt = "";
+    img.alt = isGift ? "Complimentary gift" : "";
     img.width = 88;
     img.height = 88;
     img.loading = "lazy";
@@ -391,58 +517,67 @@
     var meta = document.createElement("p");
     meta.className = "jc-cart-item-meta";
     var mq = item.qty || 1;
-    meta.appendChild(
-      document.createTextNode(
-        (item.meta ? item.meta + " · " : "") + "Qty "
-      )
-    );
-    var mqSpan = document.createElement("span");
-    mqSpan.setAttribute("data-qty-display", "1");
-    mqSpan.textContent = String(mq);
-    meta.appendChild(mqSpan);
+    if (isGift) {
+      meta.textContent = item.meta || "Complimentary gift · Qty 1";
+    } else {
+      meta.appendChild(
+        document.createTextNode(
+          (item.meta ? item.meta + " · " : "") + "Qty "
+        )
+      );
+      var mqSpan = document.createElement("span");
+      mqSpan.setAttribute("data-qty-display", "1");
+      mqSpan.textContent = String(mq);
+      meta.appendChild(mqSpan);
+    }
 
-    var qtyWrap = document.createElement("div");
-    qtyWrap.className = "jc-cart-qty";
-    qtyWrap.setAttribute("data-qty-wrap", "");
-    qtyWrap.setAttribute("data-line-id", item.id);
+    var qtyWrap = null;
+    if (!isGift) {
+      qtyWrap = document.createElement("div");
+      qtyWrap.className = "jc-cart-qty";
+      qtyWrap.setAttribute("data-qty-wrap", "");
+      qtyWrap.setAttribute("data-line-id", item.id);
 
-    var down = document.createElement("button");
-    down.type = "button";
-    down.setAttribute("data-qty-down", "");
-    down.setAttribute("aria-label", "Decrease quantity");
-    down.appendChild(document.createTextNode("\u2212"));
+      var down = document.createElement("button");
+      down.type = "button";
+      down.setAttribute("data-qty-down", "");
+      down.setAttribute("aria-label", "Decrease quantity");
+      down.appendChild(document.createTextNode("\u2212"));
 
-    var val = document.createElement("span");
-    val.setAttribute("data-qty-val", "");
-    val.textContent = String(mq);
+      var val = document.createElement("span");
+      val.setAttribute("data-qty-val", "");
+      val.textContent = String(mq);
 
-    var up = document.createElement("button");
-    up.type = "button";
-    up.setAttribute("data-qty-up", "");
-    up.setAttribute("aria-label", "Increase quantity");
-    up.appendChild(document.createTextNode("+"));
+      var up = document.createElement("button");
+      up.type = "button";
+      up.setAttribute("data-qty-up", "");
+      up.setAttribute("aria-label", "Increase quantity");
+      up.appendChild(document.createTextNode("+"));
 
-    qtyWrap.appendChild(down);
-    qtyWrap.appendChild(val);
-    qtyWrap.appendChild(up);
+      qtyWrap.appendChild(down);
+      qtyWrap.appendChild(val);
+      qtyWrap.appendChild(up);
+    }
 
     body.appendChild(h2);
     body.appendChild(meta);
-    body.appendChild(qtyWrap);
+    if (qtyWrap) body.appendChild(qtyWrap);
 
     var lineTotalCents = (item.priceCents || 0) * mq;
     var tot = document.createElement("div");
     tot.className = "jc-cart-row-total";
     var spanTot = document.createElement("span");
     spanTot.className = "jc-cart-line-total";
-    spanTot.textContent = LLCart.fmt(lineTotalCents);
+    spanTot.textContent = isGift ? "$0.00" : LLCart.fmt(lineTotalCents);
     var spanUnit = document.createElement("span");
     spanUnit.className = "jc-cart-line-unit";
-    spanUnit.textContent = LLCart.fmt(item.priceCents || 0) + " each";
+    spanUnit.textContent = isGift
+      ? "Included"
+      : LLCart.fmt(item.priceCents || 0) + " each";
     tot.appendChild(spanTot);
     tot.appendChild(spanUnit);
 
-    li.appendChild(rm);
+    if (leadSlot) li.appendChild(leadSlot);
     li.appendChild(img);
     li.appendChild(body);
     li.appendChild(tot);
@@ -451,6 +586,7 @@
   }
 
   function renderCartPage() {
+    reconcileMotherdayGiftAndFreeGift();
     var root = document.getElementById("jc-cart-list-root");
     if (!root) return;
 
@@ -477,6 +613,7 @@
 
     if (!items.length) {
       setAppliedPromos([]);
+      setFreeGiftDeclined(false);
       promos = [];
       var hintEmpty = document.getElementById("jc-coupon-hint");
       if (hintEmpty) hintEmpty.textContent = COUPON_HINT_DEFAULT;
@@ -536,6 +673,7 @@
       if (!row) return;
       var id = row.getAttribute("data-cart-line-id");
       if (!id) return;
+      if (String(id) === GIFT_LINE_ID) return;
 
       if (ev.target.closest(".jc-cart-row-remove")) {
         LLCart.remove(id);
@@ -589,14 +727,21 @@
       if (!btn) return;
       var code = btn.getAttribute("data-remove-promo");
       if (!code) return;
+      var normRm = normalizePromoCode(code);
+      if (normRm === PROMO_FREEGIFT) {
+        setFreeGiftDeclined(true);
+      }
       removePromo(code);
       var hint = document.getElementById("jc-coupon-hint");
       var remaining = getAppliedPromos();
       if (hint) {
-        if (remaining.length) {
+        if (normRm === PROMO_FREEGIFT) {
+          hint.textContent =
+            "FREEGIFT removed — the complimentary gift was removed from your bag. You can use other promo codes. Add a Mother's Day pick again later to get the gift offer back.";
+        } else if (remaining.length) {
           hint.textContent =
             "Removed " +
-            normalizePromoCode(code) +
+            normRm +
             ". Other promos stay on your order.";
         } else {
           hint.textContent = COUPON_HINT_DEFAULT;
@@ -617,6 +762,7 @@
       var code = input && input.value.trim();
       if (!code) return;
 
+      reconcileMotherdayGiftAndFreeGift();
       var items = LLCart.load();
       if (!items.length) {
         setCouponErrorState(false);
@@ -631,11 +777,11 @@
         setCouponErrorState(true);
         if (hint)
           hint.textContent =
-            "Invalid code — not recognized. Try " +
+            "Invalid code — try " +
             PROMO_50 +
-            " (order) or " +
+            " (order), " +
             PROMO_SUNNY +
-            " (Mother's Day bag picks).";
+            " (Mother's Day picks), or note that FREEGIFT applies automatically with a qualifying Mother's Day bag.";
         return;
       }
 
@@ -646,6 +792,34 @@
           hint.textContent =
             norm +
             " is already applied. Enter the other code if you have not added it yet.";
+        if (input) input.value = "";
+        return;
+      }
+
+      if (norm === PROMO_FREEGIFT) {
+        setCouponErrorState(false);
+        if (hint) {
+          if (isFreeGiftDeclined() && hasEligibleMotherdayPick(items)) {
+            hint.textContent =
+              "You removed FREEGIFT for this order while a Mother's Day pick is still in your bag. Remove those picks and add one again to get the complimentary gift and FREEGIFT back.";
+          } else if (hasEligibleMotherdayPick(items)) {
+            hint.textContent =
+              "FREEGIFT is already applied with your Mother's Day pick.";
+          } else {
+            hint.textContent =
+              "FREEGIFT is added automatically when you add a Mother's Day Sale bag from the Bags page.";
+          }
+        }
+        if (input) input.value = "";
+        return;
+      }
+
+      if (promos.indexOf(PROMO_FREEGIFT) !== -1) {
+        setCouponErrorState(true);
+        if (hint)
+          hint.textContent =
+            "A promo is already applied.";
+        if (input) input.value = "";
         return;
       }
 
@@ -654,12 +828,12 @@
       if (input) input.value = "";
       setCouponErrorState(false);
       if (hint) {
-        var sunnySub = sunnyEligibleSubtotalCents(items);
         if (norm === PROMO_50) {
           hint.textContent =
             PROMO_50 +
             " added — 50% off your order subtotal. See Cart totals for each promo line.";
-        } else {
+        } else if (norm === PROMO_SUNNY) {
+          var sunnySub = sunnyEligibleSubtotalCents(items);
           var sunnyHintTail =
             sunnySub > 0
               ? " added — 25% off Mother's Day pick lines in your order. See Cart totals."
@@ -679,7 +853,11 @@
     syncBagBadge();
     initProductGrids();
     document.addEventListener("click", onAddClick);
-    document.addEventListener("ll-cart-change", syncBagBadge);
+    document.addEventListener("ll-cart-change", function () {
+      reconcileMotherdayGiftAndFreeGift();
+      syncBagBadge();
+      if (document.getElementById("jc-cart-list-root")) renderCartPage();
+    });
     document.addEventListener("page-nav-loaded", function () {
       syncBagBadge();
       initProductGrids();
