@@ -96,14 +96,14 @@ const chipsReplace = `<ul class="pd-chips">
           <li><a href="women.html">Women</a></li>
           <li><a href="men.html">Men</a></li>
           <li><a href="kids.html">Kids</a></li>
-          <li><a href="linen.html">Linen</a></li>
+          <li><a href="linen-landing.html">Linen</a></li>
           <li><a href="cashmere.html">Cashmere</a></li>
           <li><a href="petites.html">Petites</a></li>
           <li><a href="sale.html">Sale</a></li>
         </ul>`;
 if (products.includes(chipsNeedle)) {
   products = products.replace(chipsNeedle, chipsReplace);
-} else if (!products.includes('href="linen.html"')) {
+} else if (!products.includes('href="linen-landing.html"')) {
   console.warn("Chip block pattern not found; skipping toolbar update");
 }
 

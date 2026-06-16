@@ -324,6 +324,24 @@ a.jc-bag-btn {
   padding: 1.5rem clamp(1rem, 2.5vw, 2.25rem) 1.65rem clamp(2.75rem, 8vw, 6.5rem);
 }
 
+.jc-mega-linen-experience {
+  margin: 0 0 0.85rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #eaeaea;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.jc-mega-linen-experience a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.jc-mega-linen-experience a:hover {
+  opacity: 0.8;
+}
+
 /* Product shortcut rail (every mega) — thumbnails link to full catalog */
 .jc-mega-products {
   margin-top: 0.35rem;
