@@ -8,7 +8,13 @@ Reusable header + mega menus live in three files:
 | `partials/page-nav.html` | Header markup only (no `<html>` / `<body>`). |
 | `js/page-nav-loader.js` | Fetches the partial into `#jc-site-nav-mount` on `DOMContentLoaded`. If `fetch` fails, uses `window.__PAGE_NAV_FALLBACK__` from **`js/page-nav-html-bundled.js`** (or a `<template id="jc-nav-inline">`). |
 | `js/page-nav-html-bundled.js` | Optional: embeds the same markup as `partials/page-nav.html` as a string so **`file://`** pages still get the nav. Regenerate after editing the partial (see below). |
-| `js/page-nav-mobile.js` | Hamburger + slide-out drawer + accordion megas at **≤1100px** (include whenever the header is on the page). |
+| `js/page-nav-mobile.js` | Hamburger + slide-out drawer + accordion megas at **≤1100px**; collapsible search; loyalty points URL sync (include whenever the header is on the page). |
+
+## Loyalty points (demo)
+
+With any non-empty **`emailid`** query parameter, the header chip shows **500** pts; otherwise **2,400** pts.
+
+Example: `index.html?emailid=arjun%40gmail.com` (use `%40` for `@` in URLs).
 
 ## Use on any page
 

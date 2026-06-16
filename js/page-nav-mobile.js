@@ -213,4 +213,31 @@
   } else {
     disableMegaSubNavLinks();
   }
+
+  /**
+   * Loyalty chip: `?emailid=…` (any non-empty value) → show 500 pts; otherwise default 2,400 pts demo.
+   */
+  function formatLoyaltyPoints(n) {
+    try {
+      return Number(n).toLocaleString("en-US");
+    } catch (e) {
+      return String(n);
+    }
+  }
+
+  function syncLoyaltyPointsFromUrl() {
+    var el = document.querySelector("[data-loyalty-points]");
+    if (!el) return;
+    var q = new URLSearchParams(window.location.search || "");
+    var emailId = q.get("emailid");
+    if (emailId != null && String(emailId).trim() !== "") {
+      el.textContent = formatLoyaltyPoints(500);
+    } else {
+      el.textContent = formatLoyaltyPoints(2400);
+    }
+  }
+
+  document.addEventListener("page-nav-loaded", syncLoyaltyPointsFromUrl);
+  document.addEventListener("DOMContentLoaded", syncLoyaltyPointsFromUrl);
+  window.addEventListener("popstate", syncLoyaltyPointsFromUrl);
 })();
