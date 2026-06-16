@@ -518,7 +518,7 @@
     meta.className = "jc-cart-item-meta";
     var mq = item.qty || 1;
     if (isGift) {
-      meta.textContent = item.meta || "Complimentary gift · Qty 1";
+      meta.textContent = item.meta || "Qty 1 · Included with qualifying bag";
     } else {
       meta.appendChild(
         document.createTextNode(

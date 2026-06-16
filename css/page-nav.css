@@ -137,30 +137,103 @@
   min-width: 0;
 }
 
+/* Collapsible search: icon first, expands to show field */
+.jc-search-expand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: min(380px, 100%);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: max-width 0.32s var(--jc-nav-transition), width 0.32s var(--jc-nav-transition),
+    background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.jc-search-expand:not(.jc-search-expand--open) {
+  max-width: 40px;
+  width: 40px;
+  overflow: hidden;
+}
+
+.jc-search-expand.jc-search-expand--open {
+  background: var(--jc-search-bg);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.1);
+  width: clamp(200px, 28vw, 380px);
+  max-width: 380px;
+}
+
+.jc-search-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--jc-black);
+  cursor: pointer;
+  border-radius: 999px;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.jc-search-toggle:hover {
+  opacity: 0.72;
+}
+
+.jc-search-expand.jc-search-expand--open .jc-search-toggle {
+  opacity: 0.55;
+}
+
+.jc-search-expand.jc-search-expand--open .jc-search-toggle:hover {
+  opacity: 0.85;
+}
+
+.jc-search-toggle svg {
+  display: block;
+}
+
 .jc-search {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   flex: 1 1 auto;
-  width: clamp(180px, 26vw, 380px);
-  max-width: 380px;
-  min-width: 140px;
-  background: var(--jc-search-bg);
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0.38rem 0.85rem;
+  background: transparent;
   border-radius: 999px;
-  padding: 0.42rem 1rem 0.42rem 0.85rem;
-  border: 1px solid transparent;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  border: 0;
+  transition: opacity 0.22s ease, flex 0.22s ease;
 }
 
-.jc-search:focus-within {
+.jc-search-expand:not(.jc-search-expand--open) .jc-search {
+  flex: 0 0 0;
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.jc-search-expand.jc-search-expand--open .jc-search {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.jc-search-expand.jc-search-expand--open:focus-within {
   background: #f5f5f5;
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.1);
-}
-
-.jc-search svg {
-  flex-shrink: 0;
-  opacity: 0.45;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.14);
 }
 
 .jc-search input {
@@ -175,31 +248,6 @@
 
 .jc-search input::placeholder {
   color: #888;
-}
-
-/* Full search field — hidden on mobile (≤1100px); see .jc-search-icon-btn */
-.jc-search-icon-btn {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--jc-black);
-  cursor: pointer;
-  border-radius: 4px;
-  flex-shrink: 0;
-}
-
-.jc-search-icon-btn:hover {
-  opacity: 0.55;
-}
-
-.jc-search-icon-btn svg {
-  display: block;
 }
 
 .jc-sign-in {
@@ -375,14 +423,19 @@ a.jc-bag-btn {
 
 .jc-mega-product-thumb {
   display: block;
-  width: 52px;
-  height: 70px;
-  border-radius: 4px;
+  width: 44px;
+  height: 59px;
+  border-radius: 3px;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   flex-shrink: 0;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jc-mega-product-thumb:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
 }
 
 .jc-mega-product-thumb img {
@@ -390,11 +443,6 @@ a.jc-bag-btn {
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.jc-mega-product-thumb:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 }
 
 .jc-mega-products-cta {
@@ -494,31 +542,36 @@ a.jc-bag-btn {
 
 .jc-mega-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.65rem;
+  grid-template-columns: repeat(2, minmax(0, 76px));
+  gap: 0.5rem;
   min-width: 0;
+  max-width: 158px;
+  justify-content: start;
 }
 
 .jc-mega-card {
   display: block;
   text-decoration: none;
   color: var(--jc-black);
+  min-width: 0;
 }
 
 .jc-mega-card img {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  max-width: 76px;
+  height: 102px;
   object-fit: cover;
   display: block;
   background: #e8e8e8;
+  border-radius: 3px;
 }
 
 .jc-mega-card span {
   display: block;
-  margin-top: 0.35rem;
-  font-size: 10px;
+  margin-top: 0.28rem;
+  font-size: 9px;
   font-weight: 400;
-  line-height: 1.28;
+  line-height: 1.25;
 }
 
 .jc-mega-card:hover span {
@@ -560,10 +613,8 @@ a.jc-bag-btn {
 }
 
 @media (max-width: 900px) {
-  .jc-search {
-    width: auto;
-    max-width: none;
-    min-width: 0;
+  .jc-search-expand.jc-search-expand--open {
+    width: min(100%, 360px) !important;
   }
 }
 
@@ -668,12 +719,22 @@ a.jc-bag-btn {
     gap: 0.35rem;
   }
 
-  .jc-search {
-    display: none !important;
+  /* Collapsible search: same control as desktop; when open, bar sits below header */
+  .jc-search-expand.jc-search-expand--open {
+    position: fixed;
+    left: clamp(0.5rem, 2.5vw, 1rem);
+    right: clamp(0.5rem, 2.5vw, 1rem);
+    top: calc(var(--jc-header-h, 56px) + 6px);
+    width: auto !important;
+    max-width: none !important;
+    z-index: 1003;
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.16);
   }
 
-  .jc-search-icon-btn {
-    display: inline-flex !important;
+  .jc-search-expand:not(.jc-search-expand--open) {
+    position: relative;
+    width: 40px;
+    max-width: 40px;
   }
 
   .jc-sign-in {
@@ -829,20 +890,24 @@ a.jc-bag-btn {
   .jc-menu-btn-bar {
     transition-duration: 0.01ms;
   }
+
+  .jc-search-expand {
+    transition-duration: 0.01ms;
+  }
 }
 
 /* Skip link lives outside header on pages that use it */
 .jc-site-header a:focus,
 .jc-site-header button:focus,
 .jc-site-header .jc-search:focus-within,
-.jc-site-header .jc-search-icon-btn:focus {
+.jc-site-header .jc-search-toggle:focus {
   outline: none;
 }
 
 .jc-site-header a:focus-visible,
 .jc-site-header button:focus-visible,
 .jc-site-header .jc-search:focus-visible,
-.jc-site-header .jc-search-icon-btn:focus-visible {
+.jc-site-header .jc-search-toggle:focus-visible {
   outline: 2px solid var(--jc-focus);
   outline-offset: 2px;
 }

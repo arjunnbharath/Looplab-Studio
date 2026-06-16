@@ -120,6 +120,71 @@
   }
 
   /**
+   * Collapsible header search: icon toggles expanded field (all breakpoints).
+   */
+  function bindSearchExpand() {
+    var wrap = document.getElementById("jc-search-expand");
+    var toggle = document.getElementById("jc-search-toggle");
+    var input = document.getElementById("jc-site-search");
+    if (!wrap || !toggle || !input) return;
+    if (wrap.getAttribute("data-jc-search-bound") === "1") return;
+    wrap.setAttribute("data-jc-search-bound", "1");
+
+    function closeSearch() {
+      wrap.classList.remove("jc-search-expand--open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Open search");
+    }
+
+    function openSearch() {
+      var backdrop = document.getElementById("jc-nav-backdrop");
+      if (backdrop && document.body.classList.contains("jc-nav-is-open")) {
+        backdrop.click();
+      }
+      wrap.classList.add("jc-search-expand--open");
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.setAttribute("aria-label", "Close search");
+      window.requestAnimationFrame(function () {
+        input.focus();
+      });
+    }
+
+    toggle.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      if (wrap.classList.contains("jc-search-expand--open")) closeSearch();
+      else openSearch();
+    });
+
+    document.addEventListener(
+      "click",
+      function (ev) {
+        if (!wrap.classList.contains("jc-search-expand--open")) return;
+        if (!wrap.contains(ev.target)) closeSearch();
+      },
+      true
+    );
+
+    document.addEventListener(
+      "keydown",
+      function (ev) {
+        if (ev.key !== "Escape") return;
+        if (!wrap.classList.contains("jc-search-expand--open")) return;
+        ev.stopPropagation();
+        closeSearch();
+        toggle.focus();
+      },
+      true
+    );
+  }
+
+  document.addEventListener("page-nav-loaded", bindSearchExpand);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindSearchExpand);
+  } else {
+    bindSearchExpand();
+  }
+
+  /**
    * Mega menu: disable only placeholder # links. Real .html links (catalog, journal, etc.) work.
    */
   function disableMegaSubNavLinks() {
