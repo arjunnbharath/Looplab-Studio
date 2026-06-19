@@ -1,0 +1,8 @@
+# LoopLab Studio — customer seed (JSON Lines: one JSON object per line).
+# Fields: email, password, name, mobile (digits only, optional country code), loyaltyPoints
+# Serve the site over HTTP (e.g. npx serve) so the browser can fetch this file.
+# New sign-ups from the Register form are stored in the browser (localStorage) and merged with these rows at login — there is still no server database.
+#
+{"email":"arjun@gmail.com","password":"123","name":"Arjun","mobile":"919876543210","loyaltyPoints":1200}
+{"email":"elrin@gmail.com","password":"123","name":"Elrin","mobile":"919876543211","loyaltyPoints":2000}
+{"email":"mike@gmail.com","password":"123","name":"Mike","mobile":"919876543212","loyaltyPoints":400}

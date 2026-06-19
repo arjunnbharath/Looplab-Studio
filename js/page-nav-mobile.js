@@ -214,8 +214,174 @@
     disableMegaSubNavLinks();
   }
 
+  var SIGNIN_STORAGE_KEY = "looplab-studio-signin";
+  var CUSTOMERS_URL = "data/customer.txt";
+  var LOCAL_CUSTOMERS_KEY = "looplab-studio-customers-local";
+
   /**
-   * Loyalty chip: `?emailid=…` (any non-empty value) → show 500 pts; otherwise default 2,400 pts demo.
+   * Seed customers if customer.txt is missing or empty (e.g. file:// without fetch).
+   * Same defaults as data/customer.txt — edit that file to change seed accounts.
+   */
+  var DEFAULT_SEED_CUSTOMERS = [
+    { email: "arjun@gmail.com", password: "123", name: "Arjun", mobile: "919876543210", loyaltyPoints: 1200 },
+    { email: "elrin@gmail.com", password: "123", name: "Elrin", mobile: "919876543211", loyaltyPoints: 2000 },
+    { email: "mike@gmail.com", password: "123", name: "Mike", mobile: "919876543212", loyaltyPoints: 400 }
+  ];
+
+  var looplabFileCustomers = [];
+  var looplabCustomersCache = null;
+  var looplabCustomersReady = false;
+  var looplabCustomersLoadPromise = null;
+
+  function normalizeDemoEmail(email) {
+    return (email || "").trim().toLowerCase();
+  }
+
+  function normalizeCustomer(o) {
+    var lp = Number(o.loyaltyPoints);
+    return {
+      email: normalizeDemoEmail(o.email),
+      password: String(o.password != null ? o.password : ""),
+      name: String(o.name != null ? o.name : ""),
+      mobile: String(o.mobile != null ? o.mobile : ""),
+      loyaltyPoints: !isNaN(lp) ? lp : 0
+    };
+  }
+
+  function parseCustomerText(text) {
+    var out = [];
+    var lines = (text || "").split(/\r?\n/);
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+      if (!line || line.charAt(0) === "#") continue;
+      try {
+        var obj = JSON.parse(line);
+        if (obj && obj.email) out.push(normalizeCustomer(obj));
+      } catch (ignore) {
+        /* skip bad line */
+      }
+    }
+    return out;
+  }
+
+  function readLocalRegistered() {
+    try {
+      var raw = localStorage.getItem(LOCAL_CUSTOMERS_KEY);
+      if (!raw) return [];
+      var arr = JSON.parse(raw);
+      if (!Array.isArray(arr)) return [];
+      var out = [];
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] && arr[i].email) out.push(normalizeCustomer(arr[i]));
+      }
+      return out;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function writeLocalRegistered(arr) {
+    try {
+      localStorage.setItem(LOCAL_CUSTOMERS_KEY, JSON.stringify(arr));
+    } catch (e) {
+      /* ignore quota */
+    }
+  }
+
+  function mergeCustomerLists(fileRows, localRows) {
+    var map = {};
+    var i;
+    for (i = 0; i < fileRows.length; i++) {
+      map[fileRows[i].email] = fileRows[i];
+    }
+    for (i = 0; i < localRows.length; i++) {
+      map[localRows[i].email] = localRows[i];
+    }
+    var merged = [];
+    for (var k in map) {
+      if (Object.prototype.hasOwnProperty.call(map, k)) merged.push(map[k]);
+    }
+    return merged;
+  }
+
+  function rebuildCustomerCache() {
+    var base = looplabFileCustomers.length ? looplabFileCustomers : DEFAULT_SEED_CUSTOMERS.map(normalizeCustomer);
+    looplabCustomersCache = mergeCustomerLists(base, readLocalRegistered());
+  }
+
+  function loadCustomersIntoCache(cb) {
+    if (looplabCustomersReady) {
+      if (cb) cb();
+      return;
+    }
+    if (looplabCustomersLoadPromise) {
+      looplabCustomersLoadPromise.then(function () {
+        if (cb) cb();
+      });
+      return;
+    }
+    looplabCustomersLoadPromise = fetch(CUSTOMERS_URL, { cache: "no-store" })
+      .then(function (r) {
+        return r.ok ? r.text() : "";
+      })
+      .catch(function () {
+        return "";
+      })
+      .then(function (text) {
+        var rows = parseCustomerText(text);
+        looplabFileCustomers = rows.length ? rows : [];
+        if (!looplabFileCustomers.length) {
+          looplabFileCustomers = DEFAULT_SEED_CUSTOMERS.map(normalizeCustomer);
+        }
+        rebuildCustomerCache();
+        looplabCustomersReady = true;
+        try {
+          document.dispatchEvent(new CustomEvent("looplab-customers-ready"));
+        } catch (e0) {
+          /* ignore */
+        }
+        if (cb) cb();
+      });
+  }
+
+  function withCustomersReady(fn) {
+    loadCustomersIntoCache(fn);
+  }
+
+  function getCustomerByEmail(email) {
+    if (!looplabCustomersCache) return null;
+    var key = normalizeDemoEmail(email);
+    for (var i = 0; i < looplabCustomersCache.length; i++) {
+      if (looplabCustomersCache[i].email === key) return looplabCustomersCache[i];
+    }
+    return null;
+  }
+
+  function appendRegisteredCustomer(row) {
+    var list = readLocalRegistered();
+    list.push(normalizeCustomer(row));
+    writeLocalRegistered(list);
+    rebuildCustomerCache();
+  }
+
+  function getSessionLoyaltyPoints() {
+    try {
+      var raw = sessionStorage.getItem(SIGNIN_STORAGE_KEY);
+      if (!raw) return 0;
+      var o = JSON.parse(raw);
+      if (!o || !o.email) return 0;
+      if (typeof o.loyaltyPoints === "number" && !isNaN(o.loyaltyPoints)) {
+        return o.loyaltyPoints;
+      }
+      var c = getCustomerByEmail(o.email);
+      return c ? c.loyaltyPoints : 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  /**
+   * Loyalty chip: guests **0** pts. Signed-in uses `loyaltyPoints` on the session or from customer list.
    */
   function formatLoyaltyPoints(n) {
     try {
@@ -225,19 +391,456 @@
     }
   }
 
+  function isLoyaltySignedIn() {
+    try {
+      var raw = sessionStorage.getItem(SIGNIN_STORAGE_KEY);
+      if (!raw) return false;
+      var o = JSON.parse(raw);
+      return !!(o && o.email);
+    } catch (e) {
+      return false;
+    }
+  }
+
   function syncLoyaltyPointsFromUrl() {
     var el = document.querySelector("[data-loyalty-points]");
     if (!el) return;
-    var q = new URLSearchParams(window.location.search || "");
-    var emailId = q.get("emailid");
-    if (emailId != null && String(emailId).trim() !== "") {
-      el.textContent = formatLoyaltyPoints(500);
-    } else {
-      el.textContent = formatLoyaltyPoints(2400);
+    if (!isLoyaltySignedIn()) {
+      el.textContent = formatLoyaltyPoints(0);
+      return;
     }
+    el.textContent = formatLoyaltyPoints(getSessionLoyaltyPoints());
   }
 
   document.addEventListener("page-nav-loaded", syncLoyaltyPointsFromUrl);
   document.addEventListener("DOMContentLoaded", syncLoyaltyPointsFromUrl);
   window.addEventListener("popstate", syncLoyaltyPointsFromUrl);
+  document.addEventListener("looplab-signin-changed", syncLoyaltyPointsFromUrl);
+  document.addEventListener("looplab-customers-ready", syncLoyaltyPointsFromUrl);
+
+  document.addEventListener("DOMContentLoaded", function () {
+    loadCustomersIntoCache(null);
+  });
+  document.addEventListener("page-nav-loaded", function () {
+    loadCustomersIntoCache(null);
+  });
+
+  function syncSignInNavLink() {
+    var a = document.querySelector(".jc-sign-in");
+    if (!a) return;
+    var signed = false;
+    try {
+      var raw = sessionStorage.getItem(SIGNIN_STORAGE_KEY);
+      if (raw) {
+        var o = JSON.parse(raw);
+        signed = !!(o && o.email);
+      }
+    } catch (e) {
+      signed = false;
+    }
+    if (signed) {
+      a.removeAttribute("data-jc-sign-in-modal");
+      a.setAttribute("data-jc-sign-out", "");
+      a.setAttribute("href", "#");
+      a.textContent = "Sign out";
+      a.setAttribute("aria-label", "Sign out");
+    } else {
+      a.removeAttribute("data-jc-sign-out");
+      a.setAttribute("href", "#");
+      a.setAttribute("data-jc-sign-in-modal", "");
+      a.textContent = "Sign In";
+      a.setAttribute("aria-label", "Sign in");
+    }
+  }
+
+  /** Signed-in greeting in the header (next to Sign In / Sign out). */
+  function syncSignedInHeaderGreet() {
+    var wrap = document.getElementById("jc-header-greet");
+    var greet = document.querySelector("[data-jc-user-greet]");
+    if (!wrap || !greet) return;
+    try {
+      var raw = sessionStorage.getItem(SIGNIN_STORAGE_KEY);
+      if (!raw) {
+        wrap.hidden = true;
+        greet.textContent = "";
+        return;
+      }
+      var o = JSON.parse(raw);
+      if (!o || !o.email) {
+        wrap.hidden = true;
+        greet.textContent = "";
+        return;
+      }
+      var namePart = o.name && String(o.name).trim() ? String(o.name).trim() : "";
+      var display = namePart || normalizeDemoEmail(o.email).split("@")[0] || "there";
+      greet.textContent = "Hi, " + display;
+      wrap.hidden = false;
+    } catch (e) {
+      wrap.hidden = true;
+      greet.textContent = "";
+    }
+  }
+
+  document.addEventListener("page-nav-loaded", syncSignInNavLink);
+  document.addEventListener("DOMContentLoaded", syncSignInNavLink);
+  document.addEventListener("page-nav-loaded", syncSignedInHeaderGreet);
+  document.addEventListener("DOMContentLoaded", syncSignedInHeaderGreet);
+  document.addEventListener("looplab-signin-changed", syncSignedInHeaderGreet);
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      var out = e.target && e.target.closest && e.target.closest("a.jc-sign-in[data-jc-sign-out]");
+      if (!out) return;
+      e.preventDefault();
+      try {
+        sessionStorage.removeItem(SIGNIN_STORAGE_KEY);
+      } catch (err) {
+        /* ignore */
+      }
+      syncSignInNavLink();
+      try {
+        document.dispatchEvent(new CustomEvent("looplab-signin-changed"));
+      } catch (e2) {
+        /* ignore */
+      }
+    },
+    false
+  );
+
+  /**
+   * Header sign-in: modal backed by data/customer.txt + localStorage (see NAV.md).
+   */
+  function bindSignInModal() {
+    var modal = document.getElementById("jc-sign-in-modal");
+    if (!modal || modal.getAttribute("data-jc-sign-in-modal-bound") === "1") return;
+    modal.setAttribute("data-jc-sign-in-modal-bound", "1");
+
+    var viewLogin = document.getElementById("jc-sign-in-modal-view-login");
+    var viewRegister = document.getElementById("jc-sign-in-modal-view-register");
+    var form = document.getElementById("jc-sign-in-modal-form");
+    var emailEl = document.getElementById("jc-sign-in-modal-email");
+    var pwdEl = document.getElementById("jc-sign-in-modal-password");
+    var errEl = document.getElementById("jc-sign-in-modal-error");
+    var submitBtn = document.getElementById("jc-sign-in-modal-submit");
+    var labelBusy = submitBtn && submitBtn.querySelector(".jc-sign-in-modal__submit-label");
+    var labelWorking = submitBtn && submitBtn.querySelector(".jc-sign-in-modal__submit-busy");
+    var pwdToggle = document.getElementById("jc-sign-in-modal-pwd-toggle");
+    var forgot = document.getElementById("jc-sign-in-modal-forgot");
+
+    var regForm = document.getElementById("jc-sign-in-modal-reg-form");
+    var regErrEl = document.getElementById("jc-sign-in-modal-reg-error");
+    var regName = document.getElementById("jc-sign-in-modal-reg-name");
+    var regEmail = document.getElementById("jc-sign-in-modal-reg-email");
+    var regMobile = document.getElementById("jc-sign-in-modal-reg-mobile");
+    var regPwd = document.getElementById("jc-sign-in-modal-reg-password");
+    var regSubmit = document.getElementById("jc-sign-in-modal-reg-submit");
+    var regLabelBusy = regSubmit && regSubmit.querySelector(".jc-sign-in-modal__reg-submit-label");
+    var regLabelWorking = regSubmit && regSubmit.querySelector(".jc-sign-in-modal__reg-submit-busy");
+    var regPwdToggle = document.getElementById("jc-sign-in-modal-reg-pwd-toggle");
+
+    var lastFocus = null;
+
+    function showErr(msg) {
+      if (!errEl) return;
+      errEl.textContent = msg || "";
+      errEl.toggleAttribute("hidden", !msg);
+    }
+
+    function showRegErr(msg) {
+      if (!regErrEl) return;
+      regErrEl.textContent = msg || "";
+      regErrEl.toggleAttribute("hidden", !msg);
+    }
+
+    function setBusy(busy) {
+      if (!submitBtn) return;
+      submitBtn.disabled = !!busy;
+      if (labelBusy) labelBusy.toggleAttribute("hidden", !!busy);
+      if (labelWorking) labelWorking.toggleAttribute("hidden", !busy);
+    }
+
+    function setRegBusy(busy) {
+      if (!regSubmit) return;
+      regSubmit.disabled = !!busy;
+      if (regLabelBusy) regLabelBusy.toggleAttribute("hidden", !!busy);
+      if (regLabelWorking) regLabelWorking.toggleAttribute("hidden", !busy);
+    }
+
+    function setModalView(which) {
+      var isReg = which === "register";
+      if (viewLogin) viewLogin.hidden = isReg;
+      if (viewRegister) viewRegister.hidden = !isReg;
+      modal.setAttribute("aria-labelledby", isReg ? "jc-sign-in-modal-title-register" : "jc-sign-in-modal-title-login");
+      showErr("");
+      showRegErr("");
+    }
+
+    function closeSignInModal() {
+      if (modal.hidden) return;
+      modal.hidden = true;
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("jc-sign-in-modal-open");
+      showErr("");
+      showRegErr("");
+      setBusy(false);
+      setRegBusy(false);
+      setModalView("login");
+      var header = document.querySelector(".jc-site-header");
+      if (header && header.classList.contains("jc-nav-is-open")) {
+        var bd = document.getElementById("jc-nav-backdrop");
+        if (bd) bd.click();
+      }
+      if (lastFocus && typeof lastFocus.focus === "function") {
+        try {
+          lastFocus.focus();
+        } catch (e) {
+          /* ignore */
+        }
+      }
+      lastFocus = null;
+    }
+
+    function openSignInModal(initialView) {
+      var header = document.querySelector(".jc-site-header");
+      if (header && header.classList.contains("jc-nav-is-open")) {
+        var bd = document.getElementById("jc-nav-backdrop");
+        if (bd) bd.click();
+      }
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("jc-sign-in-modal-open");
+      showErr("");
+      showRegErr("");
+      setModalView(initialView === "register" ? "register" : "login");
+      window.requestAnimationFrame(function () {
+        if (initialView === "register" && regName) {
+          regName.focus();
+        } else if (emailEl) {
+          emailEl.focus();
+        }
+      });
+    }
+
+    document.addEventListener(
+      "click",
+      function (e) {
+        var trigger = e.target && e.target.closest && e.target.closest("a.jc-sign-in[data-jc-sign-in-modal]");
+        if (!trigger) return;
+        e.preventDefault();
+        openSignInModal("login");
+      },
+      false
+    );
+
+    modal.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("[data-jc-sign-in-close]")) {
+        closeSignInModal();
+        return;
+      }
+      if (e.target.closest && e.target.closest("[data-jc-sign-in-show-register]")) {
+        e.preventDefault();
+        setModalView("register");
+        window.requestAnimationFrame(function () {
+          if (regName) regName.focus();
+        });
+        return;
+      }
+      if (e.target.closest && e.target.closest("[data-jc-sign-in-show-login]")) {
+        e.preventDefault();
+        setModalView("login");
+        window.requestAnimationFrame(function () {
+          if (emailEl) emailEl.focus();
+        });
+        return;
+      }
+      if (e.target.closest && e.target.closest(".jc-sign-in-modal__legal a[href='#']")) {
+        e.preventDefault();
+      }
+    });
+
+    if (forgot) {
+      forgot.addEventListener("click", function (e) {
+        e.preventDefault();
+        showErr("Password reset is not available on this demo site.");
+      });
+    }
+
+    document.addEventListener(
+      "keydown",
+      function (e) {
+        if (e.key !== "Escape") return;
+        if (modal.hidden) return;
+        closeSignInModal();
+        e.stopPropagation();
+      },
+      true
+    );
+
+    function bindPwdToggle(toggle, input) {
+      if (!toggle || !input) return;
+      toggle.addEventListener("click", function () {
+        var show = input.getAttribute("type") === "password";
+        input.setAttribute("type", show ? "text" : "password");
+        toggle.setAttribute("aria-pressed", show ? "true" : "false");
+        toggle.setAttribute("aria-label", show ? "Hide password" : "Show password");
+        toggle.textContent = show ? "Hide" : "Show";
+      });
+    }
+
+    bindPwdToggle(pwdToggle, pwdEl);
+    bindPwdToggle(regPwdToggle, regPwd);
+
+    if (!form || !emailEl) return;
+
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      showErr("");
+      var email = (emailEl.value || "").trim();
+
+      if (!email) {
+        showErr("Enter your email address.");
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showErr("Enter a valid email address.");
+        return;
+      }
+
+      var pwd = pwdEl ? pwdEl.value || "" : "";
+      if (!pwd) {
+        showErr("Enter your password.");
+        return;
+      }
+
+      withCustomersReady(function () {
+        var acct = getCustomerByEmail(email);
+        if (!acct) {
+          showErr("No account for that email. Register first, or add the row to data/customer.txt (needs HTTP).");
+          return;
+        }
+        if (acct.password !== pwd) {
+          showErr("Wrong password.");
+          return;
+        }
+
+        setBusy(true);
+        window.setTimeout(function () {
+          try {
+            var norm = normalizeDemoEmail(email);
+            sessionStorage.setItem(
+              SIGNIN_STORAGE_KEY,
+              JSON.stringify({
+                email: norm,
+                name: acct.name || "",
+                signedInAt: Date.now(),
+                loyaltyPoints: acct.loyaltyPoints
+              })
+            );
+          } catch (e) {
+            setBusy(false);
+            showErr("Could not save your session. Check that cookies/storage are enabled.");
+            return;
+          }
+
+          setBusy(false);
+          closeSignInModal();
+          syncSignInNavLink();
+          try {
+            document.dispatchEvent(new CustomEvent("looplab-signin-changed"));
+          } catch (e3) {
+            /* ignore */
+          }
+        }, 380);
+      });
+    });
+
+    if (regForm && regEmail && regPwd) {
+      regForm.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        showRegErr("");
+        var name = regName ? (regName.value || "").trim() : "";
+        var remail = (regEmail.value || "").trim();
+        var mobile = regMobile ? (regMobile.value || "").replace(/\D/g, "") : "";
+        var pwd = regPwd.value || "";
+
+        if (!name) {
+          showRegErr("Enter your full name.");
+          return;
+        }
+        if (!remail) {
+          showRegErr("Enter your email address.");
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(remail)) {
+          showRegErr("Enter a valid email address.");
+          return;
+        }
+        if (!mobile || mobile.length < 8) {
+          showRegErr("Enter a valid mobile number.");
+          return;
+        }
+        if (!pwd) {
+          showRegErr("Enter your password.");
+          return;
+        }
+        if (pwd.length < 4) {
+          showRegErr("Use at least 4 characters for your password.");
+          return;
+        }
+
+        withCustomersReady(function () {
+          if (getCustomerByEmail(remail)) {
+            showRegErr("An account with this email already exists. Use Log In.");
+            return;
+          }
+
+          appendRegisteredCustomer({
+            email: remail,
+            password: pwd,
+            name: name,
+            mobile: mobile,
+            loyaltyPoints: 0
+          });
+
+          setRegBusy(true);
+          window.setTimeout(function () {
+            try {
+              sessionStorage.setItem(
+                SIGNIN_STORAGE_KEY,
+                JSON.stringify({
+                  email: normalizeDemoEmail(remail),
+                  name: name,
+                  signedInAt: Date.now(),
+                  registered: true,
+                  loyaltyPoints: 0
+                })
+              );
+            } catch (e) {
+              setRegBusy(false);
+              showRegErr("Could not save your session. Check that cookies/storage are enabled.");
+              return;
+            }
+
+            setRegBusy(false);
+            closeSignInModal();
+            syncSignInNavLink();
+            try {
+              document.dispatchEvent(new CustomEvent("looplab-signin-changed"));
+            } catch (e4) {
+              /* ignore */
+            }
+          }, 380);
+        });
+      });
+    }
+  }
+
+  document.addEventListener("page-nav-loaded", bindSignInModal);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindSignInModal);
+  } else {
+    bindSignInModal();
+  }
 })();

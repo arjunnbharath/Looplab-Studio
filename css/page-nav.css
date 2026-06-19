@@ -137,6 +137,29 @@
   min-width: 0;
 }
 
+.jc-header-greet {
+  display: none;
+  align-items: center;
+  max-width: min(11rem, 28vw);
+  min-width: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #444;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.jc-header-greet:not([hidden]) {
+  display: inline-flex;
+}
+
+.jc-header-greet__text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Collapsible search: icon first, expands to show field */
 .jc-search-expand {
   display: flex;
@@ -959,4 +982,387 @@ a.jc-bag-btn {
 .jc-site-header .jc-loyalty-chip:focus-visible {
   outline: 2px solid var(--jc-focus);
   outline-offset: 2px;
+}
+
+/* Sign-in / register modal (header) — frosted overlay */
+body.jc-sign-in-modal-open {
+  overflow: hidden;
+}
+
+.jc-sign-in-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+    max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: #333;
+}
+
+.jc-sign-in-modal[hidden] {
+  display: none !important;
+}
+
+.jc-sign-in-modal abbr[title] {
+  text-decoration: none;
+  border: 0;
+  cursor: inherit;
+}
+
+.jc-sign-in-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 12, 12, 0.45);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+}
+
+.jc-sign-in-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  max-height: min(92vh, 720px);
+  overflow: auto;
+  margin: 0;
+  padding: 1.75rem 1.5rem 1.4rem;
+  border-radius: 0;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+}
+
+.jc-sign-in-modal__x {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #777;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.jc-sign-in-modal__x:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.jc-sign-in-modal__title {
+  margin: 0 2.25rem 0.35rem 0;
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #222;
+}
+
+.jc-sign-in-modal__title--sans {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.jc-sign-in-modal__subtitle {
+  margin: 0 0 1.1rem;
+  font-size: 13px;
+  font-weight: 400;
+  color: #666;
+  line-height: 1.5;
+}
+
+.jc-sign-in-modal__error {
+  margin: 0 0 1rem;
+  padding: 0.55rem 0.65rem;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #8b2e2e;
+  background: #faf7f7;
+  border-radius: 0;
+  border: 1px solid #e8d6d6;
+}
+
+.jc-sign-in-modal__block {
+  margin-bottom: 0.25rem;
+}
+
+.jc-sign-in-modal__float {
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+.jc-sign-in-modal__float input {
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+  padding: 1.05rem 0.75rem 0.5rem;
+  font-size: 14px;
+  font-weight: 400;
+  border: 1px solid #c8c8c8;
+  border-radius: 0;
+  background: #fff;
+  color: #222;
+}
+
+.jc-sign-in-modal__float input::placeholder {
+  color: #9a9a9a;
+}
+
+.jc-sign-in-modal__float label {
+  position: absolute;
+  left: 0.65rem;
+  top: 0;
+  transform: translateY(-50%);
+  background: #fff;
+  padding: 0 0.25rem;
+  font-size: 11px;
+  font-weight: 400;
+  color: #666;
+  pointer-events: none;
+  max-width: calc(100% - 1.25rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jc-sign-in-modal__float--phone input {
+  padding-left: 3.1rem;
+}
+
+.jc-sign-in-modal__float--phone label {
+  left: 3rem;
+}
+
+.jc-sign-in-modal__phone-prefix {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.jc-sign-in-modal__float input:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: none;
+}
+
+.jc-sign-in-modal__pwd-wrap--floating {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #c8c8c8;
+  border-radius: 0;
+  background: #fff;
+}
+
+.jc-sign-in-modal__pwd-wrap--floating input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 1.05rem 3.25rem 0.5rem 0.75rem;
+  font-size: 14px;
+  font-weight: 400;
+  box-shadow: none;
+}
+
+.jc-sign-in-modal__pwd-wrap--floating input:focus {
+  box-shadow: none;
+}
+
+.jc-sign-in-modal__pwd-wrap--floating:focus-within {
+  border-color: #333;
+  box-shadow: none;
+}
+
+.jc-sign-in-modal__pwd-wrap--floating label {
+  position: absolute;
+  left: 0.65rem;
+  top: 0;
+  transform: translateY(-50%);
+  background: #fff;
+  padding: 0 0.25rem;
+  font-size: 11px;
+  font-weight: 400;
+  color: #666;
+  pointer-events: none;
+}
+
+.jc-sign-in-modal__pwd-wrap--floating .jc-sign-in-modal__pwd-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.35rem 0.5rem;
+  font-size: 12px;
+  font-weight: 400;
+  border: 0;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+}
+
+.jc-sign-in-modal__pwd-wrap--floating .jc-sign-in-modal__pwd-toggle:hover {
+  text-decoration: underline;
+}
+
+.jc-sign-in-modal__row-link {
+  margin: 0.35rem 0 1rem;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.jc-sign-in-modal__row-link a {
+  font-weight: 400;
+  color: #333;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.jc-sign-in-modal__legal {
+  margin: 0 0 1rem;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.55;
+  text-align: center;
+  color: #666;
+}
+
+.jc-sign-in-modal__legal a {
+  font-weight: 400;
+  color: #333;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.jc-sign-in-modal__benefits {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+}
+
+.jc-sign-in-modal__benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+  font-size: 13px;
+  font-weight: 400;
+  color: #444;
+  line-height: 1.4;
+}
+
+.jc-sign-in-modal__benefits li:last-child {
+  margin-bottom: 0;
+}
+
+.jc-sign-in-modal__benefit-ic {
+  flex-shrink: 0;
+  color: #888;
+  margin-top: 0.1rem;
+}
+
+.jc-sign-in-modal__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #444;
+  cursor: pointer;
+}
+
+.jc-sign-in-modal__check input {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  accent-color: #333;
+}
+
+.jc-sign-in-modal__submit {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: #fff;
+  background: #0a0a0a;
+  border: 1px solid #0a0a0a;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.jc-sign-in-modal__submit:hover:not(:disabled) {
+  background: #222;
+  border-color: #222;
+}
+
+.jc-sign-in-modal__submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.jc-sign-in-modal__foot {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  color: #666;
+}
+
+.jc-sign-in-modal__foot-action {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  color: #222;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.jc-sign-in-modal__foot-action:hover {
+  color: #000;
+}
+
+.jc-sign-in-modal button:focus-visible,
+.jc-sign-in-modal input:focus-visible,
+.jc-sign-in-modal__foot-action:focus-visible,
+.jc-sign-in-modal__row-link a:focus-visible,
+.jc-sign-in-modal__legal a:focus-visible {
+  outline: 2px solid var(--jc-focus, #1a5f7a);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jc-sign-in-modal__backdrop {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(12, 12, 12, 0.55);
+  }
 }

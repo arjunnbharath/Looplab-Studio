@@ -11,12 +11,17 @@
 /* Full-height column layout so the footer sits below content */
 body {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
 
 body > main {
   flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .jc-site-footer {
@@ -400,4 +405,12 @@ body > main {
 .jc-footer-signup-btn:focus-visible {
   outline: 1px solid rgba(255, 255, 255, 0.5);
   outline-offset: 3px;
+}
+
+.jc-footer-newsletter-status {
+  margin: 0.65rem 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(200, 230, 180, 0.95);
+  max-width: 22rem;
 }

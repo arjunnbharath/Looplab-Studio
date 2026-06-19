@@ -1,10 +1,25 @@
 /**
  * New page hero — Swiper coverflow + reflected slides (no glitch).
- * Requires Swiper bundle (loaded from CDN on new.html).
+ * Requires Swiper bundle (CDN on new.html).
+ * Exposes LLInitNewHeroSwiper for manual re-init if the hero is injected later.
  */
 (function () {
+  var inst = null;
+
+  function destroy() {
+    if (inst) {
+      try {
+        inst.destroy(true, true);
+      } catch (e) {
+        /* ignore */
+      }
+      inst = null;
+    }
+  }
+
   function init() {
     if (typeof Swiper === "undefined") return;
+    destroy();
     var el = document.querySelector(".nw-page .nw-hero-swiper-el");
     if (!el) return;
 
@@ -37,8 +52,10 @@
       };
     }
 
-    new Swiper(el, cfg);
+    inst = new Swiper(el, cfg);
   }
+
+  window.LLInitNewHeroSwiper = init;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

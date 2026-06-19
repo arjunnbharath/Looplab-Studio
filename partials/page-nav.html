@@ -751,11 +751,14 @@
           <input id="jc-site-search" type="search" placeholder="Search LoopLab Studio" autocomplete="off" />
         </label>
       </div>
-      <a class="jc-sign-in" href="#">Sign In</a>
+      <span class="jc-header-greet" id="jc-header-greet" hidden aria-live="polite">
+        <span class="jc-header-greet__text" data-jc-user-greet></span>
+      </span>
+      <a class="jc-sign-in" href="#" data-jc-sign-in-modal>Sign In</a>
       <a class="jc-loyalty-chip" href="#" title="LoopLab Rewards (demo balance)">
         <span class="jc-loyalty-chip-inner">
           <span class="visually-hidden">Loyalty balance: </span>
-          <span data-loyalty-points>2,400</span>
+          <span data-loyalty-points>0</span>
           <span class="jc-loyalty-chip-unit" aria-hidden="true">pts</span>
         </span>
       </a>
@@ -770,3 +773,148 @@
     <div class="jc-nav-backdrop" id="jc-nav-backdrop" aria-hidden="true"></div>
   </div>
 </header>
+
+<div
+  id="jc-sign-in-modal"
+  class="jc-sign-in-modal"
+  hidden
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="jc-sign-in-modal-title-login"
+>
+  <div class="jc-sign-in-modal__backdrop" data-jc-sign-in-close tabindex="-1"></div>
+  <div class="jc-sign-in-modal__panel">
+    <button type="button" class="jc-sign-in-modal__x" data-jc-sign-in-close aria-label="Close">×</button>
+
+    <div id="jc-sign-in-modal-view-login" class="jc-sign-in-modal__view">
+      <h2 id="jc-sign-in-modal-title-login" class="jc-sign-in-modal__title jc-sign-in-modal__title--sans">Log In</h2>
+      <p id="jc-sign-in-modal-error" class="jc-sign-in-modal__error" role="alert" hidden></p>
+
+      <form id="jc-sign-in-modal-form" method="post" action="#" autocomplete="on" novalidate>
+        <div class="jc-sign-in-modal__float">
+          <input
+            id="jc-sign-in-modal-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="Your email address"
+            required
+          />
+          <label for="jc-sign-in-modal-email">Email Address <abbr title="required">*</abbr></label>
+        </div>
+
+        <div class="jc-sign-in-modal__block">
+          <div class="jc-sign-in-modal__pwd-wrap jc-sign-in-modal__pwd-wrap--floating">
+            <input
+              id="jc-sign-in-modal-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+            />
+            <label for="jc-sign-in-modal-password">Password <abbr title="required">*</abbr></label>
+            <button type="button" class="jc-sign-in-modal__pwd-toggle" id="jc-sign-in-modal-pwd-toggle" aria-label="Show password" aria-pressed="false">Show</button>
+          </div>
+          <p class="jc-sign-in-modal__row-link">
+            <a href="#" id="jc-sign-in-modal-forgot">Forgot Password?</a>
+          </p>
+        </div>
+
+        <p class="jc-sign-in-modal__legal">
+          By logging in, you agree to the
+          <a href="#">Terms &amp; Conditions</a>
+          and
+          <a href="#">Privacy Policy</a>.
+        </p>
+
+        <button type="submit" class="jc-sign-in-modal__submit" id="jc-sign-in-modal-submit">
+          <span class="jc-sign-in-modal__submit-label">Sign In</span>
+          <span class="jc-sign-in-modal__submit-busy" hidden>Signing in…</span>
+        </button>
+      </form>
+
+      <p class="jc-sign-in-modal__foot">
+        Don't have an account?
+        <button type="button" class="jc-sign-in-modal__foot-action" data-jc-sign-in-show-register>Register here</button>
+      </p>
+    </div>
+
+    <div id="jc-sign-in-modal-view-register" class="jc-sign-in-modal__view" hidden>
+      <h2 id="jc-sign-in-modal-title-register" class="jc-sign-in-modal__title jc-sign-in-modal__title--sans">Register</h2>
+      <p class="jc-sign-in-modal__subtitle">Create an account to get exclusive benefits.</p>
+      <p id="jc-sign-in-modal-reg-error" class="jc-sign-in-modal__error" role="alert" hidden></p>
+
+      <ul class="jc-sign-in-modal__benefits" aria-label="Account benefits">
+        <li>
+          <span class="jc-sign-in-modal__benefit-ic" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15v12H6V6Z" stroke="currentColor" stroke-width="1.4"/><path d="M6 9h-3v9h3" stroke="currentColor" stroke-width="1.4"/></svg>
+          </span>
+          <span>Faster checkout</span>
+        </li>
+        <li>
+          <span class="jc-sign-in-modal__benefit-ic" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.4"/><path d="M17 7 7 17M7 7l10 10" stroke="currentColor" stroke-width="1.2"/></svg>
+          </span>
+          <span>Easier returns and exchanges</span>
+        </li>
+        <li>
+          <span class="jc-sign-in-modal__benefit-ic" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 8h16v10H4V8Z" stroke="currentColor" stroke-width="1.4"/><path d="M8 8V6a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.4"/></svg>
+          </span>
+          <span>Quick order information and tracking</span>
+        </li>
+      </ul>
+
+      <form id="jc-sign-in-modal-reg-form" method="post" action="#" autocomplete="on" novalidate>
+        <div class="jc-sign-in-modal__float">
+          <input id="jc-sign-in-modal-reg-name" name="fullname" type="text" autocomplete="name" placeholder="Your full name" required />
+          <label for="jc-sign-in-modal-reg-name">Full Name <abbr title="required">*</abbr></label>
+        </div>
+        <div class="jc-sign-in-modal__float">
+          <input id="jc-sign-in-modal-reg-email" name="reg-email" type="email" autocomplete="email" placeholder="Your email address" required />
+          <label for="jc-sign-in-modal-reg-email">Email Address <abbr title="required">*</abbr></label>
+        </div>
+        <div class="jc-sign-in-modal__float jc-sign-in-modal__float--phone">
+          <span class="jc-sign-in-modal__phone-prefix" aria-hidden="true">+91</span>
+          <input
+            id="jc-sign-in-modal-reg-mobile"
+            name="mobile"
+            type="tel"
+            inputmode="numeric"
+            autocomplete="tel-national"
+            placeholder="Mobile number"
+            required
+          />
+          <label for="jc-sign-in-modal-reg-mobile">Mobile Number <abbr title="required">*</abbr></label>
+        </div>
+        <div class="jc-sign-in-modal__pwd-wrap jc-sign-in-modal__pwd-wrap--floating">
+          <input id="jc-sign-in-modal-reg-password" name="reg-password" type="password" autocomplete="new-password" placeholder="Enter your password" required />
+          <label for="jc-sign-in-modal-reg-password">Password <abbr title="required">*</abbr></label>
+          <button type="button" class="jc-sign-in-modal__pwd-toggle" id="jc-sign-in-modal-reg-pwd-toggle" aria-label="Show password" aria-pressed="false">Show</button>
+        </div>
+        <label class="jc-sign-in-modal__check">
+          <input type="checkbox" id="jc-sign-in-modal-reg-news" name="news" />
+          <span>I'd like to receive the latest news and promotions.</span>
+        </label>
+
+        <p class="jc-sign-in-modal__legal">
+          By creating an account, you agree to LoopLab Studio's
+          <a href="#">Privacy Policy</a>
+          and
+          <a href="#">Terms &amp; Conditions</a>.
+        </p>
+
+        <button type="submit" class="jc-sign-in-modal__submit" id="jc-sign-in-modal-reg-submit">
+          <span class="jc-sign-in-modal__reg-submit-label">Create An Account</span>
+          <span class="jc-sign-in-modal__reg-submit-busy" hidden>Creating account…</span>
+        </button>
+      </form>
+
+      <p class="jc-sign-in-modal__foot">
+        Already have an account?
+        <button type="button" class="jc-sign-in-modal__foot-action" data-jc-sign-in-show-login>Log In</button>
+      </p>
+    </div>
+  </div>
+</div>

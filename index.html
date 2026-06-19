@@ -516,8 +516,16 @@
       <div class="rx-signup-inner">
         <h2 id="rx-signup-title">Stay in the Loop</h2>
         <p>Be the first to hear about new arrivals, exclusive offers, and style inspiration.</p>
-        <form class="rx-signup-form" onsubmit="event.preventDefault()">
-          <input type="email" placeholder="Enter your email" aria-label="Email address" required/>
+        <form class="rx-signup-form" action="#" method="post">
+          <input
+            id="rx-signup-email"
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            aria-label="Email address"
+            autocomplete="email"
+            required
+          />
           <button type="submit">Subscribe</button>
         </form>
       </div>
@@ -578,6 +586,7 @@
                 autocomplete="email"
                 placeholder="Email"
                 class="jc-footer-email-input"
+                required
               />
               <button type="submit" class="jc-footer-signup-btn">Sign up</button>
             </div>
@@ -604,5 +613,6 @@
   <script src="js/page-nav-html-bundled.js" defer></script>
   <script src="js/page-nav-loader.js" defer></script>
   <script src="js/page-nav-mobile.js" defer></script>
+  <script src="js/page-newsletter.js" defer></script>
 </body>
 </html>

@@ -19,7 +19,11 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
 body {
   font-family: var(--rx-sans);
@@ -27,6 +31,7 @@ body {
   background: var(--rx-white);
   -webkit-font-smoothing: antialiased;
   width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
 }
 
@@ -56,6 +61,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--rx-focus); outl
 .rx-hero {
   position: relative;
   min-height: 92vh;
+  /* dvh tracks mobile browser chrome; floor keeps short landscape usable */
+  min-height: max(28rem, 92dvh);
   background: #0a0a0a;
   overflow: hidden;
 }
@@ -952,6 +959,19 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--rx-focus); outl
 }
 
 .rx-signup-form button:hover { background: #333; }
+
+.rx-signup-status {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--rx-black);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 1024px) {

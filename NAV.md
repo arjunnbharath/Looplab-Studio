@@ -8,13 +8,21 @@ Reusable header + mega menus live in three files:
 | `partials/page-nav.html` | Header markup only (no `<html>` / `<body>`). |
 | `js/page-nav-loader.js` | Fetches the partial into `#jc-site-nav-mount` on `DOMContentLoaded`. If `fetch` fails, uses `window.__PAGE_NAV_FALLBACK__` from **`js/page-nav-html-bundled.js`** (or a `<template id="jc-nav-inline">`). |
 | `js/page-nav-html-bundled.js` | Optional: embeds the same markup as `partials/page-nav.html` as a string so **`file://`** pages still get the nav. Regenerate after editing the partial (see below). |
-| `js/page-nav-mobile.js` | Hamburger + slide-out drawer + accordion megas at **≤1100px**; collapsible search; loyalty points URL sync (include whenever the header is on the page). |
+| `js/page-nav-mobile.js` | Hamburger + slide-out drawer + accordion megas at **≤1100px**; collapsible search; loyalty chip; **Log In** modal (reads **`data/customer.txt`**, merges browser-registered users from `localStorage`, `sessionStorage` session, header **Sign out**). |
 
-## Loyalty points (demo)
+## Customers & loyalty (no database)
 
-With any non-empty **`emailid`** query parameter, the header chip shows **500** pts; otherwise **2,400** pts.
+There is **no server database**. The site approximates one this way:
 
-Example: `index.html?emailid=arjun%40gmail.com` (use `%40` for `@` in URLs).
+1. **`data/customer.txt`** — seed accounts (JSON Lines: one JSON object per line; lines starting with `#` are comments). Each row includes `email`, `password`, `name`, `mobile`, `loyaltyPoints`. Served over **HTTP** (e.g. `npx serve`) so `fetch('data/customer.txt')` can load it.
+2. **`localStorage`** key `looplab-studio-customers-local` — every successful **Register** appends a row here. At runtime it is **merged** with the file list (same email in local storage overrides the file row).
+3. **Sign in** checks the merged list: email + password must match. **Passwords are stored in plain text** (demo only — not for production).
+
+Guests show **0** loyalty pts. After sign-in, the chip uses each account’s `loyaltyPoints` (seed file or **0** for newly registered users). The main nav shows **“Hi, …”** with the signed-in name (from the session, or the part before `@` if no name).
+
+**Default seed** (also used if the file is empty or `fetch` fails, e.g. `file://`): `arjun@gmail.com` / `elrin@gmail.com` / `mike@gmail.com` with password **`123`** and the loyalty values above.
+
+You **cannot** append to `customer.txt` from the browser without a small backend; use the file for staff-edited seeds and **Register** for “new customers” stored in the browser on that device only.
 
 ## Use on any page
 
