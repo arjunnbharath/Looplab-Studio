@@ -1060,6 +1060,17 @@ body.jc-sign-in-modal-open {
   color: #333;
 }
 
+.jc-sign-in-modal__brand {
+  margin: 0 2.25rem 1.1rem 0;
+  padding: 0;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", Times, serif;
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #0a0a0a;
+  line-height: 1.2;
+}
+
 .jc-sign-in-modal__title {
   margin: 0 2.25rem 0.35rem 0;
   font-size: 1.35rem;
@@ -1093,7 +1104,7 @@ body.jc-sign-in-modal-open {
 }
 
 .jc-sign-in-modal__block {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .jc-sign-in-modal__float {
@@ -1108,7 +1119,7 @@ body.jc-sign-in-modal-open {
   padding: 1.05rem 0.75rem 0.5rem;
   font-size: 14px;
   font-weight: 400;
-  border: 1px solid #c8c8c8;
+  border: 2px solid #c8c8c8;
   border-radius: 0;
   background: #fff;
   color: #222;
@@ -1155,9 +1166,10 @@ body.jc-sign-in-modal-open {
   z-index: 1;
 }
 
-.jc-sign-in-modal__float input:focus {
+.jc-sign-in-modal__float input:focus,
+.jc-sign-in-modal__float input:focus-visible {
   outline: none;
-  border-color: #333;
+  border-color: #0a0a0a;
   box-shadow: none;
 }
 
@@ -1165,7 +1177,7 @@ body.jc-sign-in-modal-open {
   position: relative;
   display: flex;
   align-items: center;
-  border: 1px solid #c8c8c8;
+  border: 2px solid #c8c8c8;
   border-radius: 0;
   background: #fff;
 }
@@ -1182,12 +1194,14 @@ body.jc-sign-in-modal-open {
   box-shadow: none;
 }
 
-.jc-sign-in-modal__pwd-wrap--floating input:focus {
+.jc-sign-in-modal__pwd-wrap--floating input:focus,
+.jc-sign-in-modal__pwd-wrap--floating input:focus-visible {
+  outline: none;
   box-shadow: none;
 }
 
 .jc-sign-in-modal__pwd-wrap--floating:focus-within {
-  border-color: #333;
+  border-color: #0a0a0a;
   box-shadow: none;
 }
 
@@ -1223,7 +1237,7 @@ body.jc-sign-in-modal-open {
 }
 
 .jc-sign-in-modal__row-link {
-  margin: 0.35rem 0 1rem;
+  margin: 1rem 0 1.25rem;
   text-align: right;
   font-size: 12px;
   font-weight: 400;
@@ -1237,10 +1251,11 @@ body.jc-sign-in-modal-open {
 }
 
 .jc-sign-in-modal__legal {
-  margin: 0 0 1rem;
+  margin: 0 0 1.35rem;
+  padding-top: 0.15rem;
   font-size: 11px;
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.65;
   text-align: center;
   color: #666;
 }
@@ -1250,33 +1265,6 @@ body.jc-sign-in-modal-open {
   color: #333;
   text-decoration: underline;
   text-underline-offset: 2px;
-}
-
-.jc-sign-in-modal__benefits {
-  list-style: none;
-  margin: 0 0 1.25rem;
-  padding: 0;
-}
-
-.jc-sign-in-modal__benefits li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
-  margin-bottom: 0.65rem;
-  font-size: 13px;
-  font-weight: 400;
-  color: #444;
-  line-height: 1.4;
-}
-
-.jc-sign-in-modal__benefits li:last-child {
-  margin-bottom: 0;
-}
-
-.jc-sign-in-modal__benefit-ic {
-  flex-shrink: 0;
-  color: #888;
-  margin-top: 0.1rem;
 }
 
 .jc-sign-in-modal__check {
@@ -1351,12 +1339,15 @@ body.jc-sign-in-modal-open {
 }
 
 .jc-sign-in-modal button:focus-visible,
-.jc-sign-in-modal input:focus-visible,
 .jc-sign-in-modal__foot-action:focus-visible,
 .jc-sign-in-modal__row-link a:focus-visible,
 .jc-sign-in-modal__legal a:focus-visible {
   outline: 2px solid var(--jc-focus, #1a5f7a);
   outline-offset: 2px;
+}
+
+.jc-sign-in-modal input:focus-visible {
+  outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
