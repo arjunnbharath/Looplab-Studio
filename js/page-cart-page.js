@@ -38,6 +38,12 @@
   var COUPON_APPLY_LABEL_DEFAULT = "Apply";
   var COUPON_HINT_DEFAULT =
     "Have a coupon? Enter it below and we will apply it to this bag.";
+  var LOYALTY_REDEEM_KEY = "looplab_cart_loyalty_redeem_pts_v1";
+  var LOYALTY_CODE = "LOYALTY";
+  var LOYALTY_PTS_PER_BLOCK = 100;
+  var LOYALTY_INR_PER_BLOCK = 50;
+  /** Demo FX so ₹ rewards can reduce the USD cart total (not a live rate). */
+  var LOYALTY_DEMO_INR_PER_USD = 83;
 
   function isValidPromo(norm) {
     return (
@@ -146,6 +152,20 @@
 
   function hasEligibleMotherdayPick(items) {
     return cartWithoutGift(items).some(isSunnyEligibleBag);
+  }
+
+  function sunnyEligibilityListReady() {
+    return sunnyMotherdayIdMap !== null && sunnyMotherdayFetchOk;
+  }
+
+  /**
+   * Mother's Day id list is loaded, the bag has paid lines, but nothing qualifies for SUNNY.
+   */
+  function sunnyPromoInvalidForCart(items) {
+    if (!items || !items.length) return false;
+    if (!sunnyEligibilityListReady()) return false;
+    if (!cartWithoutGift(items).length) return false;
+    return sunnyEligibleSubtotalCents(items) === 0;
   }
 
   function motherDayGiftLineItem() {
@@ -347,13 +367,18 @@
     wrap.innerHTML = "";
     discountLines.forEach(function (L) {
       var row = document.createElement("div");
+      var mod =
+        L.code === LOYALTY_CODE
+          ? "jc-cart-discount-row--loyalty"
+          : "jc-cart-discount-row--promo";
       row.className =
-        "jc-cart-summary-row jc-cart-discount-row jc-cart-discount-row--promo";
+        "jc-cart-summary-row jc-cart-discount-row " + mod;
       row.setAttribute("data-cart-discount-line", L.code);
       var lab = document.createElement("span");
-      lab.textContent = "Promo (" + L.label + ")";
+      lab.textContent =
+        L.code === LOYALTY_CODE ? L.label : "Promo (" + L.label + ")";
       var amt = document.createElement("span");
-      amt.textContent = "−" + LLCart.fmt(L.cents);
+      amt.textContent = "\u2212" + LLCart.fmt(L.cents);
       row.appendChild(lab);
       row.appendChild(amt);
       wrap.appendChild(row);
@@ -384,6 +409,241 @@
     return String(raw || "")
       .trim()
       .toUpperCase();
+  }
+
+  function fmtInrWhole(rupeesWhole) {
+    try {
+      return (
+        "\u20B9" +
+        Number(rupeesWhole || 0).toLocaleString("en-IN", {
+          maximumFractionDigits: 0
+        })
+      );
+    } catch (e) {
+      return "\u20B9" + String(rupeesWhole);
+    }
+  }
+
+  function loyaltyUsdCentsPerBlock() {
+    return Math.max(
+      1,
+      Math.round((LOYALTY_INR_PER_BLOCK / LOYALTY_DEMO_INR_PER_USD) * 100)
+    );
+  }
+
+  function snapLoyaltyPointsDown(pts) {
+    pts = Math.max(0, Math.floor(Number(pts) || 0));
+    return Math.floor(pts / LOYALTY_PTS_PER_BLOCK) * LOYALTY_PTS_PER_BLOCK;
+  }
+
+  function getLoyaltyRedeemPointsRaw() {
+    try {
+      var raw = sessionStorage.getItem(LOYALTY_REDEEM_KEY);
+      var n = parseInt(raw, 10);
+      if (isNaN(n) || n < 0) return 0;
+      return n;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function setLoyaltyRedeemPoints(n) {
+    try {
+      n = snapLoyaltyPointsDown(Math.max(0, n));
+      if (n > 0) sessionStorage.setItem(LOYALTY_REDEEM_KEY, String(n));
+      else sessionStorage.removeItem(LOYALTY_REDEEM_KEY);
+    } catch (e2) {
+      /* ignore */
+    }
+  }
+
+  function isCartCustomerSignedIn() {
+    var ses = typeof window !== "undefined" && window.LoopLabCustomerSession;
+    return !!(ses && ses.isSignedIn && ses.isSignedIn());
+  }
+
+  function getCartLoyaltyBalance() {
+    var ses = typeof window !== "undefined" && window.LoopLabCustomerSession;
+    if (!ses || !ses.getLoyaltyPoints) return 0;
+    var n = Number(ses.getLoyaltyPoints());
+    return Math.max(0, Math.floor(isNaN(n) ? 0 : n));
+  }
+
+  function clampLoyaltyRedeemForCart(balance, maxPtsAllowed) {
+    maxPtsAllowed = snapLoyaltyPointsDown(Math.max(0, maxPtsAllowed));
+    var raw = snapLoyaltyPointsDown(getLoyaltyRedeemPointsRaw());
+    var upper = snapLoyaltyPointsDown(Math.min(balance, maxPtsAllowed));
+    var v = Math.min(raw, upper);
+    v = snapLoyaltyPointsDown(v);
+    if (v !== raw) setLoyaltyRedeemPoints(v);
+    return v;
+  }
+
+  function buildLoyaltyDiscountLine(subtotalCents, promoDiscountCents, pts) {
+    pts = snapLoyaltyPointsDown(pts);
+    if (pts < LOYALTY_PTS_PER_BLOCK) return null;
+    var blocks = pts / LOYALTY_PTS_PER_BLOCK;
+    var inrOff = blocks * LOYALTY_INR_PER_BLOCK;
+    var usdCents = Math.round((inrOff / LOYALTY_DEMO_INR_PER_USD) * 100);
+    var cap = Math.max(0, (subtotalCents || 0) - (promoDiscountCents || 0));
+    if (usdCents > cap) usdCents = cap;
+    if (usdCents < 1) return null;
+    return {
+      code: LOYALTY_CODE,
+      label:
+        "LoopLab Rewards \u2014 " +
+        pts.toLocaleString("en-US") +
+        " pts (" +
+        fmtInrWhole(inrOff) +
+        " off)",
+      cents: usdCents
+    };
+  }
+
+  function syncLoyaltyMetaDisplay(pts) {
+    pts = snapLoyaltyPointsDown(pts);
+    var blocks = pts / LOYALTY_PTS_PER_BLOCK;
+    var inrOff = blocks * LOYALTY_INR_PER_BLOCK;
+    var elP = document.getElementById("jc-loyalty-pts-val");
+    var elI = document.getElementById("jc-loyalty-inr-val");
+    if (elP) elP.textContent = String(pts);
+    if (elI) elI.textContent = fmtInrWhole(inrOff);
+  }
+
+  function renderLoyaltyPanel(items, subtotalCents, promoDiscountCents, effectiveRedeemPts) {
+    var guestEl = document.getElementById("jc-loyalty-guest");
+    var userEl = document.getElementById("jc-loyalty-user");
+    var balanceEl = document.getElementById("jc-loyalty-balance-line");
+    var range = document.getElementById("jc-loyalty-range");
+    if (!guestEl || !userEl) return;
+
+    if (!isCartCustomerSignedIn()) {
+      setLoyaltyRedeemPoints(0);
+      guestEl.hidden = false;
+      userEl.hidden = true;
+      return;
+    }
+
+    guestEl.hidden = true;
+    userEl.hidden = false;
+
+    var balance = getCartLoyaltyBalance();
+    var hint =
+      balance.toLocaleString("en-US") +
+      " pts in your account. Use the slider or enter points in steps of " +
+      LOYALTY_PTS_PER_BLOCK +
+      " (each block = " +
+      fmtInrWhole(LOYALTY_INR_PER_BLOCK) +
+      " off).";
+    if (balanceEl) balanceEl.textContent = hint;
+
+    var cap = Math.max(0, subtotalCents - promoDiscountCents);
+    var per = loyaltyUsdCentsPerBlock();
+    var maxBlocks = Math.floor(cap / per);
+    var maxPts = snapLoyaltyPointsDown(
+      Math.min(balance, maxBlocks * LOYALTY_PTS_PER_BLOCK)
+    );
+    var usePts = snapLoyaltyPointsDown(effectiveRedeemPts);
+    if (usePts > maxPts) usePts = maxPts;
+
+    var disabled =
+      !items.length ||
+      balance < LOYALTY_PTS_PER_BLOCK ||
+      maxPts < LOYALTY_PTS_PER_BLOCK;
+
+    if (range) {
+      range.min = 0;
+      range.max = maxPts;
+      range.step = LOYALTY_PTS_PER_BLOCK;
+      range.disabled = !!disabled;
+      range.value = String(usePts);
+      range.setAttribute("aria-valuemax", String(maxPts));
+      range.setAttribute("aria-valuenow", String(usePts));
+      range.setAttribute("aria-valuemin", "0");
+    }
+
+    var ptsInput = document.getElementById("jc-loyalty-points-input");
+    var ptsApply = document.getElementById("jc-loyalty-points-apply");
+    if (ptsInput) {
+      ptsInput.min = "0";
+      ptsInput.max = String(maxPts);
+      ptsInput.step = String(LOYALTY_PTS_PER_BLOCK);
+      ptsInput.value = String(usePts);
+      ptsInput.setAttribute("data-max-pts", String(maxPts));
+      ptsInput.disabled = !!disabled;
+    }
+    if (ptsApply) {
+      ptsApply.disabled = !!disabled;
+    }
+
+    syncLoyaltyMetaDisplay(usePts);
+  }
+
+  function wireLoyaltyRedeem() {
+    var user = document.getElementById("jc-loyalty-user");
+    if (!user || user.getAttribute("data-loyalty-wired") === "1") return;
+    user.setAttribute("data-loyalty-wired", "1");
+
+    var range = document.getElementById("jc-loyalty-range");
+    var ptsInput = document.getElementById("jc-loyalty-points-input");
+    var ptsApply = document.getElementById("jc-loyalty-points-apply");
+
+    function onRangeMove() {
+      if (!range || range.disabled) return;
+      var v = parseInt(range.value, 10) || 0;
+      setLoyaltyRedeemPoints(v);
+      syncLoyaltyMetaDisplay(v);
+      if (document.getElementById("jc-cart-list-root")) renderCartPage();
+    }
+
+    if (range) {
+      range.addEventListener("input", onRangeMove);
+      range.addEventListener("change", onRangeMove);
+    }
+
+    function applyLoyaltyPointsFromInput() {
+      if (!ptsInput || ptsInput.disabled) return;
+      var raw = parseInt(String(ptsInput.value).trim(), 10);
+      if (isNaN(raw) || raw < 0) raw = 0;
+      raw = snapLoyaltyPointsDown(raw);
+      var maxV = parseInt(ptsInput.getAttribute("data-max-pts") || "0", 10);
+      if (!isNaN(maxV) && raw > maxV) raw = maxV;
+      raw = snapLoyaltyPointsDown(raw);
+      setLoyaltyRedeemPoints(raw);
+      if (document.getElementById("jc-cart-list-root")) renderCartPage();
+    }
+
+    if (ptsInput) {
+      ptsInput.addEventListener("change", function () {
+        applyLoyaltyPointsFromInput();
+      });
+      ptsInput.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter") {
+          ev.preventDefault();
+          applyLoyaltyPointsFromInput();
+        }
+      });
+    }
+    if (ptsApply) {
+      ptsApply.addEventListener("click", function () {
+        applyLoyaltyPointsFromInput();
+      });
+    }
+
+    var clr = document.getElementById("jc-loyalty-clear");
+    if (clr && clr.getAttribute("data-loyalty-clear-bound") !== "1") {
+      clr.setAttribute("data-loyalty-clear-bound", "1");
+      clr.addEventListener("click", function () {
+        setLoyaltyRedeemPoints(0);
+        if (document.getElementById("jc-cart-list-root")) renderCartPage();
+      });
+    }
+
+    function onSession() {
+      if (document.getElementById("jc-cart-list-root")) renderCartPage();
+    }
+    document.addEventListener("looplab-signin-changed", onSession);
+    document.addEventListener("looplab-customers-ready", onSession);
   }
 
   function syncCouponFieldUi(hasPromos, itemsLength) {
@@ -614,6 +874,7 @@
     if (!items.length) {
       setAppliedPromos([]);
       setFreeGiftDeclined(false);
+      setLoyaltyRedeemPoints(0);
       promos = [];
       var hintEmpty = document.getElementById("jc-coupon-hint");
       if (hintEmpty) hintEmpty.textContent = COUPON_HINT_DEFAULT;
@@ -624,7 +885,37 @@
     if (cleaned.length !== promos.length) setAppliedPromos(cleaned);
     promos = getAppliedPromos();
 
+    if (sunnyPromoInvalidForCart(items) && promos.indexOf(PROMO_SUNNY) !== -1) {
+      removePromo(PROMO_SUNNY);
+      promos = getAppliedPromos();
+      var hintSunnyStrip = document.getElementById("jc-coupon-hint");
+      if (hintSunnyStrip) {
+        hintSunnyStrip.textContent =
+          "SUNNY was removed — none of the items in your bag are eligible for this offer. Add a Mother's Day Sale pick from the Bags page to use SUNNY.";
+      }
+      setCouponErrorState(true);
+    }
+
     var discountLines = computeDiscountLines(subtotalCents, items, promos);
+    var promoDiscountCents = discountLines.reduce(function (a, L) {
+      return a + L.cents;
+    }, 0);
+
+    var balancePts = isCartCustomerSignedIn() ? getCartLoyaltyBalance() : 0;
+    var capAfterPromo = Math.max(0, subtotalCents - promoDiscountCents);
+    var perBlockUsd = loyaltyUsdCentsPerBlock();
+    var maxBlocksFromCart = Math.floor(capAfterPromo / perBlockUsd);
+    var maxPtsForCart = snapLoyaltyPointsDown(
+      Math.min(balancePts, maxBlocksFromCart * LOYALTY_PTS_PER_BLOCK)
+    );
+    var effectiveLoyaltyPts = clampLoyaltyRedeemForCart(balancePts, maxPtsForCart);
+    var loyaltyLine = buildLoyaltyDiscountLine(
+      subtotalCents,
+      promoDiscountCents,
+      effectiveLoyaltyPts
+    );
+    if (loyaltyLine) discountLines = discountLines.concat([loyaltyLine]);
+
     var discountCents = discountLines.reduce(function (a, L) {
       return a + L.cents;
     }, 0);
@@ -651,11 +942,17 @@
     if (summaryTotalEl) {
       summaryTotalEl.classList.toggle(
         "jc-cart-summary-total--promo",
-        hasPromos && anyDiscount
+        anyDiscount
       );
     }
 
     syncCouponFieldUi(hasPromos, items.length);
+    renderLoyaltyPanel(
+      items,
+      subtotalCents,
+      promoDiscountCents,
+      effectiveLoyaltyPts
+    );
   }
 
   function readQtyVal(valEl) {
@@ -823,6 +1120,16 @@
         return;
       }
 
+      if (norm === PROMO_SUNNY && sunnyPromoInvalidForCart(items)) {
+        setCouponErrorState(true);
+        if (hint) {
+          hint.textContent =
+            "SUNNY can't be applied — none of the items in your bag are eligible for this offer. Add a Mother's Day Sale pick from the Bags page, or try another code.";
+        }
+        if (input) input.value = "";
+        return;
+      }
+
       promos.push(norm);
       setAppliedPromos(promos);
       if (input) input.value = "";
@@ -867,6 +1174,7 @@
     wireUpdateCartButton();
     wireCouponApply();
     wireAppliedPromoRemove();
+    wireLoyaltyRedeem();
 
     renderCartPage();
     loadMotherdaySunnyList().finally(function () {

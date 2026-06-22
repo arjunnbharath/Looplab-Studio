@@ -20,6 +20,8 @@ There is **no server database**. The site approximates one this way:
 
 Guests show **0** loyalty pts. After sign-in, the chip uses each account’s `loyaltyPoints` (seed file or **0** for newly registered users). The main nav shows **“Hi, …”** with the signed-in name (from the session, or the part before `@` if no name).
 
+**Cart redemption:** On `cart.html`, signed-in shoppers can redeem points in blocks of **100** for **₹50** off per block; the discount is merged into the USD cart total using a fixed demo INR→USD rate (see `js/page-cart-page.js`). `js/page-nav-mobile.js` exposes **`window.LoopLabCustomerSession`** (`isSignedIn`, `getLoyaltyPoints`) for the cart script. Use the **slider**, **number field + Apply**, or **Enter** in the field; redemption is stored in **`sessionStorage`** key `looplab_cart_loyalty_redeem_pts_v1` (demo only — points are not deducted from the account balance).
+
 **Default seed** (also used if the file is empty or `fetch` fails, e.g. `file://`): `arjun@gmail.com` / `elrin@gmail.com` / `mike@gmail.com` with password **`123`** and the loyalty values above.
 
 You **cannot** append to `customer.txt` from the browser without a small backend; use the file for staff-edited seeds and **Register** for “new customers” stored in the browser on that device only.
@@ -87,6 +89,16 @@ Every item in the mega panels is an `<a href="#">` (including column titles). Re
 ## Without JavaScript
 
 Copy the entire contents of `partials/page-nav.html` and paste them in place of the empty `#jc-site-nav-mount` div (replace the mount with the pasted `<header class="jc-site-header">…</header>`).
+
+## Single-file home (`cloud.html`)
+
+`cloud.html` is a **generated** copy of **`index.html`** with **inlined** `css/page-home.css`, `css/page-nav.css`, `css/page-footer.css`, the full **`partials/page-nav.html`** (header + sign-in modal), and the same bottom-of-page scripts **except** `page-nav-loader.js` / `page-nav-html-bundled.js` (nav is already in the document). Regenerate after changing styles, nav, or home scripts:
+
+```bash
+node scripts/build-cloud-html.mjs
+```
+
+Keep **`cloud.html` at the repo root** so `image/…`, `data/customer.txt`, and links like `new.html` still resolve. Other catalog pages are **not** merged into that file; they remain normal `.html` siblings.
 
 ## Site footer
 

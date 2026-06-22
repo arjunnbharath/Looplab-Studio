@@ -843,4 +843,13 @@
   } else {
     bindSignInModal();
   }
+
+  try {
+    window.LoopLabCustomerSession = {
+      getLoyaltyPoints: getSessionLoyaltyPoints,
+      isSignedIn: isLoyaltySignedIn
+    };
+  } catch (eWin) {
+    /* ignore */
+  }
 })();

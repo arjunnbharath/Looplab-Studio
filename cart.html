@@ -67,6 +67,63 @@
                 aria-label="Applied promo codes"
               ></ul>
             </div>
+            <div class="jc-loyalty" id="jc-loyalty-box" aria-labelledby="jc-loyalty-heading">
+              <p id="jc-loyalty-heading" class="jc-coupon-heading">LoopLab Rewards</p>
+              <div id="jc-loyalty-guest" class="jc-loyalty-guest">
+                <p class="jc-loyalty-hint">Sign in to redeem loyalty points on your order.</p>
+                <a href="#" class="jc-loyalty-signin" data-jc-sign-in-modal>Sign in</a>
+              </div>
+              <div id="jc-loyalty-user" class="jc-loyalty-user" hidden>
+                <p class="jc-loyalty-hint" id="jc-loyalty-balance-line"></p>
+                <p class="jc-loyalty-rate">100 pts = ₹50 off (converted into your cart total).</p>
+                <div class="jc-loyalty-range-wrap">
+                  <label class="jc-loyalty-label" for="jc-loyalty-range">Points to use</label>
+                  <input
+                    type="range"
+                    id="jc-loyalty-range"
+                    class="jc-loyalty-range"
+                    min="0"
+                    max="0"
+                    step="100"
+                    value="0"
+                    aria-valuemin="0"
+                    aria-valuemax="0"
+                    aria-valuenow="0"
+                    aria-label="Loyalty points to redeem"
+                  />
+                  <div class="jc-loyalty-range-meta" aria-live="polite">
+                    <span id="jc-loyalty-pts-val">0</span> pts
+                    <span class="jc-loyalty-arrow" aria-hidden="true">→</span>
+                    <span id="jc-loyalty-inr-val">₹0</span> off
+                  </div>
+                </div>
+                <div class="jc-loyalty-points-wrap">
+                  <label class="jc-loyalty-label" for="jc-loyalty-points-input">Or enter points</label>
+                  <p class="jc-loyalty-input-hint" id="jc-loyalty-input-hint">
+                    Use multiples of 100 (same as the slider). We will round down if needed.
+                  </p>
+                  <div class="jc-loyalty-points-field">
+                    <input
+                      type="number"
+                      id="jc-loyalty-points-input"
+                      class="jc-loyalty-points-input"
+                      name="loyalty-points"
+                      min="0"
+                      step="100"
+                      value="0"
+                      inputmode="numeric"
+                      autocomplete="off"
+                      aria-describedby="jc-loyalty-input-hint"
+                      aria-label="Loyalty points to redeem"
+                    />
+                    <button type="button" class="jc-loyalty-points-apply" id="jc-loyalty-points-apply">
+                      Apply
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="jc-loyalty-clear" id="jc-loyalty-clear">Clear points</button>
+              </div>
+            </div>
             <h2 id="cart-totals-heading" class="jc-cart-sidebar-title">Cart totals</h2>
             <div class="jc-cart-summary-row">
               <span>Shipping (3–5 business days)</span>
