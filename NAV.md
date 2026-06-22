@@ -20,7 +20,9 @@ There is **no server database**. The site approximates one this way:
 
 Guests show **0** loyalty pts. After sign-in, the chip uses each account’s `loyaltyPoints` (seed file or **0** for newly registered users). The main nav shows **“Hi, …”** with the signed-in name (from the session, or the part before `@` if no name).
 
-**Cart redemption:** On `cart.html`, signed-in shoppers can redeem points in blocks of **100** for **₹50** off per block; the discount is merged into the USD cart total using a fixed demo INR→USD rate (see `js/page-cart-page.js`). `js/page-nav-mobile.js` exposes **`window.LoopLabCustomerSession`** (`isSignedIn`, `getLoyaltyPoints`) for the cart script. Use the **slider**, **number field + Apply**, or **Enter** in the field; redemption is stored in **`sessionStorage`** key `looplab_cart_loyalty_redeem_pts_v1` (demo only — points are not deducted from the account balance).
+**Cart redemption:** On `cart.html`, signed-in shoppers can redeem points in blocks of **100** for **$10** off per block (see `js/page-cart-page.js`). `js/page-nav-mobile.js` exposes **`window.LoopLabCustomerSession`** (`isSignedIn`, `getLoyaltyPoints`, `getSessionProfile` for name/email) for the cart and checkout scripts. Use the **slider**, **number field + Apply**, or **Enter** in the field; redemption is stored in **`sessionStorage`** key `looplab_cart_loyalty_redeem_pts_v1` (demo only — points are not deducted from the account balance).
+
+**Checkout:** `checkout.html` shows a **bill / receipt** from the last **Proceed to checkout** on the cart. `js/page-cart-page.js` saves a JSON snapshot under **`sessionStorage`** key `looplab_checkout_snapshot_v1` (same totals, promos, loyalty as the cart). Opening checkout without that step shows an empty state with a link back to the cart.
 
 **Default seed** (also used if the file is empty or `fetch` fails, e.g. `file://`): `arjun@gmail.com` / `elrin@gmail.com` / `mike@gmail.com` with password **`123`** and the loyalty values above.
 

@@ -41,9 +41,11 @@
   var LOYALTY_REDEEM_KEY = "looplab_cart_loyalty_redeem_pts_v1";
   var LOYALTY_CODE = "LOYALTY";
   var LOYALTY_PTS_PER_BLOCK = 100;
-  var LOYALTY_INR_PER_BLOCK = 50;
-  /** Demo FX so ₹ rewards can reduce the USD cart total (not a live rate). */
-  var LOYALTY_DEMO_INR_PER_USD = 83;
+  /** USD discount per 100 loyalty points ($10.00). */
+  var LOYALTY_USD_CENTS_PER_BLOCK = 1000;
+
+  /** Serialized cart bill for checkout.html (sessionStorage). */
+  var CHECKOUT_SNAPSHOT_KEY = "looplab_checkout_snapshot_v1";
 
   function isValidPromo(norm) {
     return (
@@ -411,24 +413,8 @@
       .toUpperCase();
   }
 
-  function fmtInrWhole(rupeesWhole) {
-    try {
-      return (
-        "\u20B9" +
-        Number(rupeesWhole || 0).toLocaleString("en-IN", {
-          maximumFractionDigits: 0
-        })
-      );
-    } catch (e) {
-      return "\u20B9" + String(rupeesWhole);
-    }
-  }
-
   function loyaltyUsdCentsPerBlock() {
-    return Math.max(
-      1,
-      Math.round((LOYALTY_INR_PER_BLOCK / LOYALTY_DEMO_INR_PER_USD) * 100)
-    );
+    return LOYALTY_USD_CENTS_PER_BLOCK;
   }
 
   function snapLoyaltyPointsDown(pts) {
@@ -483,18 +469,18 @@
     pts = snapLoyaltyPointsDown(pts);
     if (pts < LOYALTY_PTS_PER_BLOCK) return null;
     var blocks = pts / LOYALTY_PTS_PER_BLOCK;
-    var inrOff = blocks * LOYALTY_INR_PER_BLOCK;
-    var usdCents = Math.round((inrOff / LOYALTY_DEMO_INR_PER_USD) * 100);
+    var usdCents = Math.round(blocks * LOYALTY_USD_CENTS_PER_BLOCK);
     var cap = Math.max(0, (subtotalCents || 0) - (promoDiscountCents || 0));
     if (usdCents > cap) usdCents = cap;
     if (usdCents < 1) return null;
+    var dollarsOffStr = LLCart.fmt(usdCents);
     return {
       code: LOYALTY_CODE,
       label:
         "LoopLab Rewards \u2014 " +
         pts.toLocaleString("en-US") +
         " pts (" +
-        fmtInrWhole(inrOff) +
+        dollarsOffStr +
         " off)",
       cents: usdCents
     };
@@ -503,11 +489,11 @@
   function syncLoyaltyMetaDisplay(pts) {
     pts = snapLoyaltyPointsDown(pts);
     var blocks = pts / LOYALTY_PTS_PER_BLOCK;
-    var inrOff = blocks * LOYALTY_INR_PER_BLOCK;
+    var usdCents = Math.round(blocks * LOYALTY_USD_CENTS_PER_BLOCK);
     var elP = document.getElementById("jc-loyalty-pts-val");
-    var elI = document.getElementById("jc-loyalty-inr-val");
+    var elU = document.getElementById("jc-loyalty-usd-val");
     if (elP) elP.textContent = String(pts);
-    if (elI) elI.textContent = fmtInrWhole(inrOff);
+    if (elU) elU.textContent = LLCart.fmt(usdCents);
   }
 
   function renderLoyaltyPanel(items, subtotalCents, promoDiscountCents, effectiveRedeemPts) {
@@ -533,7 +519,7 @@
       " pts in your account. Use the slider or enter points in steps of " +
       LOYALTY_PTS_PER_BLOCK +
       " (each block = " +
-      fmtInrWhole(LOYALTY_INR_PER_BLOCK) +
+      LLCart.fmt(LOYALTY_USD_CENTS_PER_BLOCK) +
       " off).";
     if (balanceEl) balanceEl.textContent = hint;
 
@@ -845,42 +831,17 @@
     return li;
   }
 
-  function renderCartPage() {
+  /**
+   * Single source of truth for subtotal, promos, discounts, loyalty, and total.
+   * Mutates applied promos / loyalty clamp the same way as the cart UI.
+   */
+  function getCartBillBreakdown() {
     reconcileMotherdayGiftAndFreeGift();
-    var root = document.getElementById("jc-cart-list-root");
-    if (!root) return;
-
-    var empty = document.getElementById("jc-cart-empty");
     var items = LLCart.load();
-    root.innerHTML = "";
-
-    if (!items.length) {
-      root.hidden = true;
-      if (empty) empty.hidden = false;
-    } else {
-      root.hidden = false;
-      if (empty) empty.hidden = true;
-      items.forEach(function (item) {
-        root.appendChild(buildCartRow(item));
-      });
-    }
-
-    var sub = document.querySelector("[data-cart-subtotal]");
-    var total = document.querySelector("[data-cart-total]");
+    if (!items.length) return null;
 
     var subtotalCents = LLCart.totalCents();
     var promos = getAppliedPromos();
-
-    if (!items.length) {
-      setAppliedPromos([]);
-      setFreeGiftDeclined(false);
-      setLoyaltyRedeemPoints(0);
-      promos = [];
-      var hintEmpty = document.getElementById("jc-coupon-hint");
-      if (hintEmpty) hintEmpty.textContent = COUPON_HINT_DEFAULT;
-      setCouponErrorState(false);
-    }
-
     var cleaned = promos.filter(isValidPromo);
     if (cleaned.length !== promos.length) setAppliedPromos(cleaned);
     promos = getAppliedPromos();
@@ -914,12 +875,140 @@
       promoDiscountCents,
       effectiveLoyaltyPts
     );
-    if (loyaltyLine) discountLines = discountLines.concat([loyaltyLine]);
+    var allDiscountLines = discountLines.slice();
+    if (loyaltyLine) allDiscountLines.push(loyaltyLine);
 
-    var discountCents = discountLines.reduce(function (a, L) {
+    var discountCents = allDiscountLines.reduce(function (a, L) {
       return a + L.cents;
     }, 0);
     var finalCents = Math.max(0, subtotalCents - discountCents);
+
+    var lines = items.map(function (item) {
+      var qty = item.qty || 1;
+      var isGift =
+        (LLCart.isFreeGiftLine && LLCart.isFreeGiftLine(item)) ||
+        String(item.id) === GIFT_LINE_ID ||
+        item.freeGift === true;
+      return {
+        id: item.id,
+        title: item.title || "Item",
+        meta: item.meta || "",
+        image: item.image || "",
+        qty: qty,
+        priceCentsEach: item.priceCents || 0,
+        lineTotalCents: isGift ? 0 : (item.priceCents || 0) * qty,
+        freeGift: !!isGift
+      };
+    });
+
+    return {
+      version: 1,
+      createdAt: Date.now(),
+      orderRef: "LL-" + Date.now().toString(36).toUpperCase(),
+      lines: lines,
+      subtotalCents: subtotalCents,
+      promos: promos.slice(),
+      discountLines: allDiscountLines.map(function (L) {
+        return { code: L.code, label: L.label, cents: L.cents };
+      }),
+      promoDiscountCents: promoDiscountCents,
+      effectiveLoyaltyPts: effectiveLoyaltyPts,
+      discountCents: discountCents,
+      shippingCents: 0,
+      taxCents: 0,
+      finalCents: finalCents
+    };
+  }
+
+  function persistCheckoutSnapshot() {
+    var bill = getCartBillBreakdown();
+    if (!bill) return false;
+    try {
+      sessionStorage.setItem(CHECKOUT_SNAPSHOT_KEY, JSON.stringify(bill));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function wireCheckoutLink() {
+    var a = document.querySelector(".jc-cart-checkout");
+    if (!a || a.getAttribute("data-checkout-bound") === "1") return;
+    a.setAttribute("data-checkout-bound", "1");
+    a.setAttribute("href", "checkout.html");
+    a.addEventListener("click", function (ev) {
+      reconcileMotherdayGiftAndFreeGift();
+      if (!LLCart.load().length) {
+        ev.preventDefault();
+        var h = document.getElementById("jc-coupon-hint");
+        if (h) {
+          h.textContent =
+            "Your bag is empty — add items before checkout.";
+        }
+        setCouponErrorState(true);
+        return;
+      }
+      if (!persistCheckoutSnapshot()) {
+        ev.preventDefault();
+      }
+    });
+  }
+
+  function renderCartPage() {
+    reconcileMotherdayGiftAndFreeGift();
+    var root = document.getElementById("jc-cart-list-root");
+    if (!root) return;
+
+    var empty = document.getElementById("jc-cart-empty");
+    var items = LLCart.load();
+    root.innerHTML = "";
+
+    if (!items.length) {
+      root.hidden = true;
+      if (empty) empty.hidden = false;
+    } else {
+      root.hidden = false;
+      if (empty) empty.hidden = true;
+      items.forEach(function (item) {
+        root.appendChild(buildCartRow(item));
+      });
+    }
+
+    var sub = document.querySelector("[data-cart-subtotal]");
+    var total = document.querySelector("[data-cart-total]");
+
+    var subtotalCents = 0;
+    var promos = [];
+    var discountLines = [];
+    var promoDiscountCents = 0;
+    var effectiveLoyaltyPts = 0;
+    var discountCents = 0;
+    var finalCents = 0;
+
+    if (!items.length) {
+      setAppliedPromos([]);
+      setFreeGiftDeclined(false);
+      setLoyaltyRedeemPoints(0);
+      promos = [];
+      var hintEmpty = document.getElementById("jc-coupon-hint");
+      if (hintEmpty) hintEmpty.textContent = COUPON_HINT_DEFAULT;
+      setCouponErrorState(false);
+    } else {
+      var bill = getCartBillBreakdown();
+      if (bill) {
+        subtotalCents = bill.subtotalCents;
+        promos = bill.promos;
+        discountLines = bill.discountLines;
+        promoDiscountCents = bill.promoDiscountCents;
+        effectiveLoyaltyPts = bill.effectiveLoyaltyPts;
+        discountCents = bill.discountCents;
+        finalCents = bill.finalCents;
+      } else {
+        subtotalCents = LLCart.totalCents();
+        promos = getAppliedPromos();
+        finalCents = subtotalCents;
+      }
+    }
 
     if (sub) sub.textContent = LLCart.fmt(subtotalCents);
     if (total) total.textContent = LLCart.fmt(finalCents);
@@ -1175,6 +1264,7 @@
     wireCouponApply();
     wireAppliedPromoRemove();
     wireLoyaltyRedeem();
+    wireCheckoutLink();
 
     renderCartPage();
     loadMotherdaySunnyList().finally(function () {

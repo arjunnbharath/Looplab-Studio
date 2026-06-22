@@ -402,6 +402,21 @@
     }
   }
 
+  function getSessionProfile() {
+    try {
+      var raw = sessionStorage.getItem(SIGNIN_STORAGE_KEY);
+      if (!raw) return null;
+      var o = JSON.parse(raw);
+      if (!o || !o.email) return null;
+      return {
+        email: String(o.email || "").trim(),
+        name: String(o.name != null ? o.name : "").trim()
+      };
+    } catch (e2) {
+      return null;
+    }
+  }
+
   function syncLoyaltyPointsFromUrl() {
     var el = document.querySelector("[data-loyalty-points]");
     if (!el) return;
@@ -847,7 +862,8 @@
   try {
     window.LoopLabCustomerSession = {
       getLoyaltyPoints: getSessionLoyaltyPoints,
-      isSignedIn: isLoyaltySignedIn
+      isSignedIn: isLoyaltySignedIn,
+      getSessionProfile: getSessionProfile
     };
   } catch (eWin) {
     /* ignore */

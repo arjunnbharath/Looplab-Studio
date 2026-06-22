@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f5f5" />
+  <title>LoopLab Studio — Checkout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/page-home.css" />
+  <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-cart.css" />
+  <link rel="stylesheet" href="css/page-checkout.css" />
+  <link rel="stylesheet" href="css/page-footer.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
+
+  <main id="main" class="rx-main jc-checkout-wrap">
+    <div class="jc-checkout-page">
+      <div class="jc-checkout-inner">
+        <a class="jc-cart-back" href="cart.html">‹ Back to cart</a>
+        <h1 class="jc-checkout-title">Checkout</h1>
+
+        <div id="jc-checkout-empty" class="jc-checkout-empty" hidden>
+          <p class="jc-checkout-empty-title">Nothing to check out</p>
+          <p class="jc-checkout-empty-lede">
+            Add items in your <a href="cart.html">cart</a>, then use <strong>Proceed to checkout</strong> to open this page with your bill.
+          </p>
+        </div>
+
+        <div id="jc-checkout-main" class="jc-checkout-main" hidden>
+          <div class="jc-checkout-grid">
+            <section class="jc-checkout-details" aria-labelledby="ship-heading">
+              <h2 id="ship-heading" class="jc-checkout-section-title">Delivery details</h2>
+              <form class="jc-checkout-form" id="jc-checkout-form-demo" action="#" method="get" onsubmit="return false;">
+                <div class="jc-checkout-field">
+                  <label for="co-full-name">Full name</label>
+                  <input id="co-full-name" name="name" type="text" autocomplete="name" placeholder="Jordan Chen" />
+                </div>
+                <div class="jc-checkout-field">
+                  <label for="co-email">Email</label>
+                  <input id="co-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+                </div>
+                <div class="jc-checkout-field">
+                  <label for="co-address">Street address</label>
+                  <input id="co-address" name="address" type="text" autocomplete="street-address" placeholder="123 Loop Street" />
+                </div>
+                <div class="jc-checkout-field">
+                  <label for="co-city">City</label>
+                  <input id="co-city" name="city" type="text" autocomplete="address-level2" placeholder="New York" />
+                </div>
+                <div class="jc-checkout-field">
+                  <label for="co-notes">Delivery notes (optional)</label>
+                  <textarea id="co-notes" name="notes" placeholder="Leave at door, ring twice…"></textarea>
+                </div>
+              </form>
+            </section>
+
+            <aside class="jc-checkout-aside" aria-labelledby="bill-heading">
+              <h2 id="bill-heading" class="jc-checkout-section-title">Order bill</h2>
+              <div class="jc-checkout-bill" id="jc-checkout-bill"></div>
+              <button type="button" class="jc-checkout-place" id="jc-checkout-place-demo">
+                Place order 
+              </button>
+              <p class="jc-checkout-thanks" id="jc-checkout-thanks" role="status"></p>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
+  <script src="js/page-nav-html-bundled.js" defer></script>
+  <script src="js/page-nav-loader.js" defer></script>
+  <script src="js/page-nav-mobile.js" defer></script>
+  <script src="js/page-cart-store.js" defer></script>
+  <script src="js/page-checkout.js" defer></script>
+  <script src="js/page-footer-html-bundled.js" defer></script>
+  <script src="js/page-footer-loader.js" defer></script>
+  <script src="js/page-newsletter.js" defer></script>
+</body>
+</html>
