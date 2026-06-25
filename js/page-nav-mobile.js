@@ -21,14 +21,21 @@
     bound = true;
 
     function setHeaderHeightVar() {
+      var stack = document.getElementById("jc-site-top");
       var inner = header.querySelector(".jc-header-inner");
-      var bar = inner || header;
-      var barH = bar.getBoundingClientRect().height;
-      var headerStyle = window.getComputedStyle(header);
-      var borderBottom = parseFloat(headerStyle.borderBottomWidth) || 0;
+      var barH;
+      if (stack) {
+        barH = stack.getBoundingClientRect().height;
+      } else {
+        var bar = inner || header;
+        barH = bar.getBoundingClientRect().height;
+        var headerStyle = window.getComputedStyle(header);
+        var borderBottom = parseFloat(headerStyle.borderBottomWidth) || 0;
+        barH += borderBottom;
+      }
       document.documentElement.style.setProperty(
         "--jc-header-h",
-        Math.ceil(barH + borderBottom) + "px"
+        Math.ceil(barH) + "px"
       );
     }
 
@@ -109,16 +116,23 @@
   document.addEventListener("page-nav-loaded", tryBind);
 
   function syncHeaderHeightVar() {
+    var stack = document.getElementById("jc-site-top");
     var header = document.querySelector(".jc-site-header");
-    if (!header) return;
-    var inner = header.querySelector(".jc-header-inner");
-    var bar = inner || header;
-    var barH = bar.getBoundingClientRect().height;
-    var headerStyle = window.getComputedStyle(header);
-    var borderBottom = parseFloat(headerStyle.borderBottomWidth) || 0;
+    if (!header && !stack) return;
+    var barH;
+    if (stack) {
+      barH = stack.getBoundingClientRect().height;
+    } else {
+      var inner = header.querySelector(".jc-header-inner");
+      var bar = inner || header;
+      barH = bar.getBoundingClientRect().height;
+      var headerStyle = window.getComputedStyle(header);
+      var borderBottom = parseFloat(headerStyle.borderBottomWidth) || 0;
+      barH += borderBottom;
+    }
     document.documentElement.style.setProperty(
       "--jc-header-h",
-      Math.ceil(barH + borderBottom) + "px"
+      Math.ceil(barH) + "px"
     );
   }
 
@@ -344,6 +358,8 @@
 
     function closeSearch() {
       wrap.classList.remove("jc-search-expand--open");
+      var header = document.querySelector(".jc-site-header");
+      if (header) header.classList.remove("jc-header-search-open");
       toggle.setAttribute("aria-expanded", "false");
       toggle.setAttribute("aria-label", "Open search");
       var panel = document.getElementById("jc-search-results");
@@ -361,6 +377,10 @@
         backdrop.click();
       }
       wrap.classList.add("jc-search-expand--open");
+      if (isMobileNav()) {
+        var header = document.querySelector(".jc-site-header");
+        if (header) header.classList.add("jc-header-search-open");
+      }
       toggle.setAttribute("aria-expanded", "true");
       toggle.setAttribute("aria-label", "Close search");
       window.requestAnimationFrame(function () {
@@ -394,6 +414,20 @@
       },
       true
     );
+
+    function clearMobileSearchBarClass() {
+      if (!isMobileNav()) {
+        var header = document.querySelector(".jc-site-header");
+        if (header) header.classList.remove("jc-header-search-open");
+      }
+    }
+
+    window.addEventListener("resize", clearMobileSearchBarClass, { passive: true });
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", clearMobileSearchBarClass);
+    } else if (typeof mq.addListener === "function") {
+      mq.addListener(clearMobileSearchBarClass);
+    }
   }
 
   document.addEventListener("page-nav-loaded", bindSearchExpand);
@@ -600,7 +634,7 @@
   }
 
   /**
-   * Loyalty chip: guests **0** pts. Signed-in uses `loyaltyPoints` on the session or from customer list.
+   * Loyalty chip: hidden for guests. Signed-in shows `loyaltyPoints` from session or customer list.
    */
   function formatLoyaltyPoints(n) {
     try {
@@ -637,13 +671,28 @@
   }
 
   function syncLoyaltyPointsFromUrl() {
+    var header = document.querySelector(".jc-site-header");
+    var chip = document.querySelector(".jc-loyalty-chip");
     var el = document.querySelector("[data-loyalty-points]");
-    if (!el) return;
-    if (!isLoyaltySignedIn()) {
-      el.textContent = formatLoyaltyPoints(0);
+    if (!header && !chip && !el) return;
+
+    var signed = isLoyaltySignedIn();
+    if (header) {
+      header.classList.toggle("jc-loyalty-signed-in", signed);
+    }
+    if (!signed) {
+      if (chip) {
+        chip.hidden = true;
+        chip.setAttribute("aria-hidden", "true");
+      }
+      if (el) el.textContent = formatLoyaltyPoints(0);
       return;
     }
-    el.textContent = formatLoyaltyPoints(getSessionLoyaltyPoints());
+    if (chip) {
+      chip.hidden = false;
+      chip.removeAttribute("aria-hidden");
+    }
+    if (el) el.textContent = formatLoyaltyPoints(getSessionLoyaltyPoints());
   }
 
   document.addEventListener("page-nav-loaded", syncLoyaltyPointsFromUrl);
@@ -651,6 +700,7 @@
   window.addEventListener("popstate", syncLoyaltyPointsFromUrl);
   document.addEventListener("looplab-signin-changed", syncLoyaltyPointsFromUrl);
   document.addEventListener("looplab-customers-ready", syncLoyaltyPointsFromUrl);
+  syncLoyaltyPointsFromUrl();
 
   document.addEventListener("DOMContentLoaded", function () {
     loadCustomersIntoCache(null);

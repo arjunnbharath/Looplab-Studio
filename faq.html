@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>FAQ — LoopLab Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/page-home.css" />
+  <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-info.css" />
+  <link rel="stylesheet" href="css/page-footer.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
+
+  <main id="main" class="rx-main info-page">
+    <header class="info-hero" aria-labelledby="faq-title">
+      <div class="info-hero-inner">
+        <p class="info-hero-kicker">Answers at a glance</p>
+        <h1 id="faq-title">FAQ</h1>
+        <p>Shipping, returns, sizing, and account questions—tap a topic to expand. Still stuck? <a href="contact.html">Contact us</a>.</p>
+      </div>
+    </header>
+
+    <div class="info-body">
+      <nav aria-label="Help pages">
+        <ul class="info-pill-nav">
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html" aria-current="page">FAQ</a></li>
+          <li><a href="documentation.html">Documentation</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+
+      <section class="info-section" aria-labelledby="faq-orders">
+        <h2 id="faq-orders">Orders &amp; shipping</h2>
+        <div class="info-faq">
+          <details>
+            <summary>How long does shipping take?</summary>
+            <div class="info-faq-body">
+              <p>Standard delivery is 3–5 business days within the continental US. Express options appear at checkout when available for your address.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Do you offer free shipping?</summary>
+            <div class="info-faq-body">
+              <p>Complimentary standard shipping applies on qualifying orders. The threshold is shown in your cart before checkout.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Can I change or cancel an order?</summary>
+            <div class="info-faq-body">
+              <p>Contact us within one hour of placing your order. Once a package is packed we can’t change items, but we can help with returns when it arrives.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="info-section" aria-labelledby="faq-returns">
+        <h2 id="faq-returns">Returns &amp; exchanges</h2>
+        <div class="info-faq">
+          <details>
+            <summary>What is your return window?</summary>
+            <div class="info-faq-body">
+              <p>Unworn items with tags attached may be returned within 30 days of delivery. Final-sale pieces are marked on the product page and at checkout.</p>
+            </div>
+          </details>
+          <details>
+            <summary>How do I start a return?</summary>
+            <div class="info-faq-body">
+              <p>Visit <a href="support.html">Support</a> and choose “Start a return,” or email <a href="mailto:hello@looplabstudio.com">hello@looplabstudio.com</a> with your order number.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="info-section" aria-labelledby="faq-account">
+        <h2 id="faq-account">Account &amp; loyalty</h2>
+        <div class="info-faq">
+          <details>
+            <summary>How do LoopLab Rewards points work?</summary>
+            <div class="info-faq-body">
+              <p>Signed-in members earn points on purchases. Redeem in blocks of 100 points for $10 off in your cart. See <a href="documentation.html">Documentation</a> for full program details.</p>
+            </div>
+          </details>
+          <details>
+            <summary>I forgot my password</summary>
+            <div class="info-faq-body">
+              <p>On this demo site, use the seed accounts in documentation or register a new account. Production sites should enable password reset email.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
+  <script src="js/page-nav-html-bundled.js" defer></script>
+  <script src="js/page-nav-loader.js" defer></script>
+  <script src="js/page-nav-mobile.js" defer></script>
+  <script src="js/page-nav-search.js" defer></script>
+  <script src="js/page-cart-store.js" defer></script>
+  <script src="js/page-footer-html-bundled.js" defer></script>
+  <script src="js/page-footer-loader.js" defer></script>
+  <script src="js/page-newsletter.js" defer></script>
+</body>
+</html>

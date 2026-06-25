@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Documentation — LoopLab Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/page-home.css" />
+  <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-info.css" />
+  <link rel="stylesheet" href="css/page-footer.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
+
+  <main id="main" class="rx-main info-page">
+    <header class="info-hero" aria-labelledby="docs-title">
+      <div class="info-hero-inner">
+        <p class="info-hero-kicker">How things work</p>
+        <h1 id="docs-title">Documentation</h1>
+        <p>Guides for shopping, accounts, loyalty, and using this demo storefront—written for customers and developers.</p>
+      </div>
+    </header>
+
+    <div class="info-body">
+      <nav aria-label="Help pages">
+        <ul class="info-pill-nav">
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="documentation.html" aria-current="page">Documentation</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+
+      <nav class="info-toc" aria-labelledby="docs-toc-title">
+        <h2 id="docs-toc-title">On this page</h2>
+        <ul>
+          <li><a href="#docs-shopping">Shopping &amp; checkout</a></li>
+          <li><a href="#docs-loyalty">LoopLab Rewards</a></li>
+          <li><a href="#docs-accounts">Accounts (demo)</a></li>
+          <li><a href="#docs-dev">Developer notes</a></li>
+        </ul>
+      </nav>
+
+      <section class="info-doc-section" id="docs-shopping" aria-labelledby="docs-shopping-h">
+        <h2 id="docs-shopping-h">Shopping &amp; checkout</h2>
+        <p>Browse departments from the main navigation or use search. Product detail pages support size selection and add-to-bag. Your bag is saved in this browser until you clear site data.</p>
+        <h3>Checkout flow</h3>
+        <ol>
+          <li>Add items from any product listing or PDP.</li>
+          <li>Open <a href="cart.html">Cart</a> to review quantities, promos, and loyalty redemption.</li>
+          <li>Choose <strong>Proceed to checkout</strong> to open the bill on <a href="checkout.html">Checkout</a>.</li>
+        </ol>
+        <p>Checkout is a demo—no payment is processed. Connect Stripe or your PSP when you go live.</p>
+      </section>
+
+      <section class="info-doc-section" id="docs-loyalty" aria-labelledby="docs-loyalty-h">
+        <h2 id="docs-loyalty-h">LoopLab Rewards</h2>
+        <p>Sign in to see your points balance in the header. Redeem points on the cart page in blocks of <strong>100 pts = $10 off</strong>.</p>
+        <ul>
+          <li>Guests cannot redeem points.</li>
+          <li>Redemption is stored in session storage for this demo.</li>
+          <li>Seed accounts ship with sample balances—see Accounts below.</li>
+        </ul>
+      </section>
+
+      <section class="info-doc-section" id="docs-accounts" aria-labelledby="docs-accounts-h">
+        <h2 id="docs-accounts-h">Accounts (demo)</h2>
+        <p>This site has no production database. Sign-in reads <code>data/customer.txt</code> over HTTP and merges registrations saved in your browser.</p>
+        <h3>Try these seed logins</h3>
+        <p>Password for all: <strong>123</strong></p>
+        <ul>
+          <li>arjun@gmail.com — 1,200 pts</li>
+          <li>elrin@gmail.com — 2,000 pts</li>
+          <li>mike@gmail.com — 400 pts</li>
+        </ul>
+        <p>Run the site with a local server so data files load:</p>
+        <code class="info-code">npx serve</code>
+      </section>
+
+      <section class="info-doc-section" id="docs-dev" aria-labelledby="docs-dev-h">
+        <h2 id="docs-dev-h">Developer notes</h2>
+        <p>Navigation and footer are shared partials loaded at runtime. Product catalog lives in <code>data/products.json</code> with a bundled copy for offline use.</p>
+        <h3>Key paths</h3>
+        <ul>
+          <li><code>partials/page-nav.html</code> — header &amp; mega menus</li>
+          <li><code>partials/footer.html</code> — site footer</li>
+          <li><code>js/page-cart-store.js</code> — cart persistence</li>
+          <li><code>NAV.md</code> / <code>FOOTER.md</code> — integration docs</li>
+        </ul>
+        <p>Need help wiring production APIs? <a href="contact.html">Contact the team</a> or open <a href="support.html">Support</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
+  <script src="js/page-nav-html-bundled.js" defer></script>
+  <script src="js/page-nav-loader.js" defer></script>
+  <script src="js/page-nav-mobile.js" defer></script>
+  <script src="js/page-nav-search.js" defer></script>
+  <script src="js/page-cart-store.js" defer></script>
+  <script src="js/page-footer-html-bundled.js" defer></script>
+  <script src="js/page-footer-loader.js" defer></script>
+  <script src="js/page-newsletter.js" defer></script>
+</body>
+</html>

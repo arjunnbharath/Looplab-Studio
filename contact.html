@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Contact — LoopLab Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/page-home.css" />
+  <link rel="stylesheet" href="css/page-nav.css" />
+  <link rel="stylesheet" href="css/page-info.css" />
+  <link rel="stylesheet" href="css/page-footer.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
+
+  <main id="main" class="rx-main info-page">
+    <header class="info-hero" aria-labelledby="contact-title">
+      <div class="info-hero-inner">
+        <p class="info-hero-kicker">We’re here to help</p>
+        <h1 id="contact-title">Contact</h1>
+        <p>Questions about an order, sizing, or a wholesale inquiry? Send a note and we’ll reply within one business day.</p>
+      </div>
+    </header>
+
+    <div class="info-body">
+      <nav aria-label="Help pages">
+        <ul class="info-pill-nav">
+          <li><a href="contact.html" aria-current="page">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="documentation.html">Documentation</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+
+      <div class="info-layout info-layout--split">
+        <section class="info-section" aria-labelledby="contact-form-heading">
+          <h2 id="contact-form-heading">Send a message</h2>
+          <form class="info-form" id="info-contact-form" action="#" method="post">
+            <div class="info-field">
+              <label for="contact-name">Full name</label>
+              <input id="contact-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="info-field">
+              <label for="contact-email">Email</label>
+              <input id="contact-email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="info-field">
+              <label for="contact-topic">Topic</label>
+              <select id="contact-topic" name="topic" required>
+                <option value="">Choose a topic</option>
+                <option>Order status</option>
+                <option>Returns &amp; exchanges</option>
+                <option>Product question</option>
+                <option>Account &amp; loyalty</option>
+                <option>Press &amp; partnerships</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="info-field">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="message" required placeholder="Include your order number if you have one."></textarea>
+            </div>
+            <button type="submit" class="info-submit">Send message</button>
+            <p class="info-form-note">Demo site — messages are not emailed. Use this layout when you connect a backend.</p>
+            <p class="info-form-status" id="info-contact-status" role="status" hidden></p>
+          </form>
+        </section>
+
+        <aside class="info-section" aria-labelledby="contact-details-heading">
+          <h2 id="contact-details-heading">Other ways to reach us</h2>
+          <ul class="info-contact-list">
+            <li>
+              <strong>Customer care</strong>
+              <a href="mailto:hello@looplabstudio.com">hello@looplabstudio.com</a>
+            </li>
+            <li>
+              <strong>Phone</strong>
+              <a href="tel:+18005551234">1-800-555-1234</a><br />
+              Mon–Fri, 9am–6pm ET
+            </li>
+            <li>
+              <strong>Studio</strong>
+              120 Mercer Street, New York, NY 10012
+            </li>
+            <li>
+              <strong>Quick answers</strong>
+              See <a href="faq.html">FAQ</a> or visit <a href="support.html">Support</a> for order help.
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div id="jc-site-footer-mount" data-footer-partial="partials/footer.html"></div>
+  <script src="js/page-nav-html-bundled.js" defer></script>
+  <script src="js/page-nav-loader.js" defer></script>
+  <script src="js/page-nav-mobile.js" defer></script>
+  <script src="js/page-nav-search.js" defer></script>
+  <script src="js/page-cart-store.js" defer></script>
+  <script src="js/page-footer-html-bundled.js" defer></script>
+  <script src="js/page-footer-loader.js" defer></script>
+  <script src="js/page-newsletter.js" defer></script>
+  <script src="js/page-info-contact.js" defer></script>
+</body>
+</html>
