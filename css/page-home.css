@@ -1251,6 +1251,42 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--rx-focus); outl
   color: var(--rx-grey);
 }
 
+@media (max-width: 899px) {
+  .rx-summer {
+    padding: clamp(1.25rem, 3vw, 1.75rem) 0 clamp(1.5rem, 4vw, 2.25rem);
+  }
+
+  .rx-summer-header {
+    margin-bottom: 0.65rem;
+  }
+
+  .rx-summer-marquee-track {
+    gap: 0.55rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .rx-summer-marquee .rx-summer-card {
+    flex: 0 0 clamp(140px, 52vw, 210px);
+    gap: 0.45rem;
+  }
+
+  .rx-summer-card-img {
+    aspect-ratio: 2 / 3;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+  }
+
+  .rx-summer-card-cap {
+    font-size: 10px;
+    letter-spacing: 0.11em;
+  }
+}
+
 @media (max-width: 640px) {
-  .rx-summer-marquee .rx-summer-card { flex: 0 0 72vw; }
+  .rx-summer-marquee .rx-summer-card {
+    flex: 0 0 clamp(128px, 48vw, 188px);
+  }
+
+  .rx-summer-card-img {
+    aspect-ratio: 3 / 4;
+  }
 }
