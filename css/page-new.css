@@ -162,16 +162,28 @@
 
 @media (max-width: 899px) {
   .nw-hero-grid {
-    min-height: clamp(480px, 78vh, 720px);
+    min-height: clamp(300px, 48vh, 460px);
+    padding: clamp(0.85rem, 2.5vh, 1.25rem) var(--rx-pad-x) clamp(1rem, 3vh, 1.5rem);
   }
 
   .nw-hero-watermark {
-    font-size: clamp(2.75rem, 22vw, 8rem);
+    font-size: clamp(2.25rem, 18vw, 6.5rem);
   }
 
   .nw-hero-swiper {
-    padding-left: var(--rx-pad-x);
-    padding-right: var(--rx-pad-x);
+    padding: clamp(0.65rem, 2vh, 1rem) var(--rx-pad-x) clamp(1rem, 3vh, 1.75rem);
+  }
+
+  .nw-hero-swiper-el.swiper {
+    height: clamp(200px, 36vh, 320px);
+  }
+
+  .nw-hero-swiper .swiper-slide {
+    width: clamp(130px, 34vw, 200px);
+  }
+
+  .nw-hero-swiper .swiper-slide img {
+    -webkit-box-reflect: below 1px linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.12));
   }
 }
 

@@ -43,6 +43,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--rx-focus); outl
 
 /* ----- Utility bar ----- */
 .rx-util { background: var(--rx-black); color: var(--rx-white); font-size: 10px; letter-spacing: 0.05em; }
+
+@media (max-width: 1100px) {
+  .rx-util {
+    display: none;
+  }
+}
 .rx-util-inner { max-width: var(--rx-content-max); margin: 0 auto; padding: 0.35rem 1.15rem; display: flex; align-items: center; justify-content: space-between; gap: 0.65rem 1rem; }
 .rx-social { display: flex; align-items: center; gap: 0.7rem; }
 .rx-social a { display: flex; opacity: 0.85; transition: opacity 0.2s ease; }

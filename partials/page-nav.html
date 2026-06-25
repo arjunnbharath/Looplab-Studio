@@ -17,6 +17,10 @@
     <div class="jc-header-left">
       <a class="jc-logo" href="index.html">LoopLab Studio</a>
       <nav class="jc-primary-nav" id="jc-primary-nav" aria-label="Primary">
+        <div class="jc-drawer-head">
+          <p class="jc-drawer-head__title">Menu</p>
+        </div>
+        <div class="jc-drawer-body">
         <ul>
           <!-- NEW -->
           <li class="jc-nav-item">
@@ -730,6 +734,38 @@
             </div>
           </li>
         </ul>
+        </div>
+        <div class="jc-drawer-foot" id="jc-drawer-foot">
+          <div class="jc-drawer-account" id="jc-drawer-account" hidden>
+            <div class="jc-drawer-account__head">
+              <div class="jc-drawer-account__greet-slot" id="jc-drawer-greet-mount"></div>
+              <div class="jc-drawer-account__actions" id="jc-drawer-signin-mount"></div>
+            </div>
+            <p class="jc-drawer-account__email" id="jc-drawer-email" hidden></p>
+          </div>
+          <div class="jc-drawer-utils">
+            <div class="jc-drawer-social" aria-label="Social media">
+              <a href="#" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V1.14C16.174 1.05 15.073 1 13.89 1 11.165 1 9 2.657 9 5.7v2.8H7v4h2V23h4v-8.5Z"/></svg>
+              </a>
+              <a href="#" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 2.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm5.75-.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"/></svg>
+              </a>
+              <a href="#" aria-label="Twitter">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+              </a>
+              <a href="#" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5ZM.5 8.5h4V23h-4V8.5ZM8 8.5h3.8v1.9h.1c.5-1 1.8-2.1 3.8-2.1 4.1 0 4.8 2.7 4.8 6.2V23h-4v-6.5c0-1.6 0-3.6-2.2-3.6-2.2 0-2.5 1.7-2.5 3.5V23h-4V8.5Z"/></svg>
+              </a>
+            </div>
+            <nav class="jc-drawer-quick-links" aria-label="Quick links">
+              <a href="#">Contact</a>
+              <a href="#">FAQ</a>
+              <a href="#">Documentation</a>
+              <a href="#">Support</a>
+            </nav>
+          </div>
+        </div>
       </nav>
     </div>
     <div class="jc-header-right">
@@ -748,8 +784,24 @@
           </svg>
         </button>
         <label class="jc-search" for="jc-site-search">
-          <input id="jc-site-search" type="search" placeholder="Search LoopLab Studio" autocomplete="off" />
+          <input
+            id="jc-site-search"
+            type="search"
+            name="q"
+            placeholder="Search LoopLab Studio"
+            autocomplete="off"
+            aria-autocomplete="list"
+            aria-controls="jc-search-results"
+            aria-expanded="false"
+          />
         </label>
+        <div
+          class="jc-search-results"
+          id="jc-search-results"
+          role="listbox"
+          aria-label="Search results"
+          hidden
+        ></div>
       </div>
       <span class="jc-header-greet" id="jc-header-greet" hidden aria-live="polite">
         <span class="jc-header-greet__text" data-jc-user-greet></span>

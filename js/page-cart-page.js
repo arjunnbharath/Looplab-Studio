@@ -730,39 +730,60 @@
     li.className = "jc-cart-row" + (isGift ? " jc-cart-row--free-gift" : "");
     li.setAttribute("data-cart-line-id", item.id);
 
-    var rm = null;
-    var leadSlot = null;
     if (!isGift) {
-      rm = document.createElement("button");
+      var rm = document.createElement("button");
       rm.type = "button";
       rm.className = "jc-cart-row-remove";
       rm.setAttribute("aria-label", "Remove " + item.title);
       rm.appendChild(document.createTextNode("\u00d7"));
-      leadSlot = rm;
-    } else {
-      leadSlot = document.createElement("span");
-      leadSlot.className = "jc-cart-row-remove-placeholder";
-      leadSlot.setAttribute("aria-hidden", "true");
+      li.appendChild(rm);
     }
+
+    var thumb = document.createElement("div");
+    thumb.className = "jc-cart-row-thumb";
 
     var img = document.createElement("img");
     img.className = "jc-cart-row-img";
     img.src = item.image || "";
-    img.alt = isGift ? "Complimentary gift" : "";
+    img.alt = isGift ? "Complimentary gift" : item.title || "";
     img.width = 88;
     img.height = 88;
     img.loading = "lazy";
+    thumb.appendChild(img);
+    li.appendChild(thumb);
 
     var body = document.createElement("div");
     body.className = "jc-cart-row-body";
+
+    var head = document.createElement("div");
+    head.className = "jc-cart-row-head";
 
     var h2 = document.createElement("h2");
     h2.className = "jc-cart-item-title";
     h2.textContent = item.title;
 
+    var mq = item.qty || 1;
+    var lineTotalCents = (item.priceCents || 0) * mq;
+
+    var tot = document.createElement("div");
+    tot.className = "jc-cart-row-total";
+    var spanTot = document.createElement("span");
+    spanTot.className = "jc-cart-line-total";
+    spanTot.textContent = isGift ? "$0.00" : LLCart.fmt(lineTotalCents);
+    var spanUnit = document.createElement("span");
+    spanUnit.className = "jc-cart-line-unit";
+    spanUnit.textContent = isGift
+      ? "Included"
+      : LLCart.fmt(item.priceCents || 0) + " each";
+    tot.appendChild(spanTot);
+    tot.appendChild(spanUnit);
+
+    head.appendChild(h2);
+    head.appendChild(tot);
+    body.appendChild(head);
+
     var meta = document.createElement("p");
     meta.className = "jc-cart-item-meta";
-    var mq = item.qty || 1;
     if (isGift) {
       meta.textContent = item.meta || "Qty 1 · Included with qualifying bag";
     } else {
@@ -776,10 +797,13 @@
       mqSpan.textContent = String(mq);
       meta.appendChild(mqSpan);
     }
+    body.appendChild(meta);
 
-    var qtyWrap = null;
     if (!isGift) {
-      qtyWrap = document.createElement("div");
+      var actions = document.createElement("div");
+      actions.className = "jc-cart-row-actions";
+
+      var qtyWrap = document.createElement("div");
       qtyWrap.className = "jc-cart-qty";
       qtyWrap.setAttribute("data-qty-wrap", "");
       qtyWrap.setAttribute("data-line-id", item.id);
@@ -803,30 +827,11 @@
       qtyWrap.appendChild(down);
       qtyWrap.appendChild(val);
       qtyWrap.appendChild(up);
+      actions.appendChild(qtyWrap);
+      body.appendChild(actions);
     }
 
-    body.appendChild(h2);
-    body.appendChild(meta);
-    if (qtyWrap) body.appendChild(qtyWrap);
-
-    var lineTotalCents = (item.priceCents || 0) * mq;
-    var tot = document.createElement("div");
-    tot.className = "jc-cart-row-total";
-    var spanTot = document.createElement("span");
-    spanTot.className = "jc-cart-line-total";
-    spanTot.textContent = isGift ? "$0.00" : LLCart.fmt(lineTotalCents);
-    var spanUnit = document.createElement("span");
-    spanUnit.className = "jc-cart-line-unit";
-    spanUnit.textContent = isGift
-      ? "Included"
-      : LLCart.fmt(item.priceCents || 0) + " each";
-    tot.appendChild(spanTot);
-    tot.appendChild(spanUnit);
-
-    if (leadSlot) li.appendChild(leadSlot);
-    li.appendChild(img);
     li.appendChild(body);
-    li.appendChild(tot);
 
     return li;
   }
