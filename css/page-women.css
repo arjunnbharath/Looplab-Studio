@@ -1,0 +1,227 @@
+/* Women banner — image/banner/background.jpg + editorial card */
+
+.pd-hero--women {
+  min-height: clamp(380px, 52vh, 520px);
+}
+
+.pd-hero--women::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 4;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--rx-hero-gold, #c5a073) 50%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.pd-hero--women .pd-hero-bg {
+  opacity: 0.35;
+}
+
+.wm-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wm-hero-media-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% 35%;
+  display: block;
+  transform: scale(1.03);
+}
+
+.wm-hero-media-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.65) 32%, rgba(0, 0, 0, 0.2) 58%, rgba(0, 0, 0, 0.35) 100%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+.pd-hero--women .pd-hero-inner {
+  position: relative;
+  z-index: 2;
+  min-height: clamp(320px, 46vh, 460px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.pd-hero--women .pd-hero-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  justify-content: start;
+  width: 100%;
+  gap: 2rem 3rem;
+}
+
+.wm-hero-copy {
+  text-align: left;
+  justify-self: start;
+  max-width: 36rem;
+}
+
+.pd-hero--women .pd-hero-actions {
+  justify-content: flex-start;
+}
+
+.pd-hero--women .pd-hero-links {
+  text-align: left;
+}
+
+.pd-hero--women .pd-hero-featured {
+  justify-self: end;
+}
+
+.pd-hero--women .pd-hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pd-hero--women .pd-hero-kicker::before {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: var(--rx-hero-gold, #c5a073);
+  flex-shrink: 0;
+}
+
+.pd-hero--women .pd-hero-meta {
+  margin: 0 0 1rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.pd-hero-featured {
+  display: flex;
+  flex-direction: column;
+  max-width: 13.5rem;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pd-hero-featured:hover {
+  border-color: rgba(197, 160, 115, 0.55);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.pd-hero-featured-img {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.pd-hero-featured-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.pd-hero-featured:hover .pd-hero-featured-img img {
+  transform: scale(1.05);
+}
+
+.pd-hero-featured-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.8rem 0.9rem 0.95rem;
+}
+
+.pd-hero-featured-body .pd-hero-promo-tag {
+  margin-bottom: 0.1rem;
+}
+
+.pd-hero-featured-title {
+  font-family: var(--rx-hero-serif, "Playfair Display", Georgia, serif);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.pd-hero-featured-price {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rx-hero-gold, #c5a073);
+}
+
+@media (max-width: 720px) {
+  .pd-hero--women {
+    min-height: auto;
+  }
+
+  .pd-hero--women .pd-hero-inner {
+    min-height: auto;
+  }
+
+  .wm-hero-media-bg {
+    object-position: 60% center;
+  }
+
+  .wm-hero-media-scrim {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.75) 55%, rgba(0, 0, 0, 0.85) 100%);
+  }
+
+  .pd-hero--women .pd-hero-main {
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+
+  .wm-hero-copy {
+    max-width: none;
+  }
+
+  .pd-hero--women .pd-hero-featured {
+    justify-self: stretch;
+  }
+
+  .pd-hero-featured {
+    max-width: none;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .pd-hero-featured-img {
+    flex-shrink: 0;
+    width: 7rem;
+    aspect-ratio: auto;
+    min-height: 5.5rem;
+  }
+
+  .pd-hero-featured-body {
+    justify-content: center;
+  }
+}

@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/page-home.css" />
   <link rel="stylesheet" href="css/page-nav.css" />
   <link rel="stylesheet" href="css/page-products.css" />
+  <link rel="stylesheet" href="css/page-women.css" />
   <link rel="stylesheet" href="css/page-footer.css" />
 </head>
 <body>
@@ -23,8 +24,20 @@
   <div id="jc-site-nav-mount" data-nav-partial="partials/page-nav.html"></div>
 
   <main id="main" class="rx-main pd-page">
-    <header class="pd-hero pd-hero--feature" aria-labelledby="pd-title">
+    <header class="pd-hero pd-hero--feature pd-hero--women" aria-labelledby="pd-title">
       <div class="pd-hero-bg" aria-hidden="true"></div>
+      <div class="wm-hero-media" aria-hidden="true">
+        <img
+          class="wm-hero-media-bg"
+          src="image/banner/background.jpg"
+          alt=""
+          width="1920"
+          height="768"
+          decoding="async"
+          fetchpriority="high"
+        />
+        <div class="wm-hero-media-scrim"></div>
+      </div>
       <div class="pd-hero-inner">
         <nav class="pd-breadcrumb" aria-label="Breadcrumb">
           <a href="index.html">Home</a>
@@ -32,24 +45,42 @@
           <span class="pd-breadcrumb-current">Women</span>
         </nav>
         <div class="pd-hero-main">
-          <div>
+          <div class="wm-hero-copy">
             <p class="pd-hero-kicker">Women</p>
             <h1 id="pd-title">The women’s shop</h1>
+            <p class="pd-hero-meta">17 styles · Free shipping</p>
             <p class="pd-hero-lede">
               Dresses, denim, knits, shoes, and bags—demo styles with placeholder prices. Add to bag to try the cart.
             </p>
+            <div class="pd-hero-actions">
+              <a class="pd-hero-cta" href="#women-shop">
+                Shop best sellers
+                <span class="pd-hero-cta-arrow" aria-hidden="true">→</span>
+              </a>
+              <a class="pd-hero-cta pd-hero-cta--ghost" href="sale.html">View sale</a>
+            </div>
             <p class="pd-hero-links">
               <a href="products.html">Full catalog</a>
               <span aria-hidden="true">·</span>
               <a href="new.html">New arrivals</a>
-              <span aria-hidden="true">·</span>
-              <a href="men.html">Men</a>
             </p>
           </div>
-          <div class="pd-hero-aside">
-            <span class="pd-hero-count">17 styles · Women</span>
-            <p class="pd-hero-aside-note">Illustrative pricing for the demo store.</p>
-          </div>
+          <a class="pd-hero-featured" href="#women-shop" aria-label="Shop the spring editorial collection">
+            <span class="pd-hero-featured-img">
+              <img
+                src="image/banner/4b9a721c99b852ddda84ab93bf20bfe5.jpg"
+                alt=""
+                width="400"
+                height="300"
+                decoding="async"
+              />
+            </span>
+            <span class="pd-hero-featured-body">
+              <span class="pd-hero-promo-tag">Editorial</span>
+              <span class="pd-hero-featured-title">Spring field collection</span>
+              <span class="pd-hero-featured-price">Shop the edit →</span>
+            </span>
+          </a>
         </div>
       </div>
     </header>
@@ -77,7 +108,7 @@
       </div>
     </div>
 
-    <div class="pd-grid-wrap">
+    <div class="pd-grid-wrap" id="women-shop">
       <div class="pd-grid">
         <article class="pd-card" data-product-id="women-1475240dbc53ea38e22f3dc942dec7a7">
           <span class="pd-card-badge">New</span>
